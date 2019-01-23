@@ -3,7 +3,45 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTClient", "GGTClient\GGTClient.csproj", "{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|ARM.ActiveCfg = Debug|ARM
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|ARM.Build.0 = Debug|ARM
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|ARM.Deploy.0 = Debug|ARM
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|ARM64.Build.0 = Debug|ARM64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|x64.ActiveCfg = Debug|x64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|x64.Build.0 = Debug|x64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|x64.Deploy.0 = Debug|x64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|x86.ActiveCfg = Debug|x86
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|x86.Build.0 = Debug|x86
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Debug|x86.Deploy.0 = Debug|x86
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|ARM.ActiveCfg = Release|ARM
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|ARM.Build.0 = Release|ARM
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|ARM.Deploy.0 = Release|ARM
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|ARM64.ActiveCfg = Release|ARM64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|ARM64.Build.0 = Release|ARM64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|ARM64.Deploy.0 = Release|ARM64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x64.ActiveCfg = Release|x64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x64.Build.0 = Release|x64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x64.Deploy.0 = Release|x64
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x86.ActiveCfg = Release|x86
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x86.Build.0 = Release|x86
+		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
@@ -11,9 +49,12 @@ Global
 		SolutionGuid = {D23975B2-FAF4-4902-A33E-BF962D606CF1}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
+		SccNumberOfProjects = 2
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://qhiana7.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
+		SccProjectUniqueName1 = GGTClient\\GGTClient.csproj
+		SccProjectName1 = GGTClient
+		SccLocalPath1 = GGTClient
 	EndGlobalSection
 EndGlobal
