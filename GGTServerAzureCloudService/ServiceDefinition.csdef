@@ -4,5 +4,8 @@
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
     </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="TcpEndPoint" protocol="tcp" port="63000" localPort="63001" />
+    </Endpoints>
   </WorkerRole>
 </ServiceDefinition>
