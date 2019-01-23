@@ -13,6 +13,8 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "GGTServerAzureCloudService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceWorkerRole", "ServiceWorkerRole\ServiceWorkerRole.csproj", "{795A45FE-AE14-48D5-97C6-17DE833ADDFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTBackgroundWebJob", "GGTBackgroundWebJob\GGTBackgroundWebJob.csproj", "{3A430572-031C-48DC-BEBD-FC4C84665B69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,26 @@ Global
 		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|x64.Build.0 = Release|Any CPU
 		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|x86.Build.0 = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|x64.Build.0 = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Debug|x86.Build.0 = Debug|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|ARM.Build.0 = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|ARM64.Build.0 = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|x64.ActiveCfg = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|x64.Build.0 = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|x86.ActiveCfg = Release|Any CPU
+		{3A430572-031C-48DC-BEBD-FC4C84665B69}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,7 +163,7 @@ Global
 		SolutionGuid = {D23975B2-FAF4-4902-A33E-BF962D606CF1}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
+		SccNumberOfProjects = 7
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://qhiana7.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -160,5 +182,8 @@ Global
 		SccProjectUniqueName5 = ServiceWorkerRole\\ServiceWorkerRole.csproj
 		SccProjectName5 = ServiceWorkerRole
 		SccLocalPath5 = ServiceWorkerRole
+		SccProjectUniqueName6 = GGTBackgroundWebJob\\GGTBackgroundWebJob.csproj
+		SccProjectName6 = GGTBackgroundWebJob
+		SccLocalPath6 = GGTBackgroundWebJob
 	EndGlobalSection
 EndGlobal
