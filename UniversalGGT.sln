@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTServerASP", "GGTServerAS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTServerWCF", "GGTServerWCF\GGTServerWCF.csproj", "{1A080FE7-C428-4466-925D-9BE25E60F310}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "GGTServerAzureCloudService", "GGTServerAzureCloudService\GGTServerAzureCloudService.ccproj", "{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceWorkerRole", "ServiceWorkerRole\ServiceWorkerRole.csproj", "{795A45FE-AE14-48D5-97C6-17DE833ADDFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +93,46 @@ Global
 		{1A080FE7-C428-4466-925D-9BE25E60F310}.Release|x64.Build.0 = Release|Any CPU
 		{1A080FE7-C428-4466-925D-9BE25E60F310}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A080FE7-C428-4466-925D-9BE25E60F310}.Release|x86.Build.0 = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|ARM.Build.0 = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|x64.Build.0 = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Debug|x86.Build.0 = Debug|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|ARM.Build.0 = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|ARM64.Build.0 = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|x64.ActiveCfg = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|x64.Build.0 = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|x86.ActiveCfg = Release|Any CPU
+		{A3203B1F-6A4B-4FFB-B9A6-C0A646D0F6A9}.Release|x86.Build.0 = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|ARM.Build.0 = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|x64.Build.0 = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|ARM.Build.0 = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|ARM64.Build.0 = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|x64.ActiveCfg = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|x64.Build.0 = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{795A45FE-AE14-48D5-97C6-17DE833ADDFC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,7 +141,7 @@ Global
 		SolutionGuid = {D23975B2-FAF4-4902-A33E-BF962D606CF1}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://qhiana7.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -110,5 +154,11 @@ Global
 		SccProjectUniqueName3 = GGTServerWCF\\GGTServerWCF.csproj
 		SccProjectName3 = GGTServerWCF
 		SccLocalPath3 = GGTServerWCF
+		SccProjectUniqueName4 = GGTServerAzureCloudService\\GGTServerAzureCloudService.ccproj
+		SccProjectName4 = GGTServerAzureCloudService
+		SccLocalPath4 = GGTServerAzureCloudService
+		SccProjectUniqueName5 = ServiceWorkerRole\\ServiceWorkerRole.csproj
+		SccProjectName5 = ServiceWorkerRole
+		SccLocalPath5 = ServiceWorkerRole
 	EndGlobalSection
 EndGlobal
