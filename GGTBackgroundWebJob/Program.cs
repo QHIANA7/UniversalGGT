@@ -29,7 +29,6 @@ namespace GGTBackgroundWebJob
 
             #endregion
 
-
             while (true)
             {
                 System.Threading.Thread.Sleep(3000);
