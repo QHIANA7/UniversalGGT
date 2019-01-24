@@ -14,16 +14,26 @@ namespace GGTBackgroundWebJob
         // AzureWebJobsDashboard and AzureWebJobsStorage
         static void Main()
         {
-            var config = new JobHostConfiguration();
+            #region Default Created
 
-            if (config.IsDevelopment)
+            //var config = new JobHostConfiguration();
+
+            //if (config.IsDevelopment)
+            //{
+            //    config.UseDevelopmentSettings();
+            //}
+
+            //var host = new JobHost(config);
+            //// The following code ensures that the WebJob will be running continuously
+            //host.RunAndBlock();
+
+            #endregion
+
+
+            while (true)
             {
-                config.UseDevelopmentSettings();
+                System.Threading.Thread.Sleep(3000);
             }
-
-            var host = new JobHost(config);
-            // The following code ensures that the WebJob will be running continuously
-            host.RunAndBlock();
         }
     }
 }
