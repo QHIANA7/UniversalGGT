@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GGTServer.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace GGTServer.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public MainViewModel ViewModel { get; } = new MainViewModel();
+
         public MainPage()
         {
             this.InitializeComponent();

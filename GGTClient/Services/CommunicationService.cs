@@ -26,7 +26,7 @@ namespace GGTClient.Services
                 // Create the StreamSocket and establish a connection to the echo server.
                 ClientSocket = new StreamSocket();
 
-                HostName = new HostName("52.231.32.120");
+                HostName = new HostName("localhost");
 
                 await ClientSocket.ConnectAsync(HostName, Port);
 

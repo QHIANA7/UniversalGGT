@@ -1,4 +1,5 @@
 ﻿using GGTServer.Helpers;
+using GGTServer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace GGTServer.ViewModels
                         async () =>
                         {
                             //user = new UserInfo(UserId, UserPassword);
-                            await CommunicationService.StartClient();
+                            await CommunicationService.StartServer();
 
                             UserPassword = CommunicationService.Result;
                         });
@@ -56,7 +57,7 @@ namespace GGTServer.ViewModels
                          () =>
                          {
                              //user = new UserInfo(UserId, UserPassword);
-                             CommunicationService.StopClient();
+                             CommunicationService.StopServer();
                          });
                 }
 
