@@ -34,9 +34,11 @@ namespace GGTClient.Services
                 }
             }
 
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 MainViewModel_Instance.UserPassword = response;
+                //write your code
+                //in OnPropertyChanged use PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
             });
 
         }
