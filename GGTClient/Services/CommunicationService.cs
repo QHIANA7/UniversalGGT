@@ -24,23 +24,33 @@ namespace GGTClient.Services
 
         public static async void ComAction()
         {
-            // Read data from the echo server.
-            string response;
-            using (Stream inputStream = ClientSocket.InputStream.AsStreamForRead())
+            try
             {
-                using (StreamReader streamReader = new StreamReader(inputStream))
+                while (true)
                 {
-                    response = await streamReader.ReadLineAsync();
+                    // Read data from the echo server.
+                    string response;
+                    using (Stream inputStream = ClientSocket.InputStream.AsStreamForRead())
+                    {
+                        using (StreamReader streamReader = new StreamReader(inputStream))
+                        {
+                            response = await streamReader.ReadLineAsync();
+                        }
+                    }
+
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        MainViewModel_Instance.UserPassword = response;
+                        //write your code
+                        //in OnPropertyChanged use PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+                    });
                 }
             }
-
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            catch (Exception ex)
             {
-                MainViewModel_Instance.UserPassword = response;
-                //write your code
-                //in OnPropertyChanged use PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-            });
-
+                SocketErrorStatus webErrorStatus = SocketError.GetStatus(ex.GetBaseException().HResult);
+                //this.clientListBox.Items.Add(webErrorStatus.ToString() != "Unknown" ? webErrorStatus.ToString() : ex.Message);
+            }
         }
 
         public static async Task StartClient(ViewModels.MainViewModel viewmodel)
@@ -54,7 +64,7 @@ namespace GGTClient.Services
                 // Create the StreamSocket and establish a connection to the echo server.
                 ClientSocket = new StreamSocket();
 
-                HostName = new HostName("192.168.0.58");
+                HostName = new HostName("192.168.0.55");
 
                 await ClientSocket.ConnectAsync(HostName, Port);
 
