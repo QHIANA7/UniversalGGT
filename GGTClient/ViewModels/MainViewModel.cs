@@ -51,6 +51,27 @@ namespace GGTClient.ViewModels
                         () =>
                         {
                             //user = new UserInfo(UserId, UserPassword);
+                            Singleton<CommunicationService>.Instance.RequestLogin(UserId, UserPassword);
+
+                            //UserPassword = Singleton<CommunicationService>.Instance.Result;
+                        });
+                }
+            
+                return _login;
+            }
+        }
+
+        private ICommand _connect;
+        public ICommand Connect
+        {
+            get
+            {
+                if (_connect == null)
+                {
+                    _connect = new RelayCommand(
+                        () =>
+                        {
+                            //user = new UserInfo(UserId, UserPassword);
 
                             Singleton<CommunicationService>.Instance.MainViewModel_Instance = this;
                             Singleton<CommunicationService>.Instance.StartClient();
@@ -58,8 +79,8 @@ namespace GGTClient.ViewModels
                             //UserPassword = Singleton<CommunicationService>.Instance.Result;
                         });
                 }
-            
-                return _login;
+
+                return _connect;
             }
         }
 
