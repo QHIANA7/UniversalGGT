@@ -40,6 +40,7 @@ namespace GGTSignalRConsole
         {
             public void RequestLogin(String id, String pw)
             {
+                Console.WriteLine($"로그인 요청 : {id} - {pw}");
                 String connectionString = "Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
                 string strSQL = String.Format($"SELECT * FROM TB_USER_INFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
@@ -65,11 +66,16 @@ namespace GGTSignalRConsole
                     EffectedCount++;
                 }
 
-                if(EffectedCount > 0)
+                if (EffectedCount > 0)
+                {
                     Clients.Caller.ResponseLogin(UserName);
+                    Console.WriteLine($"로그인 성공 {UserName}");
+                }
                 else
+                {
                     Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");
-
+                    Console.WriteLine($"로그인 실패 : {id} - {pw}");
+                }
                 //myHubProxy.Invoke("RequestLogin", new object[] { id, pw });
             }
 
