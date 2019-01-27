@@ -117,9 +117,9 @@ namespace GGTClient.Services
 
         HubConnection hubConnection = null;
 
-        public static IHubProxy myHubProxy = null;
+        public IHubProxy myHubProxy = null;
 
-        public static ViewModels.MainViewModel MainViewModel_Instance { get; set; } = null;
+        public ViewModels.MainViewModel MainViewModel_Instance { get; set; } = null;
 
         public void StartClient()
         {

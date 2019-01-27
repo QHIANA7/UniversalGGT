@@ -41,12 +41,14 @@ namespace GGTClient.ViewModels
                 if (_login == null)
                 {
                     _login = new RelayCommand(
-                        async() =>
+                        () =>
                         {
                             //user = new UserInfo(UserId, UserPassword);
-                            await CommunicationService.StartClient(this);
 
-                            UserPassword = CommunicationService.Result;
+                            Singleton<CommunicationService>.Instance.MainViewModel_Instance = this;
+                            Singleton<CommunicationService>.Instance.StartClient();
+
+                            //UserPassword = Singleton<CommunicationService>.Instance.Result;
                         });
                 }
             
@@ -65,7 +67,7 @@ namespace GGTClient.ViewModels
                          () =>
                         {
                             //user = new UserInfo(UserId, UserPassword);
-                             CommunicationService.StopClient();
+                            //Singleton<CommunicationService>.Instance.st();
                         });
                 }
 
