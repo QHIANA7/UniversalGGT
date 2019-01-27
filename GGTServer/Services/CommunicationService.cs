@@ -47,7 +47,16 @@ namespace GGTServer.Services
 
         private static async void ListenerSocket_ConnectionReceivedAsync(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
-            if (!Clients.Contains(args.Socket))
+
+            foreach (StreamSocket socket in Clients)
+            {
+                if (socket.Information.LocalAddress.Equals(args.Socket))
+                {
+                    Clients.
+                }
+            }
+
+            if (Clients.)
             {
                 Clients.Add(args.Socket);
             }
