@@ -130,6 +130,7 @@ namespace GGTClient.Services
             // attach event handler from server sent message.
             myHubProxy.On<string, string>("addMessage", _OnAddMessage);
             myHubProxy.On<string>("showMsg", _OnShowMsg);
+            myHubProxy.On<String>("ResponseLogin", OnResponseLogin);
 
             // retry connection every 3 seconds ...
             while (hubConnection.State != ConnectionState.Connected)
@@ -168,18 +169,27 @@ try reconnect ...
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 MainViewModel_Instance.UserPassword = message;
-                            //write your code
-                            //in OnPropertyChanged use PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-                        });
-            //Console.WriteLine($"RECV addMessage : {name} : {message}");
+            });
         }
-
 
         public void Send(String msg)
         {
             string request = msg;
 
             myHubProxy.Invoke("Send", new object[] { "william", msg });
+        }
+
+        public void RequestLogin(String id, String pw)
+        {
+            myHubProxy.Invoke("RequestLogin", new object[] { id, pw });
+        }
+
+        private async void OnResponseShowMsg(String username)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                MainViewModel_Instance.UserName = username;
+            });
         }
 
         //public static async void ComAction()

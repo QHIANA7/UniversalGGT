@@ -26,6 +26,13 @@ namespace GGTClient.ViewModels
             set { Set(ref _user_pw, value); }
         }
 
+        private String _user_name = String.Empty;
+        public String UserName
+        {
+            get { return _user_name; }
+            set { Set(ref _user_name, value); }
+        }
+
         private String _message = String.Empty;
         public String Message
         {

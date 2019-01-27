@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Owin;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,42 @@ namespace GGTSignalRConsole
 
         public class MyHub : Hub
         {
+            public void RequestLogin(String id, String pw)
+            {
+                String connectionString = "Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+                string strSQL = String.Format($"SELECT * FROM TB_USER_INFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
+                SqlCommand myCommand = new SqlCommand(strSQL, new SqlConnection( connectionString));
+                SqlParameter param_userid = new SqlParameter("@UserID", id);
+                myCommand.Parameters.Add(param_userid);
+
+                SqlParameter param_userpw = new SqlParameter("@UserPassword", pw);
+                myCommand.Parameters.Add(param_userpw);
+
+                SqlDataReader myDataReader;
+
+                //위 SQL문을 실행해서 가져온다.
+                myDataReader = myCommand.ExecuteReader();
+
+                String UserName = String.Empty;
+                Int32 EffectedCount = 0;
+
+                //Read를 할때마다 다음 레코드를 불러온다.
+                while (myDataReader.Read())
+                {
+                    UserName = myDataReader["USER_NAME"].ToString();
+                    EffectedCount++;
+                }
+
+                if(EffectedCount > 0)
+                    Clients.Caller.ResponseLogin(UserName);
+                else
+                    Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");
+
+                //myHubProxy.Invoke("RequestLogin", new object[] { id, pw });
+            }
+
+
             // server side method #1 : Send
             // echo name and message
             public void Send(string name, string message)
