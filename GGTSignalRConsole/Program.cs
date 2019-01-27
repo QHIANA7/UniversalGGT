@@ -41,7 +41,7 @@ namespace GGTSignalRConsole
             public void RequestLogin(String id, String pw)
             {
                 Console.WriteLine($"로그인 요청 : {id} - {pw}");
-                String connectionString = "Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                String connectionString = "Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID=ggtadmin@ggtsvr.database.windows.net;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
                 string strSQL = String.Format($"SELECT * FROM TB_USER_INFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
                 SqlCommand myCommand = new SqlCommand(strSQL, new SqlConnection( connectionString));
