@@ -16,6 +16,8 @@ namespace GGTServer.Services
 {
     public static class CommunicationService
     {
+
+
         public static StreamSocketListener ListenerSocket { get; set; } = null;
 
         private static ConcurrentBag<StreamSocket> Clients = new ConcurrentBag<StreamSocket>();

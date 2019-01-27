@@ -16,7 +16,7 @@ namespace GGTSignalRConsole
         static void Main(string[] args)
         {
             // server host url
-            var url = "";
+            String url = "";
             url = "http://*:8079";
 
             using (WebApp.Start<Startup>(url))
