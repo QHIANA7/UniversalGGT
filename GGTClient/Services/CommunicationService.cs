@@ -158,12 +158,12 @@ try reconnect ...
             Console.ReadLine();
         }
 
-        private static void _OnShowMsg(string msg)
+        private void _OnShowMsg(string msg)
         {
             Console.WriteLine($"RECV showMsg : {msg}");
         }
 
-        private static async void _OnAddMessage(string name, string message)
+        private async void _OnAddMessage(string name, string message)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -175,7 +175,7 @@ try reconnect ...
         }
 
 
-        public static void Send(String msg)
+        public void Send(String msg)
         {
             string request = msg;
 

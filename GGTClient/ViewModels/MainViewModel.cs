@@ -86,7 +86,7 @@ namespace GGTClient.ViewModels
                          () =>
                          {
                              //user = new UserInfo(UserId, UserPassword);
-                             CommunicationService.Send(Message);
+                             Singleton<CommunicationService>.Instance.Send(Message);
                          });
                 }
 
