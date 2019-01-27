@@ -125,7 +125,7 @@ namespace GGTClient.Services
         {
             // init hub connection with url ...
             hubConnection = new HubConnection("http://localhost:8079/");
-            IHubProxy myHubProxy = hubConnection.CreateHubProxy("MyHub");
+            myHubProxy = hubConnection.CreateHubProxy("MyHub");
 
             // attach event handler from server sent message.
             myHubProxy.On<string, string>("addMessage", _OnAddMessage);
@@ -154,13 +154,13 @@ try reconnect ...
             //_RunServerLoop(myHubProxy);
 
             // exit program
-            Console.WriteLine("ended!!!");
-            Console.ReadLine();
+            //Console.WriteLine("ended!!!");
+            //Console.ReadLine();
         }
 
         private void _OnShowMsg(string msg)
         {
-            Console.WriteLine($"RECV showMsg : {msg}");
+            //Console.WriteLine($"RECV showMsg : {msg}");
         }
 
         private async void _OnAddMessage(string name, string message)
@@ -179,7 +179,7 @@ try reconnect ...
         {
             string request = msg;
 
-            myHubProxy.Invoke("Send", new object[] { "william", "msg" });
+            myHubProxy.Invoke("Send", new object[] { "william", msg });
         }
 
         //public static async void ComAction()
