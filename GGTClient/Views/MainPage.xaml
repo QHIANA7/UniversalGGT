@@ -20,9 +20,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"  Text="{x:Bind ViewModel.UserPassword}" FontSize="70"/>
-        <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="연결" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
-        <Button Grid.Column="2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="연결해제" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Logout}"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="LightPink" Text="{x:Bind ViewModel.UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="70"/>
+        <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="연결" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
+        <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="연결해제" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Logout}"/>
+        <TextBox Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="메시지를 입력하세요 바부야..." Text="{x:Bind ViewModel.Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="30"/>
+        <Button Grid.Column="3" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="송신" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.MessageSend}"/>
     </Grid>
 </Page>
 
