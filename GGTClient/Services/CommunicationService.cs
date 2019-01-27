@@ -184,7 +184,7 @@ try reconnect ...
             myHubProxy.Invoke("RequestLogin", new object[] { id, pw });
         }
 
-        private async void OnResponseShowMsg(String username)
+        private async void OnResponseLogin(String username)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
