@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
+using Windows.UI.Core;
 
 namespace GGTClient.Services
 {
@@ -19,39 +18,46 @@ namespace GGTClient.Services
 
         public static String Port { get; set; } = "63000";
 
-        public static async Task StartClient()
+        public static List<String> Lists { get; set; } = new List<string>();
+
+        public static ViewModels.MainViewModel MainViewModel_Instance { get; set; } = null;
+
+        public static async void ComAction()
+        {
+            // Read data from the echo server.
+            string response;
+            using (Stream inputStream = ClientSocket.InputStream.AsStreamForRead())
+            {
+                using (StreamReader streamReader = new StreamReader(inputStream))
+                {
+                    response = await streamReader.ReadLineAsync();
+                }
+            }
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                MainViewModel_Instance.UserPassword = response;
+            });
+
+        }
+
+        public static async Task StartClient(ViewModels.MainViewModel viewmodel)
         {
             try
             {
+                //야매니까 고려해보자.
+                MainViewModel_Instance = viewmodel;
+           
+
                 // Create the StreamSocket and establish a connection to the echo server.
                 ClientSocket = new StreamSocket();
 
-                HostName = new HostName("localhost");
+                HostName = new HostName("192.168.0.58");
 
                 await ClientSocket.ConnectAsync(HostName, Port);
 
-                string request = "더미데이터";
+                await Task.Run(() => ComAction());
 
-                using (Stream outputStream = ClientSocket.OutputStream.AsStreamForWrite())
-                {
-                    using (var streamWriter = new StreamWriter(outputStream))
-                    {
-                        await streamWriter.WriteLineAsync(request);
-                        await streamWriter.FlushAsync();
-                    }
-                }
-
-                // Read data from the echo server.
-                string response;
-                using (Stream inputStream = ClientSocket.InputStream.AsStreamForRead())
-                {
-                    using (StreamReader streamReader = new StreamReader(inputStream))
-                    {
-                        response = await streamReader.ReadLineAsync();
-                    }
-                }
-
-                Result = response;
             }
             catch (Exception ex)
             {
@@ -70,6 +76,20 @@ namespace GGTClient.Services
             {
                SocketErrorStatus webErrorStatus = SocketError.GetStatus(ex.GetBaseException().HResult);
                 //this.clientListBox.Items.Add(webErrorStatus.ToString() != "Unknown" ? webErrorStatus.ToString() : ex.Message);
+            }
+        }
+
+        public async static void Send(String msg)
+        {
+            string request = msg;
+
+            using (Stream outputStream = ClientSocket.OutputStream.AsStreamForWrite())
+            {
+                using (var streamWriter = new StreamWriter(outputStream))
+                {
+                    await streamWriter.WriteLineAsync(request);
+                    await streamWriter.FlushAsync();
+                }
             }
         }
     }
