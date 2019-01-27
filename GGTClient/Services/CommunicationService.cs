@@ -139,7 +139,7 @@ namespace GGTClient.Services
                 {
                     hubConnection.Start().Wait();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Console.WriteLine(@"
 connection failed !
