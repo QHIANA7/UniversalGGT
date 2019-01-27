@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTClient", "GGTClient\GGTC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTServer", "GGTServer\GGTServer.csproj", "{1825FF02-FA5B-421B-B8F2-B5B03538C4E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTWebApp", "GGTWebApp\GGTWebApp.csproj", "{639DA895-B5EF-4BEB-A060-2A5F57E5796B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTSignalRConsole", "GGTSignalRConsole\GGTSignalRConsole.csproj", "{B576E471-8902-4912-947E-C97A3C310B05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTSignalConsoleClient", "GGTSignalConsoleClient\GGTSignalConsoleClient.csproj", "{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +81,66 @@ Global
 		{1825FF02-FA5B-421B-B8F2-B5B03538C4E6}.Release|x86.ActiveCfg = Release|x86
 		{1825FF02-FA5B-421B-B8F2-B5B03538C4E6}.Release|x86.Build.0 = Release|x86
 		{1825FF02-FA5B-421B-B8F2-B5B03538C4E6}.Release|x86.Deploy.0 = Release|x86
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|x64.Build.0 = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Debug|x86.Build.0 = Debug|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|ARM.Build.0 = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|ARM64.Build.0 = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|x64.ActiveCfg = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|x64.Build.0 = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|x86.ActiveCfg = Release|Any CPU
+		{639DA895-B5EF-4BEB-A060-2A5F57E5796B}.Release|x86.Build.0 = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|x64.Build.0 = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|x86.Build.0 = Debug|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|ARM.Build.0 = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|ARM64.Build.0 = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|x64.ActiveCfg = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|x64.Build.0 = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|x86.ActiveCfg = Release|Any CPU
+		{B576E471-8902-4912-947E-C97A3C310B05}.Release|x86.Build.0 = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|ARM.Build.0 = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|x64.Build.0 = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Debug|x86.Build.0 = Debug|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|ARM.ActiveCfg = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|ARM.Build.0 = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|ARM64.Build.0 = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|x64.ActiveCfg = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|x64.Build.0 = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|x86.ActiveCfg = Release|Any CPU
+		{FC6F4622-CFE9-4E95-8C48-CCC8DC72B991}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,7 +149,7 @@ Global
 		SolutionGuid = {D23975B2-FAF4-4902-A33E-BF962D606CF1}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://qhiana7.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -93,5 +159,11 @@ Global
 		SccProjectUniqueName2 = GGTServer\\GGTServer.csproj
 		SccProjectName2 = GGTServer
 		SccLocalPath2 = GGTServer
+		SccProjectUniqueName3 = GGTSignalRConsole\\GGTSignalRConsole.csproj
+		SccProjectName3 = GGTSignalRConsole
+		SccLocalPath3 = GGTSignalRConsole
+		SccProjectUniqueName4 = GGTSignalConsoleClient\\GGTSignalConsoleClient.csproj
+		SccProjectName4 = GGTSignalConsoleClient
+		SccLocalPath4 = GGTSignalConsoleClient
 	EndGlobalSection
 EndGlobal

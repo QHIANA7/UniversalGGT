@@ -48,18 +48,18 @@ namespace GGTServer.Services
         private static async void ListenerSocket_ConnectionReceivedAsync(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
 
-            foreach (StreamSocket socket in Clients)
-            {
-                if (socket.Information.LocalAddress.Equals(args.Socket))
-                {
-                    Clients.
-                }
-            }
+            //foreach (StreamSocket socket in Clients)
+            //{
+            //    if (socket.Information.LocalAddress.Equals(args.Socket))
+            //    {
+            //        Clients.
+            //    }
+            //}
 
-            if (Clients.)
-            {
-                Clients.Add(args.Socket);
-            }
+            //if (Clients.)
+            //{
+            //    Clients.Add(args.Socket);
+            //}
 
             String request = String.Empty;
             using (var streamReader = new StreamReader(args.Socket.InputStream.AsStreamForRead()))
