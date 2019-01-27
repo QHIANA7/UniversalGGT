@@ -124,7 +124,7 @@ namespace GGTClient.Services
         public void StartClient()
         {
             // init hub connection with url ...
-            hubConnection = new HubConnection("http://localhost:8079/");
+            hubConnection = new HubConnection("http://192.168.0.39:8079/");
             myHubProxy = hubConnection.CreateHubProxy("MyHub");
 
             // attach event handler from server sent message.

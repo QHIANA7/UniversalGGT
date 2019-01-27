@@ -41,10 +41,12 @@ namespace GGTSignalRConsole
             public void RequestLogin(String id, String pw)
             {
                 Console.WriteLine($"로그인 요청 : {id} - {pw}");
-                String connectionString = "Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID=ggtadmin@ggtsvr.database.windows.net;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+                SqlConnection Sqlconn = new SqlConnection("Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID=ggtadmin@ggtsvr.database.windows.net;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                Sqlconn.Open();
 
                 string strSQL = String.Format($"SELECT * FROM TB_USER_INFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
-                SqlCommand myCommand = new SqlCommand(strSQL, new SqlConnection( connectionString));
+                SqlCommand myCommand = new SqlCommand(strSQL, Sqlconn);
                 SqlParameter param_userid = new SqlParameter("@UserID", id);
                 myCommand.Parameters.Add(param_userid);
 
@@ -76,6 +78,11 @@ namespace GGTSignalRConsole
                     Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");
                     Console.WriteLine($"로그인 실패 : {id} - {pw}");
                 }
+
+                myDataReader.Close();
+                myCommand.Dispose();
+                Sqlconn.Close();
+                Sqlconn.Dispose();
                 //myHubProxy.Invoke("RequestLogin", new object[] { id, pw });
             }
 
