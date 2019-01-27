@@ -1,7 +1,9 @@
 ﻿using GGTServer.Helpers;
+using GGTServer.Models;
 using GGTServer.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,8 @@ namespace GGTServer.ViewModels
 {
     public class MainViewModel : Observable
     {
+        public ObservableCollection<ConnectedClientInfo> ConnectedClientList { get; set; } = new ObservableCollection<ConnectedClientInfo>();
+
         private String _user_id = String.Empty;
         public String UserId
         {
@@ -56,6 +60,7 @@ namespace GGTServer.ViewModels
                     _logout = new RelayCommand(
                          () =>
                          {
+                             
                              //user = new UserInfo(UserId, UserPassword);
                              CommunicationService.StopServer();
                          });

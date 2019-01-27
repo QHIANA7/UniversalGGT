@@ -126,6 +126,7 @@
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\Singleton.cs" />
+    <Compile Include="Models\ConnectedClientInfo.cs" />
     <Compile Include="Services\CommunicationService.cs" />
     <Compile Include="ViewModels\MainVeiwModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
@@ -165,7 +166,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Strings\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
