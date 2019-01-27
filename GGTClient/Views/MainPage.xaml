@@ -34,7 +34,7 @@
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" Header="ID" PlaceholderText="ID를 입력하세요" Text="{x:Bind ViewModel.UserId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <PasswordBox Grid.Column="0" Grid.Row="1" Header="PASSWORD" PlaceholderText="PASSWORD를 입력하세요" Password="{x:Bind ViewModel.UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}"/>
+            <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
         </Grid>
         <TextBox Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="메시지를 입력하세요 바부야..." Text="{x:Bind ViewModel.Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="30"/>
         <Button Grid.Column="3" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="송신" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.MessageSend}"/>
