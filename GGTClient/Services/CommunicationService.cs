@@ -124,8 +124,8 @@ namespace GGTClient.Services
         public void StartClient()
         {
             // init hub connection with url ...
-            hubConnection = new HubConnection("http://192.168.0.39:8079/");
-            myHubProxy = hubConnection.CreateHubProxy("MyHub");
+            hubConnection = new HubConnection("http://ggtsvr.azurewebsites.net/");
+            myHubProxy = hubConnection.CreateHubProxy("GGTHub");
 
             // attach event handler from server sent message.
             myHubProxy.On<string, string>("addMessage", _OnAddMessage);
