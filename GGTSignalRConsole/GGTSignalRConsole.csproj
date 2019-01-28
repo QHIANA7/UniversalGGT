@@ -118,7 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="GGTSignalRConsole_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\GGTSVR - Web Deploy.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />

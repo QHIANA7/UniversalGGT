@@ -7,6 +7,8 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Newtonsoft.Json;
+using SignalRGGT.Helpers;
+using SignalRGGT.Services;
 
 namespace SignalRGGT
 {
@@ -18,6 +20,7 @@ namespace SignalRGGT
             Console.WriteLine($"로그인 요청 : {id} - {pw}");
 
             SqlConnection Sqlconn = new SqlConnection("Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID=admin2013@ggtsvr.database.windows.net;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+
             Sqlconn.Open();
 
             string strSQL = String.Format($"SELECT * FROM TB_USERINFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
