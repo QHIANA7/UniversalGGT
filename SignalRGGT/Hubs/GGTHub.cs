@@ -10,13 +10,14 @@ using Newtonsoft.Json;
 using SignalRGGT.Helpers;
 using SignalRGGT.Services;
 
-namespace SignalRGGT
+namespace SignalRGGT.Hubs
 {
     [HubName("GGTHub")]
     public class GGTHub : Hub
     {
         public void RequestLogin(String id, String pw)
         {
+            JsonConvert.DeserializeObject
             Console.WriteLine($"로그인 요청 : {id} - {pw}");
 
             SqlConnection Sqlconn = new SqlConnection("Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID=admin2013@ggtsvr.database.windows.net;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");

@@ -20,8 +20,6 @@ namespace SignalRGGT.Services
            await Connection.OpenAsync();
         }
 
-        public Excute
-
         public void Close()
         {
             Connection.Close();
