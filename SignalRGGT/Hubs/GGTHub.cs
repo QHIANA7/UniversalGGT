@@ -21,7 +21,7 @@ namespace SignalRGGT.Hubs
 
             String UserName = Singleton<DatabaseService>.Instance.GetUserName(id, pw);
             
-            if(String.IsNullOrWhiteSpace(UserName))
+            if(!String.IsNullOrWhiteSpace(UserName))
             {
                 Console.WriteLine($"로그인 성공 {UserName}");
                 Clients.Caller.ResponseLogin(UserName);

@@ -32,9 +32,12 @@ namespace SignalRGGT.Services
             String result = String.Empty;
             try
             {
-                String query = String.Format($"SELECT * FROM TB_USERINFO WHERE USER_ID = {id} AND USER_PASSWORD = {pw}");
+                String query = String.Format($"SELECT USER_NAME FROM TB_USERINFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
+                OpenAsync();
                 using (SqlCommand command = new SqlCommand(query, Connection))
                 {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    command.Parameters.Add(new SqlParameter("@UserPassword", pw));
                     using (SqlDataReader dataReader = command.ExecuteReader())
                     {
                         while (dataReader.Read())
@@ -43,15 +46,16 @@ namespace SignalRGGT.Services
                         }
                     }
                 }
+                Close();
                 return result;
             }
             catch (InvalidOperationException ex)
             {
-                return result;
+                return ex.Message;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return result;
+                return ex.Message;
             }
         }
 
