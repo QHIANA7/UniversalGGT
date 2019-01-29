@@ -25,9 +25,26 @@ namespace GGTClient.Views
     {
         public MainViewModel ViewModel { get; } = new MainViewModel();
 
+        public static MainPage Current { get; set; }
+
         public MainPage()
         {
             this.InitializeComponent();
+            Current = this;
+        }
+
+        private void BUTTON_START_Click(object sender, RoutedEventArgs e)
+        {
+            //LoginOpenStoryboard.Begin();
+            if(sender is Button btn)
+            {
+                btn.Content = new ProgressRing() { IsActive = true, Width =50, Height = 50 };
+            }
+        }
+
+        public void Connected()
+        {
+            OnConnectedStoryboard.Begin();
         }
     }
 }

@@ -20,8 +20,8 @@ namespace SignalRGGT.Hubs
             Console.WriteLine($"로그인 요청 : {id} - {pw}");
 
             String UserName = Singleton<DatabaseService>.Instance.GetUserName(id, pw);
-            
-            if(!String.IsNullOrWhiteSpace(UserName))
+
+            if (!String.IsNullOrWhiteSpace(UserName))
             {
                 Console.WriteLine($"로그인 성공 {UserName}");
                 Clients.Caller.ResponseLogin(UserName);
@@ -29,10 +29,16 @@ namespace SignalRGGT.Hubs
             else
             {
                 Console.WriteLine($"로그인 실패 : {id} - {pw}");
-                Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");                
+                Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");
             }
         }
-        
+
+        public void ConnectionCheck(String data)
+        {
+            Console.WriteLine($"연결 체크");
+            Clients.Caller.OnConnectionCheckResponse(data);
+        }
+
         // server side method #1 : Send
         // echo name and message
         public void Send(string name, string message)

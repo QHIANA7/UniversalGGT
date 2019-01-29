@@ -5,39 +5,99 @@
     xmlns:local="using:GGTClient.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Grid>
+    mc:Ignorable="d" >
+    <Page.Resources>
+        <Storyboard x:Name="LoginOpenStoryboard">
+            <DoubleAnimation
+        Storyboard.TargetName="Grid_Login"
+        Storyboard.TargetProperty="Width"
+        From="0" To="500" Duration="0:0:1"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="OnConnectedStoryboard">
+            <DoubleAnimation
+                 BeginTime="0:0:0"
+        Storyboard.TargetName="Button_Connect"
+        Storyboard.TargetProperty="Width"
+        To="0" Duration="0:0:0.5"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation
+                 BeginTime="0:0:0.5"
+        Storyboard.TargetName="Grid_Login"
+        Storyboard.TargetProperty="Width"
+        From="0" To="1000" Duration="0:0:1"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition/>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Grid Background="LightBlue">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="LightPink" Text="{x:Bind ViewModel.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="10"/>
-        <Button Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="연결" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Connect}"/>
-        <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="연결해제" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Logout}"/>
-        <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2">
+        <TextBlock Grid.Row="0" Grid.Column="0" Name="TEXTBLOCK_GREETING" Text="GGT" FontSize="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid x:Name="Grid_Login" Grid.Column="0" Grid.Row="2" Width="0">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Column="0" Grid.Row="0" Header="ID" PlaceholderText="ID를 입력하세요" Text="{x:Bind ViewModel.UserId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <PasswordBox Grid.Column="0" Grid.Row="1" Header="PASSWORD" PlaceholderText="PASSWORD를 입력하세요" Password="{x:Bind ViewModel.UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="ID " HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="PW " HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            <TextBox Grid.Column="1" Grid.Row="0" PlaceholderText="ID를 입력하세요" Text="{x:Bind ViewModel.UserId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <PasswordBox Grid.Column="1" Grid.Row="1" PlaceholderText="PASSWORD를 입력하세요" Password="{x:Bind ViewModel.UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
         </Grid>
-        <TextBox Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="메시지를 입력하세요 바부야..." Text="{x:Bind ViewModel.Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="30"/>
-        <Button Grid.Column="3" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="송신" FontSize="30" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.MessageSend}"/>
+        <Grid Grid.Row="2" Grid.Column="0" Name="GRID_BUTTON_START">
+            <Button Name="Button_Connect" Content="시작" Width="200" Height="100" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BUTTON_START_Click" Command="{x:Bind ViewModel.Connect}"/>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="TB_VERSION" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="TB_INSTALLEDDATE" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+        </Grid>
     </Grid>
 </Page>
 

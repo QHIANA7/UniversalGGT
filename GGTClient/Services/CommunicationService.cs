@@ -121,7 +121,7 @@ namespace GGTClient.Services
 
         public ViewModels.MainViewModel MainViewModel_Instance { get; set; } = null;
 
-        public void StartClient()
+        public async void StartClient()
         {
             // init hub connection with url ...
             hubConnection = new HubConnection("http://ggtsvr.azurewebsites.net/");
@@ -131,6 +131,7 @@ namespace GGTClient.Services
             myHubProxy.On<string, string>("addMessage", _OnAddMessage);
             myHubProxy.On<string>("showMsg", _OnShowMsg);
             myHubProxy.On<String>("ResponseLogin", OnResponseLogin);
+            myHubProxy.On<String>("OnConnectionCheckResponse", OnConnectionCheckResponse);
 
             // retry connection every 3 seconds ...
             while (hubConnection.State != ConnectionState.Connected)
@@ -138,6 +139,7 @@ namespace GGTClient.Services
                 try
                 {
                     hubConnection.Start().Wait();
+
                 }
                 catch (Exception)
                 {
@@ -182,6 +184,20 @@ try reconnect ...
         public void RequestLogin(String id, String pw)
         {
             myHubProxy.Invoke("RequestLogin", new object[] { id, pw });
+        }
+
+        public void ConnectionCheck()
+        {
+            myHubProxy.Invoke("ConnectionCheck", new object[] { "data" });
+        }
+
+        private async void OnConnectionCheckResponse(String data)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                MainViewModel_Instance.UserName = data;
+                Views.MainPage.Current.Connected();
+            });
         }
 
         private async void OnResponseLogin(String username)
