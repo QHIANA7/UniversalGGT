@@ -117,7 +117,6 @@
     <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DatabaseService.cs" />
-    <Compile Include="Services\GGTService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

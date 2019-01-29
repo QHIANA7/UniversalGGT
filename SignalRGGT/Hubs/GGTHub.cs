@@ -17,55 +17,22 @@ namespace SignalRGGT.Hubs
     {
         public void RequestLogin(String id, String pw)
         {
-            JsonConvert.DeserializeObject
             Console.WriteLine($"로그인 요청 : {id} - {pw}");
 
-            SqlConnection Sqlconn = new SqlConnection("Server=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;Persist Security Info=False;User ID=admin2013@ggtsvr.database.windows.net;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-
-            Sqlconn.Open();
-
-            string strSQL = String.Format($"SELECT * FROM TB_USERINFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
-            SqlCommand myCommand = new SqlCommand(strSQL, Sqlconn);
-            SqlParameter param_userid = new SqlParameter("@UserID", id);
-            myCommand.Parameters.Add(param_userid);
-
-            SqlParameter param_userpw = new SqlParameter("@UserPassword", pw);
-            myCommand.Parameters.Add(param_userpw);
-
-            SqlDataReader myDataReader;
-
-            //위 SQL문을 실행해서 가져온다.
-            myDataReader = myCommand.ExecuteReader();
-
-            String UserName = String.Empty;
-            Int32 EffectedCount = 0;
-
-            //Read를 할때마다 다음 레코드를 불러온다.
-            while (myDataReader.Read())
+            String UserName = Singleton<DatabaseService>.Instance.GetUserName(id, pw);
+            
+            if(String.IsNullOrWhiteSpace(UserName))
             {
-                UserName = myDataReader["USER_NAME"].ToString();
-                EffectedCount++;
-            }
-
-            if (EffectedCount > 0)
-            {
-                Clients.Caller.ResponseLogin(UserName);
                 Console.WriteLine($"로그인 성공 {UserName}");
+                Clients.Caller.ResponseLogin(UserName);
             }
             else
             {
-                Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");
                 Console.WriteLine($"로그인 실패 : {id} - {pw}");
+                Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");                
             }
-
-            myDataReader.Close();
-            myCommand.Dispose();
-            Sqlconn.Close();
-            Sqlconn.Dispose();
-            //myHubProxy.Invoke("RequestLogin", new object[] { id, pw });
         }
-
-
+        
         // server side method #1 : Send
         // echo name and message
         public void Send(string name, string message)
