@@ -137,26 +137,9 @@ namespace GGTClient.Services
             myHubProxy.On<string, string>("addMessage", _OnAddMessage);
             myHubProxy.On<string>("showMsg", _OnShowMsg);
             myHubProxy.On<String>("ResponseLogin", OnResponseLogin);
+            await Connection.Start();
 
-            // retry connection every 3 seconds ...
-            while (Connection.State != ConnectionState.Connected)
-            {
-                try
-                {
-                    await Connection.Start();
 
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine(@"
-connection failed !
-sleep 3 sec ...
-try reconnect ...
-                ");
-
-                    Task.Delay(3000).Wait();
-                }
-            }
         }
 
         private void Connection_StateChanged(StateChange obj)
