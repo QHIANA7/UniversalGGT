@@ -130,6 +130,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\HubConnectionConnectedEventArgs.cs" />
+    <Compile Include="Events\HubConnectionConnectingEventArgs.cs" />
     <Compile Include="Events\HubConnectionErrorFiredEventArgs.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />

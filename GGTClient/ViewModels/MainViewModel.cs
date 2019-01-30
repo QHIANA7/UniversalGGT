@@ -77,7 +77,6 @@ namespace GGTClient.ViewModels
                             Singleton<CommunicationService>.Instance.MainViewModel_Instance = this;
                             Singleton<CommunicationService>.Instance.HubConnectionErrorFiredInfo += CommunicationSerivce_HubConnectionErrorFiredInfo; ;
                             Singleton<CommunicationService>.Instance.StartClient();
-                            Singleton<CommunicationService>.Instance.ConnectionCheck();
                             //UserPassword = Singleton<CommunicationService>.Instance.Result;
                         });
                 }

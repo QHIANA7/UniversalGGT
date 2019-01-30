@@ -124,8 +124,9 @@ namespace GGTClient.Services
 
         public event EventHandler<HubConnectionErrorFiredEventArgs> HubConnectionErrorFiredInfo = null;
         public event EventHandler<HubConnectionConnectedEventArgs> HubConnectionConnectedInfo = null;
+        public event EventHandler<HubConnectionConnectingEventArgs> HubConnectionConnectingInfo = null;
 
-        public async void StartClient()
+        public void StartClient()
         {
             // init hub connection with url ...
             Connection = new HubConnection("http://ggtsvr.azurewebsites.net/");
@@ -137,9 +138,7 @@ namespace GGTClient.Services
             myHubProxy.On<string, string>("addMessage", _OnAddMessage);
             myHubProxy.On<string>("showMsg", _OnShowMsg);
             myHubProxy.On<String>("ResponseLogin", OnResponseLogin);
-            await Connection.Start();
-
-
+            Connection.Start();
         }
 
         private void Connection_StateChanged(StateChange obj)
@@ -147,6 +146,7 @@ namespace GGTClient.Services
             switch (obj.NewState)
             {
                 case ConnectionState.Connecting:
+                    HubConnectionConnectingInfo?.Invoke(this, new HubConnectionConnectingEventArgs(DateTime.Now, Connection));
                     break;
                 case ConnectionState.Connected:
                     HubConnectionConnectedInfo?.Invoke(this, new HubConnectionConnectedEventArgs(DateTime.Now, Connection));

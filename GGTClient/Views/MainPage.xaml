@@ -33,7 +33,7 @@
                  BeginTime="0:0:0.5"
         Storyboard.TargetName="Grid_Login"
         Storyboard.TargetProperty="Width"
-        From="0" To="1000" Duration="0:0:1"
+        From="0" To="500" Duration="0:0:1"
                 EnableDependentAnimation="True">
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
@@ -67,11 +67,10 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="ID : " HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="PW : " HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
             <TextBox Grid.Column="1" Grid.Row="0" PlaceholderText="ID를 입력하세요" Text="{x:Bind ViewModel.UserId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <PasswordBox Grid.Column="1" Grid.Row="1" PlaceholderText="PASSWORD를 입력하세요" Password="{x:Bind ViewModel.UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
+            <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
+            <Button Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Register" Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" Name="GRID_BUTTON_START">
             <Button Name="Button_Connect" Content="시작" Width="200" Height="100" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BUTTON_START_Click" Command="{x:Bind ViewModel.Connect}"/>

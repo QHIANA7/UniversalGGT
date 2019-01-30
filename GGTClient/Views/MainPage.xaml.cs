@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -36,25 +37,37 @@ namespace GGTClient.Views
             Current = this;
             Singleton<CommunicationService>.Instance.HubConnectionErrorFiredInfo += CommunicationService_HubConnectionErrorFiredInfo;
             Singleton<CommunicationService>.Instance.HubConnectionConnectedInfo += CommunicationService_HubConnectionConnectedInfo;
+            Singleton<CommunicationService>.Instance.HubConnectionConnectingInfo += CommunicationService_HubConnectionConnectingInfo;
         }
 
-        private void CommunicationService_HubConnectionConnectedInfo(object sender, HubConnectionConnectedEventArgs e)
+        private async void CommunicationService_HubConnectionConnectingInfo(object sender, HubConnectionConnectingEventArgs e)
         {
-            OnConnectedStoryboard.Begin();
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (sender is Button btn)
+                {
+                    btn.Content = new ProgressRing() { IsActive = true, Width = 50, Height = 50 };
+                }
+            });
+        }
+
+        private async void CommunicationService_HubConnectionConnectedInfo(object sender, HubConnectionConnectedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                OnConnectedStoryboard.Begin();
+            });
         }
 
         private void CommunicationService_HubConnectionErrorFiredInfo(object sender, HubConnectionErrorFiredEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void BUTTON_START_Click(object sender, RoutedEventArgs e)
         {
-            //LoginOpenStoryboard.Begin();
-            if(sender is Button btn)
-            {
-                btn.Content = new ProgressRing() { IsActive = true, Width =50, Height = 50 };
-            }
+            
+
         }
     }
 }
