@@ -47,7 +47,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\dmgpg\AppData\Local\Temp\vsC2D4.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\JINSEO~1\AppData\Local\Temp\vsA85.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,7 +57,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\dmgpg\AppData\Local\Temp\vsC2D4.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\JINSEO~1\AppData\Local\Temp\vsA85.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>D2A6845D05C0EC2F43F6320A664444840CC732AD</ManifestCertificateThumbprint>
