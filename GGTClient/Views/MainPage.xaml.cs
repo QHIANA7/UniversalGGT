@@ -35,6 +35,12 @@ namespace GGTClient.Views
             this.InitializeComponent();
             Current = this;
             Singleton<CommunicationService>.Instance.HubConnectionErrorFiredInfo += CommunicationService_HubConnectionErrorFiredInfo;
+            Singleton<CommunicationService>.Instance.HubConnectionConnectedInfo += CommunicationService_HubConnectionConnectedInfo;
+        }
+
+        private void CommunicationService_HubConnectionConnectedInfo(object sender, HubConnectionConnectedEventArgs e)
+        {
+            OnConnectedStoryboard.Begin();
         }
 
         private void CommunicationService_HubConnectionErrorFiredInfo(object sender, HubConnectionErrorFiredEventArgs e)
@@ -49,11 +55,6 @@ namespace GGTClient.Views
             {
                 btn.Content = new ProgressRing() { IsActive = true, Width =50, Height = 50 };
             }
-        }
-
-        public void Connected()
-        {
-            OnConnectedStoryboard.Begin();
         }
     }
 }

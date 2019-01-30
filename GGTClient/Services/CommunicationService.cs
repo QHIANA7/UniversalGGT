@@ -123,6 +123,7 @@ namespace GGTClient.Services
         public ViewModels.MainViewModel MainViewModel_Instance { get; set; } = null;
 
         public event EventHandler<HubConnectionErrorFiredEventArgs> HubConnectionErrorFiredInfo = null;
+        public event EventHandler<HubConnectionConnectedEventArgs> HubConnectionConnectedInfo = null;
 
         public async void StartClient()
         {
@@ -136,7 +137,6 @@ namespace GGTClient.Services
             myHubProxy.On<string, string>("addMessage", _OnAddMessage);
             myHubProxy.On<string>("showMsg", _OnShowMsg);
             myHubProxy.On<String>("ResponseLogin", OnResponseLogin);
-            myHubProxy.On<String>("OnConnectionCheckResponse", OnConnectionCheckResponse);
 
             // retry connection every 3 seconds ...
             while (Connection.State != ConnectionState.Connected)
@@ -166,6 +166,7 @@ try reconnect ...
                 case ConnectionState.Connecting:
                     break;
                 case ConnectionState.Connected:
+                    HubConnectionConnectedInfo?.Invoke(this, new HubConnectionConnectedEventArgs(DateTime.Now, Connection));
                     break;
                 case ConnectionState.Reconnecting:
                     break;
@@ -209,15 +210,6 @@ try reconnect ...
         public void ConnectionCheck()
         {
             myHubProxy.Invoke("ConnectionCheck", new object[] { "data" });
-        }
-
-        private async void OnConnectionCheckResponse(String data)
-        {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                MainViewModel_Instance.UserName = data;
-                Views.MainPage.Current.Connected();
-            });
         }
 
         private async void OnResponseLogin(String username)

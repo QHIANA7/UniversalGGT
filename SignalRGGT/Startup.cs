@@ -18,7 +18,7 @@ namespace SignalRGGT
             app.UseCors(CorsOptions.AllowAll);
             app.MapSignalR();
             Singleton<DatabaseService>.Instance.ConnectionString = ConfigurationManager.ConnectionStrings["defaultConnection"].ConnectionString;
-            
+
         }
     }
 }
