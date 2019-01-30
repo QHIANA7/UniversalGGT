@@ -38,17 +38,7 @@ namespace GGTClient.Views
             Singleton<CommunicationService>.Instance.HubConnectionErrorFiredInfo += CommunicationService_HubConnectionErrorFiredInfo;
             Singleton<CommunicationService>.Instance.HubConnectionConnectedInfo += CommunicationService_HubConnectionConnectedInfo;
             Singleton<CommunicationService>.Instance.HubConnectionConnectingInfo += CommunicationService_HubConnectionConnectingInfo;
-        }
-
-        private async void CommunicationService_HubConnectionConnectingInfo(object sender, HubConnectionConnectingEventArgs e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                if (sender is Button btn)
-                {
-                    btn.Content = new ProgressRing() { IsActive = true, Width = 50, Height = 50 };
-                }
-            });
+            Singleton<CommunicationService>.Instance.HubConnectionDisconnectedInfo += CommunicationService_HubConnectionDisconnectedInfo;
         }
 
         private async void CommunicationService_HubConnectionConnectedInfo(object sender, HubConnectionConnectedEventArgs e)
@@ -56,6 +46,26 @@ namespace GGTClient.Views
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 OnConnectedStoryboard.Begin();
+            });
+        }
+
+        private async void CommunicationService_HubConnectionDisconnectedInfo(object sender, HubConnectionDisconnectedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                OnDisconnectedStoryboard.Begin();
+            });
+        }
+
+        private async void CommunicationService_HubConnectionConnectingInfo(object sender, HubConnectionConnectingEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                OnConnectingStoryboard.Begin();
+                //if (sender is Button btn)
+                //{
+                //    btn.Content = new ProgressRing() { IsActive = true, Width = 50, Height = 50 };
+                //}
             });
         }
 

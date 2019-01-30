@@ -7,8 +7,39 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" >
     <Page.Resources>
-        <Storyboard x:Name="LoginOpenStoryboard">
+        <Storyboard x:Name="OnConnectingStoryboard">
             <DoubleAnimation
+        Storyboard.TargetName="Button_Connect"
+        Storyboard.TargetProperty="Width"
+        To="0" Duration="0:0:1"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation
+        Storyboard.TargetName="TextBlock_Connect"
+        Storyboard.TargetProperty="Opacity"
+        From="100" To="1" Duration="0:0:1"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="OnConnectedStoryboard">
+            <!--<DoubleAnimation
+                 BeginTime="0:0:0"
+        Storyboard.TargetName="Button_Connect"
+        Storyboard.TargetProperty="Width"
+        To="0" Duration="0:0:0.5"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="8"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>-->
+            <DoubleAnimation
+                 BeginTime="0:0:0"
         Storyboard.TargetName="Grid_Login"
         Storyboard.TargetProperty="Width"
         From="0" To="500" Duration="0:0:1"
@@ -18,22 +49,32 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-        <Storyboard x:Name="OnConnectedStoryboard">
+        <Storyboard x:Name="OnDisconnectedStoryboard">
             <DoubleAnimation
                  BeginTime="0:0:0"
-        Storyboard.TargetName="Button_Connect"
+        Storyboard.TargetName="Grid_Login"
         Storyboard.TargetProperty="Width"
         To="0" Duration="0:0:0.5"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation
+                 BeginTime="0:0:0.5"
+        Storyboard.TargetName="Button_Connect"
+        Storyboard.TargetProperty="Width"
+        To="200" Duration="0:0:1"
                 EnableDependentAnimation="True">
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase EasingMode="EaseIn" Exponent="8"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
             <DoubleAnimation
-                 BeginTime="0:0:0.5"
-        Storyboard.TargetName="Grid_Login"
-        Storyboard.TargetProperty="Width"
-        From="0" To="500" Duration="0:0:1"
+                BeginTime="0:0:1"
+        Storyboard.TargetName="TextBlock_Connect"
+        Storyboard.TargetProperty="Opacity"
+        From="0" To="100" Duration="0:0:3"
                 EnableDependentAnimation="True">
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
@@ -72,8 +113,12 @@
             <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
             <Button Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Register" Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="0" Name="GRID_BUTTON_START">
-            <Button Name="Button_Connect" Content="시작" Width="200" Height="100" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BUTTON_START_Click" Command="{x:Bind ViewModel.Connect}"/>
+        <Grid Grid.Row="2" Grid.Column="0" x:Name="Grid_Button_Start">
+            <Button x:Name="Button_Connect" Width="200" Height="100" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BUTTON_START_Click" Command="{x:Bind ViewModel.Connect}">
+                <Button.Content>
+                    <TextBlock x:Name="TextBlock_Connect" Text="시작"/>
+                </Button.Content>
+            </Button>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="0">
             <Grid.ColumnDefinitions>

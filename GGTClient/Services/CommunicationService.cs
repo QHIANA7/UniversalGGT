@@ -118,26 +118,25 @@ namespace GGTClient.Services
 
         public HubConnection Connection { get; set; }
 
-        public IHubProxy myHubProxy = null;
+        public IHubProxy GGTHubProxy = null;
 
         public ViewModels.MainViewModel MainViewModel_Instance { get; set; } = null;
 
         public event EventHandler<HubConnectionErrorFiredEventArgs> HubConnectionErrorFiredInfo = null;
         public event EventHandler<HubConnectionConnectedEventArgs> HubConnectionConnectedInfo = null;
         public event EventHandler<HubConnectionConnectingEventArgs> HubConnectionConnectingInfo = null;
+        public event EventHandler<HubConnectionDisconnectedEventArgs> HubConnectionDisconnectedInfo = null;
 
         public void StartClient()
         {
-            // init hub connection with url ...
             Connection = new HubConnection("http://ggtsvr.azurewebsites.net/");
-            myHubProxy = Connection.CreateHubProxy("GGTHub");
+            GGTHubProxy = Connection.CreateHubProxy("GGTHub");
             Connection.Error += Connection_Error;
             Connection.StateChanged += Connection_StateChanged;
 
-            // attach event handler from server sent message.
-            myHubProxy.On<string, string>("addMessage", _OnAddMessage);
-            myHubProxy.On<string>("showMsg", _OnShowMsg);
-            myHubProxy.On<String>("ResponseLogin", OnResponseLogin);
+            GGTHubProxy.On<String, String>("addMessage", _OnAddMessage);
+            GGTHubProxy.On<String>("showMsg", _OnShowMsg);
+            GGTHubProxy.On<String>("ResponseLogin", OnResponseLogin);
             Connection.Start();
         }
 
@@ -154,6 +153,7 @@ namespace GGTClient.Services
                 case ConnectionState.Reconnecting:
                     break;
                 case ConnectionState.Disconnected:
+                    HubConnectionDisconnectedInfo?.Invoke(this, new HubConnectionDisconnectedEventArgs(DateTime.Now, Connection));
                     break;
                 default:
                     break;
@@ -162,6 +162,7 @@ namespace GGTClient.Services
 
         private void Connection_Error(Exception ex)
         {
+            Connection.Stop();
             HubConnectionErrorFiredInfo?.Invoke(this, new HubConnectionErrorFiredEventArgs(DateTime.Now, ex, Connection));
         }
 
@@ -182,17 +183,17 @@ namespace GGTClient.Services
         {
             string request = msg;
 
-            myHubProxy.Invoke("Send", new object[] { "william", msg });
+            GGTHubProxy.Invoke("Send", new object[] { "william", msg });
         }
 
         public void RequestLogin(String id, String pw)
         {
-            myHubProxy.Invoke("RequestLogin", new object[] { id, pw });
+            GGTHubProxy.Invoke("RequestLogin", new object[] { id, pw });
         }
 
         public void ConnectionCheck()
         {
-            myHubProxy.Invoke("ConnectionCheck", new object[] { "data" });
+            GGTHubProxy.Invoke("ConnectionCheck", new object[] { "data" });
         }
 
         private async void OnResponseLogin(String username)

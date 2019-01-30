@@ -87,7 +87,7 @@ namespace GGTClient.ViewModels
 
         private void CommunicationSerivce_HubConnectionErrorFiredInfo(object sender, HubConnectionErrorFiredEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         private ICommand _logout;

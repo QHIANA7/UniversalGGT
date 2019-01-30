@@ -17,6 +17,7 @@ namespace SignalRGGT.Hubs
     {
         public void RequestLogin(String id, String pw)
         {
+
             Console.WriteLine($"로그인 요청 : {id} - {pw}");
 
             String UserName = Singleton<DatabaseService>.Instance.GetUserName(id, pw);
