@@ -87,7 +87,7 @@
             <TextBlock Grid.Row="0" Grid.Column="0" x:Name="TB_VERSION" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
             <TextBlock Grid.Row="1" Grid.Column="0" x:Name="TB_INSTALLEDDATE" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
         </Grid>
-        <Grid Grid.Row="3" Grid.Column="0">
+        <Grid Grid.Row="4" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -95,7 +95,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="여기에 텍스트가 표시됩니다." Style="{ThemeResource SubheaderTextBlockStyle}"/>
         </Grid>
     </Grid>
 </Page>

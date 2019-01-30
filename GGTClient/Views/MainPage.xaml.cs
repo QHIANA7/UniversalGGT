@@ -1,4 +1,7 @@
-﻿using GGTClient.ViewModels;
+﻿using GGTClient.Events;
+using GGTClient.Helpers;
+using GGTClient.Services;
+using GGTClient.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +34,12 @@ namespace GGTClient.Views
         {
             this.InitializeComponent();
             Current = this;
+            Singleton<CommunicationService>.Instance.HubConnectionErrorFiredInfo += CommunicationService_HubConnectionErrorFiredInfo;
+        }
+
+        private void CommunicationService_HubConnectionErrorFiredInfo(object sender, HubConnectionErrorFiredEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void BUTTON_START_Click(object sender, RoutedEventArgs e)

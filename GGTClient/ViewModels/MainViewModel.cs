@@ -1,4 +1,5 @@
-﻿using GGTClient.Helpers;
+﻿using GGTClient.Events;
+using GGTClient.Helpers;
 using GGTClient.Models;
 using GGTClient.Services;
 using System;
@@ -74,6 +75,7 @@ namespace GGTClient.ViewModels
                             //user = new UserInfo(UserId, UserPassword);
 
                             Singleton<CommunicationService>.Instance.MainViewModel_Instance = this;
+                            Singleton<CommunicationService>.Instance.HubConnectionErrorFiredInfo += CommunicationSerivce_HubConnectionErrorFiredInfo; ;
                             Singleton<CommunicationService>.Instance.StartClient();
                             Singleton<CommunicationService>.Instance.ConnectionCheck();
                             //UserPassword = Singleton<CommunicationService>.Instance.Result;
@@ -82,6 +84,11 @@ namespace GGTClient.ViewModels
 
                 return _connect;
             }
+        }
+
+        private void CommunicationSerivce_HubConnectionErrorFiredInfo(object sender, HubConnectionErrorFiredEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private ICommand _logout;

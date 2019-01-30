@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.SignalR.Client;
+﻿using GGTClient.Events;
+using Microsoft.AspNet.SignalR.Client;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -115,17 +116,21 @@ namespace GGTClient.Services
 
         #region SignalR 사용
 
-        HubConnection hubConnection = null;
+        public HubConnection Connection { get; set; }
 
         public IHubProxy myHubProxy = null;
 
         public ViewModels.MainViewModel MainViewModel_Instance { get; set; } = null;
 
+        public event EventHandler<HubConnectionErrorFiredEventArgs> HubConnectionErrorFiredInfo = null;
+
         public async void StartClient()
         {
             // init hub connection with url ...
-            hubConnection = new HubConnection("http://ggtsvr.azurewebsites.net/");
-            myHubProxy = hubConnection.CreateHubProxy("GGTHub");
+            Connection = new HubConnection("http://ggtsvr.azurewebsites.net/");
+            myHubProxy = Connection.CreateHubProxy("GGTHub");
+            Connection.Error += Connection_Error;
+            Connection.StateChanged += Connection_StateChanged;
 
             // attach event handler from server sent message.
             myHubProxy.On<string, string>("addMessage", _OnAddMessage);
@@ -134,11 +139,11 @@ namespace GGTClient.Services
             myHubProxy.On<String>("OnConnectionCheckResponse", OnConnectionCheckResponse);
 
             // retry connection every 3 seconds ...
-            while (hubConnection.State != ConnectionState.Connected)
+            while (Connection.State != ConnectionState.Connected)
             {
                 try
                 {
-                    hubConnection.Start().Wait();
+                    await Connection.Start();
 
                 }
                 catch (Exception)
@@ -152,13 +157,28 @@ try reconnect ...
                     Task.Delay(3000).Wait();
                 }
             }
+        }
 
-            // run actions (Send, StartTimer)
-            //_RunServerLoop(myHubProxy);
+        private void Connection_StateChanged(StateChange obj)
+        {
+            switch (obj.NewState)
+            {
+                case ConnectionState.Connecting:
+                    break;
+                case ConnectionState.Connected:
+                    break;
+                case ConnectionState.Reconnecting:
+                    break;
+                case ConnectionState.Disconnected:
+                    break;
+                default:
+                    break;
+            }
+        }
 
-            // exit program
-            //Console.WriteLine("ended!!!");
-            //Console.ReadLine();
+        private void Connection_Error(Exception ex)
+        {
+            HubConnectionErrorFiredInfo?.Invoke(this, new HubConnectionErrorFiredEventArgs(DateTime.Now, ex, Connection));
         }
 
         private void _OnShowMsg(string msg)
