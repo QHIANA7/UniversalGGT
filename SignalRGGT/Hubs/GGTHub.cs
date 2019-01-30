@@ -20,11 +20,20 @@ namespace SignalRGGT.Hubs
             Console.WriteLine($"로그인 요청 : {id} - {pw}");
 
             String UserName = Singleton<DatabaseService>.Instance.GetUserName(id, pw);
+            String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(id, pw);
 
             if (!String.IsNullOrWhiteSpace(UserName))
             {
-                Console.WriteLine($"로그인 성공 {UserName}");
-                Clients.Caller.ResponseLogin(UserName);
+                if (UserStatus == "L")
+                {
+                    Console.WriteLine($"로그인 성공 {UserName}");
+                    Clients.Caller.ResponseLogin(UserName);
+                }
+                else
+                {
+                    Console.WriteLine($"로그인 실패 : {UserName}");
+                    Clients.Caller.ResponseLogin("이미 로그인 상태입니다");
+                }
             }
             else
             {
