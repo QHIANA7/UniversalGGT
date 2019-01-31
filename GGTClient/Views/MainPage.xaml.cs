@@ -106,5 +106,14 @@ namespace GGTClient.Views
                 btn.IsEnabled = false;
             }
         }
+
+        private void Button_AccountRegister_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                AccountRegisterOpenStoryboard.Begin();
+                Frame_AccountRegister.Navigate(typeof(AccountRegisterPage));
+            }
+        }
     }
 }
