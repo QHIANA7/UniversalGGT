@@ -90,10 +90,7 @@ namespace GGTClient.Views
                 OnConnectingStoryboard.Begin();
                 NotificationStoryboard.RepeatBehavior = Windows.UI.Xaml.Media.Animation.RepeatBehavior.Forever;
                 NotificationStoryboard.Begin();
-                //if (sender is Button btn)
-                //{
-                //    btn.Content = new ProgressRing() { IsActive = true, Width = 50, Height = 50 };
-                //}
+                Button_Connect.IsEnabled = true;
             });
         }
 
@@ -102,10 +99,12 @@ namespace GGTClient.Views
             //throw new NotImplementedException();
         }
 
-        private void BUTTON_START_Click(object sender, RoutedEventArgs e)
+        private void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
-            
-
+            if(sender is Button btn)
+            {
+                btn.IsEnabled = false;
+            }
         }
     }
 }

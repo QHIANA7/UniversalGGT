@@ -129,7 +129,7 @@
             <Button Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Register" Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>
         <Grid Grid.Column="0" Grid.Row="2" x:Name="Grid_Button_Start">
-            <Button x:Name="Button_Connect" Width="200" Height="100" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BUTTON_START_Click" Command="{x:Bind ViewModel.Connect}">
+            <Button x:Name="Button_Connect" Width="200" Height="100" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Connect_Click" Command="{x:Bind ViewModel.Connect}">
                 <Button.Content>
                     <TextBlock x:Name="TextBlock_Connect" Text="시작"/>
                 </Button.Content>
