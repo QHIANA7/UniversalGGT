@@ -20,7 +20,7 @@
             <DoubleAnimation
         Storyboard.TargetName="TextBlock_Connect"
         Storyboard.TargetProperty="Opacity"
-        From="100" To="1" Duration="0:0:1"
+        From="1" To="0" Duration="0:0:1"
                 EnableDependentAnimation="True">
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
@@ -95,10 +95,11 @@
             <RowDefinition Height="3*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Name="TEXTBLOCK_GREETING" Text="GGT" FontSize="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Grid x:Name="Grid_Login" Grid.Column="0" Grid.Row="2" Width="0">
+        <TextBlock Grid.Column="0" Grid.Row="0"  x:Name="TEXTBLOCK_GREETING" Text="GGT" FontSize="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="0" Grid.Row="2" x:Name="Grid_Login" Width="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="3*"/>
@@ -113,14 +114,14 @@
             <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
             <Button Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Content="Register" Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="0" x:Name="Grid_Button_Start">
+        <Grid Grid.Column="0" Grid.Row="2" x:Name="Grid_Button_Start">
             <Button x:Name="Button_Connect" Width="200" Height="100" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BUTTON_START_Click" Command="{x:Bind ViewModel.Connect}">
                 <Button.Content>
                     <TextBlock x:Name="TextBlock_Connect" Text="시작"/>
                 </Button.Content>
             </Button>
         </Grid>
-        <Grid Grid.Row="3" Grid.Column="0">
+        <Grid Grid.Column="0" Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -131,7 +132,7 @@
             <TextBlock Grid.Row="0" Grid.Column="0" x:Name="TB_VERSION" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
             <TextBlock Grid.Row="1" Grid.Column="0" x:Name="TB_INSTALLEDDATE" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{ThemeResource SubheaderTextBlockStyle}"/>
         </Grid>
-        <Grid Grid.Row="4" Grid.Column="0">
+        <Grid Grid.Column="0" Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>

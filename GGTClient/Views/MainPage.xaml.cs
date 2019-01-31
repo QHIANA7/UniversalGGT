@@ -9,6 +9,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -31,9 +33,12 @@ namespace GGTClient.Views
 
         public static MainPage Current { get; set; }
 
+        public MediaPlayer Player { get; set; } = new MediaPlayer();
+
         public MainPage()
         {
             this.InitializeComponent();
+
             Current = this;
             Singleton<CommunicationService>.Instance.HubConnectionErrorFiredInfo += CommunicationService_HubConnectionErrorFiredInfo;
             Singleton<CommunicationService>.Instance.HubConnectionConnectedInfo += CommunicationService_HubConnectionConnectedInfo;
@@ -43,8 +48,13 @@ namespace GGTClient.Views
 
         private async void CommunicationService_HubConnectionConnectedInfo(object sender, HubConnectionConnectedEventArgs e)
         {
+            Player.Pause();
+            Player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Windows Proximity Notification.wav"));
+            Player.IsLoopingEnabled = false;
+            Player.Play();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+
                 OnConnectedStoryboard.Begin();
             });
         }
@@ -59,8 +69,12 @@ namespace GGTClient.Views
 
         private async void CommunicationService_HubConnectionConnectingInfo(object sender, HubConnectionConnectingEventArgs e)
         {
+            Player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Windows Proximity Connection.wav"));
+            Player.IsLoopingEnabled = true;
+            Player.Play();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+
                 OnConnectingStoryboard.Begin();
                 //if (sender is Button btn)
                 //{
