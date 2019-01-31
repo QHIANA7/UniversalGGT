@@ -54,16 +54,25 @@ namespace GGTClient.Views
             Player.Play();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-
+                TextBlock_Message.Text = "GGT 서버에 연결되었습니다";
                 OnConnectedStoryboard.Begin();
+                NotificationStoryboard.RepeatBehavior = new Windows.UI.Xaml.Media.Animation.RepeatBehavior(1);
+                NotificationStoryboard.Begin();
             });
         }
 
         private async void CommunicationService_HubConnectionDisconnectedInfo(object sender, HubConnectionDisconnectedEventArgs e)
         {
+            Player.Pause();
+            Player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Windows Device Connection Removed.wav"));
+            Player.IsLoopingEnabled = false;
+            Player.Play();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 OnDisconnectedStoryboard.Begin();
+                TextBlock_Message.Text = "GGT 서버와의 연결이 끊어졌습니다";
+                NotificationStoryboard.RepeatBehavior = new Windows.UI.Xaml.Media.Animation.RepeatBehavior(1);
+                NotificationStoryboard.Begin();
             });
         }
 
@@ -74,8 +83,10 @@ namespace GGTClient.Views
             Player.Play();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-
+                TextBlock_Message.Text = "서버에 연결중입니다";
                 OnConnectingStoryboard.Begin();
+                NotificationStoryboard.RepeatBehavior = Windows.UI.Xaml.Media.Animation.RepeatBehavior.Forever;
+                NotificationStoryboard.Begin();
                 //if (sender is Button btn)
                 //{
                 //    btn.Content = new ProgressRing() { IsActive = true, Width = 50, Height = 50 };

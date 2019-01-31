@@ -81,6 +81,18 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <Storyboard x:Name="NotificationStoryboard">
+            <DoubleAnimation
+                 BeginTime="0:0:0"
+        Storyboard.TargetName="TextBlock_Message"
+        Storyboard.TargetProperty="Opacity"
+        From="0" To="1" Duration="0:0:3" AutoReverse="True"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </Page.Resources>
     <Page.Transitions>
         <TransitionCollection>
@@ -140,7 +152,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="여기에 텍스트가 표시됩니다." Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="TextBlock_Message" Opacity="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="여기에 텍스트가 표시됩니다." Style="{ThemeResource SubheaderTextBlockStyle}"/>
         </Grid>
     </Grid>
 </Page>
