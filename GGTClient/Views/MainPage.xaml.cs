@@ -54,6 +54,7 @@ namespace GGTClient.Views
             Player.Play();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                ProgressRing_Information.IsActive = false;
                 TextBlock_Message.Text = "GGT 서버에 연결되었습니다";
                 OnConnectedStoryboard.Begin();
                 NotificationStoryboard.RepeatBehavior = new Windows.UI.Xaml.Media.Animation.RepeatBehavior(1);
@@ -69,6 +70,7 @@ namespace GGTClient.Views
             Player.Play();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                ProgressRing_Information.IsActive = false;
                 OnDisconnectedStoryboard.Begin();
                 TextBlock_Message.Text = "GGT 서버와의 연결이 끊어졌습니다";
                 NotificationStoryboard.RepeatBehavior = new Windows.UI.Xaml.Media.Animation.RepeatBehavior(1);
@@ -83,6 +85,7 @@ namespace GGTClient.Views
             Player.Play();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                ProgressRing_Information.IsActive = true;
                 TextBlock_Message.Text = "서버에 연결중입니다";
                 OnConnectingStoryboard.Begin();
                 NotificationStoryboard.RepeatBehavior = Windows.UI.Xaml.Media.Animation.RepeatBehavior.Forever;
