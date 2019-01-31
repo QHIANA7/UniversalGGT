@@ -59,6 +59,39 @@ namespace SignalRGGT.Services
             }
         }
 
+        // 로그인 여부 확인
+        public String GetUserStatus(String id, String pw)
+        {
+            String result = String.Empty;
+            try
+            {
+                String query = String.Format($"SELECT USER_STATUS FROM TB_USERINFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
+                OpenAsync();
+                using (SqlCommand command = new SqlCommand(query, Connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    command.Parameters.Add(new SqlParameter("@UserPassword", pw));
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            result = dataReader["USER_STATUS"].ToString();
+                        }
+                    }
+                }
+                Close();
+                return result;
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ex.Message;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
         #endregion
     }
 }

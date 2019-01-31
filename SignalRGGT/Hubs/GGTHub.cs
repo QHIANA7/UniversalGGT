@@ -25,7 +25,7 @@ namespace SignalRGGT.Hubs
 
             if (!String.IsNullOrWhiteSpace(UserName))
             {
-                if (UserStatus == "L")
+                if (UserStatus == "O")
                 {
                     Console.WriteLine($"로그인 성공 {UserName}");
                     Clients.Caller.ResponseLogin(UserName);
