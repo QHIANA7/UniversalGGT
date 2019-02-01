@@ -137,6 +137,8 @@
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\Singleton.cs" />
+    <Compile Include="Models\RequsetInfo.cs" />
+    <Compile Include="Models\ResponseInfo.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Services\CommunicationService.cs" />
     <Compile Include="Services\NavigationService.cs" />

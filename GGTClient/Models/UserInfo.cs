@@ -21,6 +21,11 @@ namespace GGTClient.Models
             UserPassword = pw;
         }
 
+        public UserInfo(String id, String pw, String nm) : this(id, pw)
+        {
+            UserName = nm;
+        }
+
         public override String ToString()
         {
             return $"{UserName}";
