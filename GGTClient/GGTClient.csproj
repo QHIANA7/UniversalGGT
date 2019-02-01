@@ -133,6 +133,7 @@
     <Compile Include="Events\HubConnectionConnectingEventArgs.cs" />
     <Compile Include="Events\HubConnectionDisconnectedEventArgs.cs" />
     <Compile Include="Events\HubConnectionErrorFiredEventArgs.cs" />
+    <Compile Include="Events\IdCheckAppliedEventArgs.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />

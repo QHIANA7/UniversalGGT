@@ -1,18 +1,7 @@
 ﻿using GGTClient.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+using GGTClient.Helpers;
+using GGTClient.Services;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // 빈 페이지 항목 템플릿에 대한 설명은 https://go.microsoft.com/fwlink/?LinkId=234238에 나와 있습니다.
 
@@ -28,6 +17,19 @@ namespace GGTClient.Views
         public AccountRegisterPage()
         {
             this.InitializeComponent();
+            Singleton<CommunicationService>.Instance.IdCheckApplied += CommunicationService_IdCheckApplied;
+        }
+
+        private void CommunicationService_IdCheckApplied(object sender, Events.IdCheckAppliedEventArgs e)
+        {
+            if(e.IsIdUsable)
+            {
+                ViewModel.IsRegisterable = true;
+            }
+            else
+            {
+                ViewModel.IsRegisterable = false;
+            }
         }
     }
 }

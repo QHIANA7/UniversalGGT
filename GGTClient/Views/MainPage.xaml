@@ -5,7 +5,7 @@
     xmlns:local="using:GGTClient.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" MinWidth="1280" MinHeight="1080">
+    mc:Ignorable="d" MinWidth="1280" MinHeight="720">
     <Page.Resources>
         <Storyboard x:Name="OnConnectingStoryboard">
             <DoubleAnimation
@@ -131,7 +131,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0"  x:Name="TEXTBLOCK_GREETING" Text="GGT" FontSize="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Frame Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="5" x:Name="Frame_AccountRegister" Width="0" Height="0" Foreground="LightBlue" BorderThickness="10">
+        <Frame Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="5" x:Name="Frame_AccountRegister" Width="0" Height="0" Foreground="LightBlue" BorderBrush="Azure" BorderThickness="10">
             <Frame.ContentTransitions>
                 <TransitionCollection>
                     <PopupThemeTransition/>

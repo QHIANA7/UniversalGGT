@@ -5,10 +5,9 @@
     xmlns:local="using:GGTClient.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" MinWidth="640" MaxWidth="640" Width="640" MinHeight="320" MaxHeight="320" Height="320"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d" Width="640" Height="320">
 
-    <Grid Padding="50">
+    <Grid Padding="50" Background="Azure">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>

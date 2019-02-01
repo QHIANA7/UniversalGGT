@@ -8,6 +8,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Newtonsoft.Json;
 using SignalRGGT.Helpers;
+using SignalRGGT.Models;
 using SignalRGGT.Services;
 
 namespace SignalRGGT.Hubs
@@ -49,39 +50,15 @@ namespace SignalRGGT.Hubs
             Clients.Caller.OnConnectionCheckResponse(data);
         }
 
-        // server side method #1 : Send
-        // echo name and message
-        public void Send(string name, string message)
+        public Res0001 RequestIdCheck(Req0001 req)
         {
-            Console.WriteLine($"Send name : {name} message :{message}");
-            Clients.All.addMessage(name, message);
+            Boolean result = Singleton<DatabaseService>.Instance.GetIdExist(req.Id);
+
+            Res0001 res = new Res0001() { Request = req, IsUsableID = result, Message = "사용가능" };
+
+            return res;
         }
 
-        // server side method #2 : StartTimer
-        // send msgs every seconds until count variable ...
-        public void StartTimer(int count)
-        {
-            Console.WriteLine($"StartTimer count : {count}");
-
-            Task.Run(async () =>
-            {
-                var msg = $"타이머 시작됨...";
-                Console.WriteLine(msg);
-                Clients.Caller.showMsg(msg);
-
-                for (int i = 0; i < count; i++)
-                {
-                    await Task.Delay(1000);
-                    msg = $"타이머 카운트 {i}/{count}...";
-                    Console.WriteLine(msg);
-                    Clients.Caller.showMsg(msg);
-                }
-
-                msg = $"타이머 종료됨...";
-                Console.WriteLine(msg);
-                Clients.Caller.showMsg(msg);
-            });
-        }
 
         public override Task OnConnected()
         {

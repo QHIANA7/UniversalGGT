@@ -49,7 +49,7 @@ namespace GGTClient.ViewModels
                     _id_check = new RelayCommand(
                         () =>
                         {
-                            
+                            Singleton<CommunicationService>.Instance.RequestIdCheck(UserId);
                         });
                 }
 

@@ -127,6 +127,7 @@ namespace GGTClient.Services
         public event EventHandler<HubConnectionConnectedEventArgs> HubConnectionConnectedInfo = null;
         public event EventHandler<HubConnectionConnectingEventArgs> HubConnectionConnectingInfo = null;
         public event EventHandler<HubConnectionDisconnectedEventArgs> HubConnectionDisconnectedInfo = null;
+        public event EventHandler<IdCheckAppliedEventArgs> IdCheckApplied = null;
 
         public void StartClient()
         {
@@ -179,12 +180,10 @@ namespace GGTClient.Services
 
         public async void RequestIdCheck(String id)
         {
-            Res0001 response = await GGTHubProxy.Invoke<Res0001>("RequestIdCheck", new Req0001() { Id = id, RequestTime = DateTime.Now });
+            Req0001 req = new Req0001() { Id = id, RequestTime = DateTime.Now };
+            Res0001 res = await GGTHubProxy.Invoke<Res0001>("RequestIdCheck", req);
 
-            if (response.IsUsableID)
-            {
-
-            }
+            IdCheckApplied?.Invoke(this, new IdCheckAppliedEventArgs(req, res));
         }
 
         public void ConnectionCheck()

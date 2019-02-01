@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GGTClient.Models
+namespace SignalRGGT.Models
 {
     /// <summary>
     /// ID중복검사에 대한 응답
@@ -12,7 +12,6 @@ namespace GGTClient.Models
     public class Res0001
     {
         public Req0001 Request { get; set; }
-        public DateTime ResponseTime { get; set; }
         public Boolean IsUsableID { get; set; }
         public String Message { get; set; }
     }

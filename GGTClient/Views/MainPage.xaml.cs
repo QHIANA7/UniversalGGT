@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Core;
@@ -111,9 +112,16 @@ namespace GGTClient.Views
         {
             if (sender is Button btn)
             {
+                Frame_AccountRegister.Height = 10;
+                AccountRegisterOpenStoryboard.Completed += AccountRegisterOpenStoryboard_Completed;
                 AccountRegisterOpenStoryboard.Begin();
-                Frame_AccountRegister.Navigate(typeof(AccountRegisterPage));
+
             }
+        }
+
+        private void AccountRegisterOpenStoryboard_Completed(object sender, object e)
+        {
+            Frame_AccountRegister.Navigate(typeof(AccountRegisterPage));
         }
     }
 }
