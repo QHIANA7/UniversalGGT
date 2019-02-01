@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTClient", "GGTClient\GGTClient.csproj", "{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGTSignalRConsole", "GGTSignalRConsole\GGTSignalRConsole.csproj", "{B576E471-8902-4912-947E-C97A3C310B05}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRGGT", "SignalRGGT\SignalRGGT.csproj", "{2030741A-C37C-457C-A139-B3D21D8AC311}"
 EndProject
 Global
@@ -51,24 +49,6 @@ Global
 		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x86.ActiveCfg = Release|x86
 		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x86.Build.0 = Release|x86
 		{FDC1732A-3CC7-40CA-B781-17C9BD6CC655}.Release|x86.Deploy.0 = Release|x86
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|ARM.Build.0 = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|x64.Build.0 = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Debug|x86.Build.0 = Debug|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|ARM.ActiveCfg = Release|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|ARM.Build.0 = Release|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|ARM64.Build.0 = Release|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|x64.ActiveCfg = Release|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|x64.Build.0 = Release|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|x86.ActiveCfg = Release|Any CPU
-		{B576E471-8902-4912-947E-C97A3C310B05}.Release|x86.Build.0 = Release|Any CPU
 		{2030741A-C37C-457C-A139-B3D21D8AC311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2030741A-C37C-457C-A139-B3D21D8AC311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2030741A-C37C-457C-A139-B3D21D8AC311}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -97,18 +77,15 @@ Global
 		SolutionGuid = {D23975B2-FAF4-4902-A33E-BF962D606CF1}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://qhiana7.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = GGTClient\\GGTClient.csproj
 		SccProjectName1 = GGTClient
 		SccLocalPath1 = GGTClient
-		SccProjectUniqueName2 = GGTSignalRConsole\\GGTSignalRConsole.csproj
-		SccProjectName2 = GGTSignalRConsole
-		SccLocalPath2 = GGTSignalRConsole
-		SccProjectUniqueName3 = SignalRGGT\\SignalRGGT.csproj
-		SccProjectName3 = SignalRGGT
-		SccLocalPath3 = SignalRGGT
+		SccProjectUniqueName2 = SignalRGGT\\SignalRGGT.csproj
+		SccProjectName2 = SignalRGGT
+		SccLocalPath2 = SignalRGGT
 	EndGlobalSection
 EndGlobal
