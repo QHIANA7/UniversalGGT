@@ -41,13 +41,13 @@ namespace GGTClient.Views
             this.InitializeComponent();
 
             Current = this;
-            Singleton<CommunicationService>.Instance.HubConnectionErrorFiredInfo += CommunicationService_HubConnectionErrorFiredInfo;
-            Singleton<CommunicationService>.Instance.HubConnectionConnectedInfo += CommunicationService_HubConnectionConnectedInfo;
-            Singleton<CommunicationService>.Instance.HubConnectionConnectingInfo += CommunicationService_HubConnectionConnectingInfo;
-            Singleton<CommunicationService>.Instance.HubConnectionDisconnectedInfo += CommunicationService_HubConnectionDisconnectedInfo;
+            Singleton<CommunicationService>.Instance.HubConnectionErrorFired += CommunicationService_HubConnectionErrorFired;
+            Singleton<CommunicationService>.Instance.HubConnectionConnected += CommunicationService_HubConnectionConnected;
+            Singleton<CommunicationService>.Instance.HubConnectionConnecting += CommunicationService_HubConnectionConnecting;
+            Singleton<CommunicationService>.Instance.HubConnectionDisconnected += CommunicationService_HubConnectionDisconnected;
         }
 
-        private async void CommunicationService_HubConnectionConnectedInfo(object sender, HubConnectionConnectedEventArgs e)
+        private async void CommunicationService_HubConnectionConnected(object sender, HubConnectionConnectedEventArgs e)
         {
             Player.Pause();
             Player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Windows Proximity Notification.wav"));
@@ -63,7 +63,7 @@ namespace GGTClient.Views
             });
         }
 
-        private async void CommunicationService_HubConnectionDisconnectedInfo(object sender, HubConnectionDisconnectedEventArgs e)
+        private async void CommunicationService_HubConnectionDisconnected(object sender, HubConnectionDisconnectedEventArgs e)
         {
             Player.Pause();
             Player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Windows Device Connection Removed.wav"));
@@ -79,7 +79,7 @@ namespace GGTClient.Views
             });
         }
 
-        private async void CommunicationService_HubConnectionConnectingInfo(object sender, HubConnectionConnectingEventArgs e)
+        private async void CommunicationService_HubConnectionConnecting(object sender, HubConnectionConnectingEventArgs e)
         {
             Player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Windows Proximity Connection.wav"));
             Player.IsLoopingEnabled = true;
@@ -95,7 +95,7 @@ namespace GGTClient.Views
             });
         }
 
-        private void CommunicationService_HubConnectionErrorFiredInfo(object sender, HubConnectionErrorFiredEventArgs e)
+        private void CommunicationService_HubConnectionErrorFired(object sender, HubConnectionErrorFiredEventArgs e)
         {
             //throw new NotImplementedException();
         }
@@ -113,15 +113,10 @@ namespace GGTClient.Views
             if (sender is Button btn)
             {
                 Frame_AccountRegister.Height = 10;
+                Frame_AccountRegister.Navigate(typeof(AccountRegisterPage));
                 AccountRegisterOpenStoryboard.Completed += AccountRegisterOpenStoryboard_Completed;
                 AccountRegisterOpenStoryboard.Begin();
-
             }
-        }
-
-        private void AccountRegisterOpenStoryboard_Completed(object sender, object e)
-        {
-            Frame_AccountRegister.Navigate(typeof(AccountRegisterPage));
         }
     }
 }

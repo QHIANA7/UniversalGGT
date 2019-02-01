@@ -123,10 +123,10 @@ namespace GGTClient.Services
 
         public ViewModels.MainViewModel MainViewModel_Instance { get; set; } = null;
 
-        public event EventHandler<HubConnectionErrorFiredEventArgs> HubConnectionErrorFiredInfo = null;
-        public event EventHandler<HubConnectionConnectedEventArgs> HubConnectionConnectedInfo = null;
-        public event EventHandler<HubConnectionConnectingEventArgs> HubConnectionConnectingInfo = null;
-        public event EventHandler<HubConnectionDisconnectedEventArgs> HubConnectionDisconnectedInfo = null;
+        public event EventHandler<HubConnectionErrorFiredEventArgs> HubConnectionErrorFired = null;
+        public event EventHandler<HubConnectionConnectedEventArgs> HubConnectionConnected = null;
+        public event EventHandler<HubConnectionConnectingEventArgs> HubConnectionConnecting = null;
+        public event EventHandler<HubConnectionDisconnectedEventArgs> HubConnectionDisconnected = null;
         public event EventHandler<IdCheckAppliedEventArgs> IdCheckApplied = null;
 
         public void StartClient()
@@ -144,15 +144,15 @@ namespace GGTClient.Services
             switch (obj.NewState)
             {
                 case ConnectionState.Connecting:
-                    HubConnectionConnectingInfo?.Invoke(this, new HubConnectionConnectingEventArgs(DateTime.Now, Connection));
+                    HubConnectionConnecting?.Invoke(this, new HubConnectionConnectingEventArgs(DateTime.Now, Connection));
                     break;
                 case ConnectionState.Connected:
-                    HubConnectionConnectedInfo?.Invoke(this, new HubConnectionConnectedEventArgs(DateTime.Now, Connection));
+                    HubConnectionConnected?.Invoke(this, new HubConnectionConnectedEventArgs(DateTime.Now, Connection));
                     break;
                 case ConnectionState.Reconnecting:
                     break;
                 case ConnectionState.Disconnected:
-                    HubConnectionDisconnectedInfo?.Invoke(this, new HubConnectionDisconnectedEventArgs(DateTime.Now, Connection));
+                    HubConnectionDisconnected?.Invoke(this, new HubConnectionDisconnectedEventArgs(DateTime.Now, Connection));
                     break;
                 default:
                     break;
@@ -162,7 +162,7 @@ namespace GGTClient.Services
         private void Connection_Error(Exception ex)
         {
             Connection.Stop();
-            HubConnectionErrorFiredInfo?.Invoke(this, new HubConnectionErrorFiredEventArgs(DateTime.Now, ex, Connection));
+            HubConnectionErrorFired?.Invoke(this, new HubConnectionErrorFiredEventArgs(DateTime.Now, ex, Connection));
         }
 
 
