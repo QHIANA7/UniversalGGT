@@ -127,11 +127,13 @@ namespace GGTClient.Services
         public event EventHandler<HubConnectionConnectedEventArgs> HubConnectionConnected = null;
         public event EventHandler<HubConnectionConnectingEventArgs> HubConnectionConnecting = null;
         public event EventHandler<HubConnectionDisconnectedEventArgs> HubConnectionDisconnected = null;
-        public event EventHandler<IdCheckAppliedEventArgs> IdCheckApplied = null;
+        public event EventHandler<Packet0001ReceivedEventArgs> Packet0001Received = null;
+        public event EventHandler<Packet0002ReceivedEventArgs> Packet0002Received = null;
 
         public void StartClient()
         {
-            Connection = new HubConnection("http://ggtsvr.azurewebsites.net/");
+            //Connection = new HubConnection("http://ggtsvr.azurewebsites.net/");
+            Connection = new HubConnection("http://222.236.27.169:63000/");
             GGTHubProxy = Connection.CreateHubProxy("GGTHub");
             Connection.Error += Connection_Error;
             Connection.StateChanged += Connection_StateChanged;
@@ -165,14 +167,6 @@ namespace GGTClient.Services
             HubConnectionErrorFired?.Invoke(this, new HubConnectionErrorFiredEventArgs(DateTime.Now, ex, Connection));
         }
 
-
-        public void Send(String msg)
-        {
-            string request = msg;
-
-            GGTHubProxy.Invoke("Send", new object[] { "william", msg });
-        }
-
         public void RequestLogin(String id, String pw)
         {
             GGTHubProxy.Invoke("RequestLogin", new object[] { id, pw });
@@ -180,15 +174,18 @@ namespace GGTClient.Services
 
         public async void RequestIdCheck(String id)
         {
-            Req0001 req = new Req0001() { Id = id, RequestTime = DateTime.Now };
+            Req0001 req = new Req0001() { UserID = id };
             Res0001 res = await GGTHubProxy.Invoke<Res0001>("RequestIdCheck", req);
 
-            IdCheckApplied?.Invoke(this, new IdCheckAppliedEventArgs(req, res));
+            Packet0001Received?.Invoke(this, new Packet0001ReceivedEventArgs(req, res));
         }
 
-        public void ConnectionCheck()
+        public async void RequestRegister(String id, String pw, String name)
         {
-            GGTHubProxy.Invoke("ConnectionCheck", new object[] { "data" });
+            Req0002 req = new Req0002() { UserID = id, Password = pw, UserName = name };
+            Res0002 res = await GGTHubProxy.Invoke<Res0002>("RequestRegister", req);
+
+            Packet0002Received?.Invoke(this, new Packet0002ReceivedEventArgs(req, res));
         }
 
         private async void ResponseLogin(String username)

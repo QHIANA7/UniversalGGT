@@ -56,5 +56,23 @@ namespace GGTClient.ViewModels
                 return _id_check;
             }
         }
+
+        private ICommand _register;
+        public ICommand Register
+        {
+            get
+            {
+                if (_register == null)
+                {
+                    _register = new RelayCommand(
+                        () =>
+                        {
+                            Singleton<CommunicationService>.Instance.RequestRegister(UserId, UserPassword, UserName);
+                        });
+                }
+
+                return _register;
+            }
+        }
     }
 }

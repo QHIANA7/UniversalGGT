@@ -129,6 +129,45 @@ namespace SignalRGGT.Services
             }
         }
 
+        /// <summary>
+        /// 사용자를 추가합니다
+        /// </summary>
+        /// <param name="carNum">등록차량의 차량번호</param>
+        /// <param name="owner">등록차량의 소유자</param>
+        /// <param name="carType">등록차량의 차종</param>
+        /// <returns>Insert문의 결과로 1개의 레코드가 영향을 받았을경우 true, 그렇지 않으면 false 입니다.</returns>
+        public Boolean InsertCarRegistrationInfo(String id, String pw, String name)
+        {
+            Int32 EffectedRowCount = 0;
+            try
+            {
+                String query = String.Format($"INSERT INTO TB_USERINFO VALUES (@UserID, @UserPassword, @UserName, 'X')");
+                OpenAsync();
+                using (SqlCommand command = new SqlCommand(query, Connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    command.Parameters.Add(new SqlParameter("@UserPassword", pw));
+                    command.Parameters.Add(new SqlParameter("@UserName", name));
+
+                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                }
+                Close();
+
+                if (EffectedRowCount == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         #endregion
     }
 }

@@ -44,6 +44,8 @@ namespace SignalRGGT.Hubs
             }
         }
 
+
+
         public void ConnectionCheck(String data)
         {
             Console.WriteLine($"연결 체크");
@@ -52,9 +54,18 @@ namespace SignalRGGT.Hubs
 
         public Res0001 RequestIdCheck(Req0001 req)
         {
-            Boolean result = Singleton<DatabaseService>.Instance.GetIdExist(req.Id);
+            Boolean result = Singleton<DatabaseService>.Instance.GetIdExist(req.UserID);
 
-            Res0001 res = new Res0001() { Request = req, IsUsableID = result, Message = "사용가능" };
+            Res0001 res = new Res0001() { Request = req, IsRegisterableID = result, Message = result ? "사용가능한 아이디입니다" : "이미 사용중인 아이디입니다" };
+
+            return res;
+        }
+
+        public Res0002 RequestRegister(Req0002 req)
+        {
+            Boolean result = Singleton<DatabaseService>.Instance.InsertCarRegistrationInfo(req.UserID, req.Password,req.UserName);
+
+            Res0002 res = new Res0002() { Request = req, IsRegisterd = result, Message = "회원가입 성공" };
 
             return res;
         }

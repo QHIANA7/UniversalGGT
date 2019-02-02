@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 
 // 빈 페이지 항목 템플릿에 대한 설명은 https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x412에 나와 있습니다.
 
@@ -108,14 +109,14 @@ namespace GGTClient.Views
             }
         }
 
-        private void Button_AccountRegister_Click(object sender, RoutedEventArgs e)
+        private async void Button_AccountRegister_ClickAsync(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
             {
-                Frame_AccountRegister.Height = 10;
-                Frame_AccountRegister.Navigate(typeof(AccountRegisterPage));
-                AccountRegisterOpenStoryboard.Completed += AccountRegisterOpenStoryboard_Completed;
-                AccountRegisterOpenStoryboard.Begin();
+                AccountRegisterContentDialog dialog = new AccountRegisterContentDialog();
+                dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
+                dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
+                await dialog.ShowAsync();
             }
         }
     }

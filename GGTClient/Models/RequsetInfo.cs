@@ -11,8 +11,8 @@ namespace GGTClient.Models
     /// </summary>
     public class Req0001
     {
-        public String Id { get; set; }
-        public DateTime RequestTime { get; set; }
+        public String UserID { get; set; }
+        public DateTime RequestTime { get; set; } = DateTime.Now;
     }
 
     /// <summary>
@@ -20,6 +20,9 @@ namespace GGTClient.Models
     /// </summary>
     public class Req0002
     {
-
+        public String UserID { get; set; }
+        public String Password { get; set; }
+        public String UserName { get; set; }
+        public DateTime RequestTime { get; set; } = DateTime.Now;
     }
 }

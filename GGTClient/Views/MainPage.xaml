@@ -128,10 +128,9 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0"  x:Name="TEXTBLOCK_GREETING" Text="GGT" FontSize="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Frame Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="5" x:Name="Frame_AccountRegister" Width="0" Height="0" Foreground="LightBlue" BorderBrush="Azure" BorderThickness="10"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" x:Name="TEXTBLOCK_GREETING" Text="GGT" FontSize="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Viewbox Grid.Column="0" Grid.Row="1" Width="200" Margin="0,50">
             <ProgressRing x:Name="ProgressRing_Information"/>
         </Viewbox>
@@ -148,7 +147,7 @@
             <TextBox Grid.Column="1" Grid.Row="0" PlaceholderText="ID를 입력하세요" Text="{x:Bind ViewModel.UserId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <PasswordBox Grid.Column="1" Grid.Row="1" PlaceholderText="PASSWORD를 입력하세요" Password="{x:Bind ViewModel.UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
-            <Button Grid.Column="2" Grid.Row="1" x:Name="Button_AccountRegister" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Register" Style="{ThemeResource ButtonRevealStyle}" Click="Button_AccountRegister_Click"/>
+            <Button Grid.Column="2" Grid.Row="1" x:Name="Button_AccountRegister" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Register" Style="{ThemeResource ButtonRevealStyle}" Click="Button_AccountRegister_ClickAsync"/>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="2" x:Name="Grid_Button_Start">
             <Button x:Name="Button_Connect" Width="200" Height="100" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Connect_Click" Command="{x:Bind ViewModel.Connect}">

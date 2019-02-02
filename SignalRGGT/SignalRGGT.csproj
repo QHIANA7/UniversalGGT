@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\GGTSVR - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -113,8 +114,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Json.cs" />
-    <Compile Include="Hubs\GGTHub.cs" />
     <Compile Include="Helpers\Singleton.cs" />
+    <Compile Include="Hubs\GGTHub.cs" />
     <Compile Include="Models\RequsetInfo.cs" />
     <Compile Include="Models\ResponseInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

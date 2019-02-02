@@ -12,8 +12,8 @@ namespace GGTClient.Models
     public class Res0001
     {
         public Req0001 Request { get; set; }
-        public DateTime ResponseTime { get; set; }
-        public Boolean IsUsableID { get; set; }
+        public DateTime ResponseTime { get; set; } = DateTime.Now;
+        public Boolean IsRegisterableID { get; set; }
         public String Message { get; set; }
     }
 
@@ -22,6 +22,9 @@ namespace GGTClient.Models
     /// </summary>
     public class Res0002
     {
-
+        public Req0002 Request { get; set; }
+        public DateTime ResponseTime { get; set; } = DateTime.Now;
+        public Boolean IsRegisterd { get; set; }
+        public String Message { get; set; }
     }
 }
