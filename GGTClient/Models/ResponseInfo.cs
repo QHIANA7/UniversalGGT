@@ -29,6 +29,18 @@ namespace GGTClient.Models
     }
 
     /// <summary>
+    /// 로그인에 대한 응답
+    /// </summary>
+    public class Res0003
+    {
+        public Req0003 Request { get; set; }
+        public String UserName { get; set; }
+        public DateTime ResponseTime { get; set; } = DateTime.Now;
+        public Boolean IsLoginSuccess { get; set; }
+        public String Message { get; set; }
+    }
+
+    /// <summary>
     /// 메시지 전송에 대한 응답
     /// </summary>
     public class Res0005

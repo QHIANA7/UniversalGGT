@@ -16,33 +16,33 @@ namespace SignalRGGT.Hubs
     [HubName("GGTHub")]
     public class GGTHub : Hub
     {
-        public void RequestLogin(String id, String pw)
-        {
+        //public void RequestLogin(String id, String pw)
+        //{
 
-            Console.WriteLine($"로그인 요청 : {id} - {pw}");
+        //    Console.WriteLine($"로그인 요청 : {id} - {pw}");
 
-            String UserName = Singleton<DatabaseService>.Instance.GetUserName(id, pw);
-            String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(id, pw);
+        //    String UserName = Singleton<DatabaseService>.Instance.GetUserName(id, pw);
+        //    String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(id, pw);
 
-            if (!String.IsNullOrWhiteSpace(UserName))
-            {
-                if (UserStatus == "O")
-                {
-                    Console.WriteLine($"로그인 성공 {UserName}");
-                    Clients.Caller.ResponseLogin(UserName);
-                }
-                else
-                {
-                    Console.WriteLine($"로그인 실패 : {UserName}");
-                    Clients.Caller.ResponseLogin("이미 로그인 상태입니다");
-                }
-            }
-            else
-            {
-                Console.WriteLine($"로그인 실패 : {id} - {pw}");
-                Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");
-            }
-        }
+        //    if (!String.IsNullOrWhiteSpace(UserName))
+        //    {
+        //        if (UserStatus == "O")
+        //        {
+        //            Console.WriteLine($"로그인 성공 {UserName}");
+        //            Clients.Caller.ResponseLogin(UserName);
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine($"로그인 실패 : {UserName}");
+        //            Clients.Caller.ResponseLogin("이미 로그인 상태입니다");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine($"로그인 실패 : {id} - {pw}");
+        //        Clients.Caller.ResponseLogin("ID 또는 Password가 일치하지 않음");
+        //    }
+        //}
 
         public void ConnectionCheck(String data)
         {
@@ -64,6 +64,35 @@ namespace SignalRGGT.Hubs
             Boolean result = Singleton<DatabaseService>.Instance.InsertCarRegistrationInfo(req.UserID, req.Password,req.UserName);
 
             Res0002 res = new Res0002() { Request = req, IsRegisterd = result, Message = "회원가입 성공" };
+
+            return res;
+        }
+
+        public Res0003 RequestLogin(Req0003 req)
+        {
+
+            String UserName = Singleton<DatabaseService>.Instance.GetUserName(req.UserID, req.Password);
+            String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID, req.Password);
+            String Message = String.Empty;
+            Res0003 res = null;
+            if (!String.IsNullOrWhiteSpace(UserName))
+            {
+                if (UserStatus == "O")
+                {
+                    //Console.WriteLine($"로그인 성공 {UserName}");
+                    res = new Res0003() { Request = req, IsLoginSuccess = true, Message = "로그인 성공" };
+                }
+                else
+                {
+                    //Console.WriteLine($"로그인 실패 : {UserName}");
+                    res = new Res0003() { Request = req, IsLoginSuccess = false, Message = "이미 로그인 상태입니다" };
+                }
+            }
+            else
+            {
+                //Console.WriteLine($"로그인 실패 : {id} - {pw}");
+                res = new Res0003() { Request = req, IsLoginSuccess = false, Message = "ID 또는 Password가 일치하지 않음" };
+            }            
 
             return res;
         }

@@ -134,6 +134,7 @@
         <Viewbox Grid.Column="0" Grid.Row="1" Width="200" Margin="0,50">
             <ProgressRing x:Name="ProgressRing_Information"/>
         </Viewbox>
+        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Bind ViewModel.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Opacity="0"/>
         <Grid Grid.Column="0" Grid.Row="2" x:Name="Grid_Login" Width="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -146,7 +147,7 @@
             </Grid.RowDefinitions>
             <TextBox Grid.Column="1" Grid.Row="0" PlaceholderText="ID를 입력하세요" Text="{x:Bind ViewModel.UserId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <PasswordBox Grid.Column="1" Grid.Row="1" PlaceholderText="PASSWORD를 입력하세요" Password="{x:Bind ViewModel.UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="2" Grid.Row="0" x:Name="Button_Login" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}" Click="Button_Login_Click"/>
+            <Button Grid.Column="2" Grid.Row="0" x:Name="Button_Login" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Login" Style="{ThemeResource ButtonRevealStyle}" Command="{x:Bind ViewModel.Login}"/>
             <Button Grid.Column="2" Grid.Row="1" x:Name="Button_AccountRegister" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Register" Style="{ThemeResource ButtonRevealStyle}" Click="Button_AccountRegister_ClickAsync"/>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="2" x:Name="Grid_Button_Start">

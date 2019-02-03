@@ -129,6 +129,7 @@ namespace GGTClient.Services
         public event EventHandler<HubConnectionDisconnectedEventArgs> HubConnectionDisconnected = null;
         public event EventHandler<Packet0001ReceivedEventArgs> Packet0001Received = null;
         public event EventHandler<Packet0002ReceivedEventArgs> Packet0002Received = null;
+        public event EventHandler<Packet0003ReceivedEventArgs> Packet0003Received = null;
         public event EventHandler<Packet0005ReceivedEventArgs> Packet0005Received = null;
 
         public void StartClient()
@@ -169,11 +170,6 @@ namespace GGTClient.Services
             HubConnectionErrorFired?.Invoke(this, new HubConnectionErrorFiredEventArgs(DateTime.Now, ex, Connection));
         }
 
-        public void RequestLogin(String id, String pw)
-        {
-            GGTHubProxy.Invoke("RequestLogin", new object[] { id, pw });
-        }
-
         public async void RequestIdCheck(String id)
         {
             Req0001 req = new Req0001() { UserID = id };
@@ -188,6 +184,14 @@ namespace GGTClient.Services
             Res0002 res = await GGTHubProxy.Invoke<Res0002>("RequestRegister", req);
 
             Packet0002Received?.Invoke(this, new Packet0002ReceivedEventArgs(req, res));
+        }
+
+        public async void RequestLogin(String id, String pw)
+        {
+            Req0003 req = new Req0003() { UserID = id, Password = pw};
+            Res0003 res = await GGTHubProxy.Invoke<Res0003>("RequestLogin", req);
+
+            Packet0003Received?.Invoke(this, new Packet0003ReceivedEventArgs(req, res));
         }
 
         public async void RequestSendMessage(String id, String name, String msg)

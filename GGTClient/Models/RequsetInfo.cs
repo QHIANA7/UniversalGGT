@@ -27,6 +27,16 @@ namespace GGTClient.Models
     }
 
     /// <summary>
+    /// 로그인에 대한 요청
+    /// </summary>
+    public class Req0003
+    {
+        public String UserID { get; set; }
+        public String Password { get; set; }
+        public DateTime RequestTime { get; set; } = DateTime.Now;
+    }
+
+    /// <summary>
     /// 메시지 전송에 대한 요청
     /// </summary>
     public class Req0005
