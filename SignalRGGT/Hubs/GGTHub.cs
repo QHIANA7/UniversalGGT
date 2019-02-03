@@ -71,21 +71,21 @@ namespace SignalRGGT.Hubs
         public Res0003 RequestLogin(Req0003 req)
         {
 
-            String UserName = Singleton<DatabaseService>.Instance.GetUserName(req.UserID, req.Password);
+            String LoginUserName = Singleton<DatabaseService>.Instance.GetUserName(req.UserID, req.Password);
             String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID, req.Password);
             String Message = String.Empty;
             Res0003 res = null;
-            if (!String.IsNullOrWhiteSpace(UserName))
+            if (!String.IsNullOrWhiteSpace(LoginUserName))
             {
                 if (UserStatus == "O")
                 {
                     //Console.WriteLine($"로그인 성공 {UserName}");
-                    res = new Res0003() { Request = req, IsLoginSuccess = true, Message = "로그인 성공" };
+                    res = new Res0003() { Request = req, IsLoginSuccess = true, UserName = LoginUserName, Message = "로그인 성공" };
                 }
                 else
                 {
                     //Console.WriteLine($"로그인 실패 : {UserName}");
-                    res = new Res0003() { Request = req, IsLoginSuccess = false, Message = "이미 로그인 상태입니다" };
+                    res = new Res0003() { Request = req, IsLoginSuccess = false, UserName = LoginUserName, Message = "이미 로그인 상태입니다" };
                 }
             }
             else

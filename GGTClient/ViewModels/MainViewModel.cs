@@ -75,7 +75,6 @@ namespace GGTClient.ViewModels
                             //user = new UserInfo(UserId, UserPassword);
 
                             Singleton<CommunicationService>.Instance.MainViewModel_Instance = this;
-                            Singleton<CommunicationService>.Instance.HubConnectionErrorFired += CommunicationSerivce_HubConnectionErrorFiredInfo; ;
                             Singleton<CommunicationService>.Instance.StartClient();
                             //UserPassword = Singleton<CommunicationService>.Instance.Result;
                         });
@@ -85,52 +84,14 @@ namespace GGTClient.ViewModels
             }
         }
 
-        private void CommunicationSerivce_HubConnectionErrorFiredInfo(object sender, HubConnectionErrorFiredEventArgs e)
-        {
-            
-        }
-
-        private ICommand _logout;
-        public ICommand Logout
-        {
-            get
-            {
-                if (_logout == null)
-                {
-                    _logout = new RelayCommand(
-                         () =>
-                        {
-                            //user = new UserInfo(UserId, UserPassword);
-                            //Singleton<CommunicationService>.Instance.st();
-                        });
-                }
-
-                return _logout;
-            }
-        }
-
-        private ICommand _msg_send;
-        public ICommand MessageSend
-        {
-            get
-            {
-                if (_msg_send == null)
-                {
-                    _msg_send = new RelayCommand(
-                         () =>
-                         {
-                             //user = new UserInfo(UserId, UserPassword);
-                             //Singleton<CommunicationService>.Instance.Send(Message);
-                         });
-                }
-
-                return _msg_send;
-            }
-        }
-
         public MainViewModel()
         {
+            Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received;
+        }
 
+        private void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
+        {
+            UserName = e.UserName;
         }
     }
 }

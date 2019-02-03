@@ -1,4 +1,5 @@
 ﻿using GGTClient.Helpers;
+using GGTClient.Models;
 using GGTClient.Services;
 using GGTClient.ViewModels;
 using System;
@@ -17,6 +18,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // 빈 페이지 항목 템플릿에 대한 설명은 https://go.microsoft.com/fwlink/?LinkId=234238에 나와 있습니다.
@@ -34,6 +36,45 @@ namespace GGTClient.Views
         {
             this.InitializeComponent();
             Singleton<CommunicationService>.Instance.Packet0005Received += CommunicationService_Packet0005Received;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is UserInfo info)
+            {
+                ViewModel.UserId = info.UserId;
+                ViewModel.UserName = info.UserName;
+            }
+            else
+            {
+                ViewModel.UserId = "ERROR";
+                ViewModel.UserName = "ERROR";
+            }
+
+            base.OnNavigatedTo(e);
+
+            ConnectedAnimation animation_button =ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomButtonAnimation");
+            if (animation_button != null)
+            {
+                animation_button.TryStart(Button_Logout);
+            }
+            ConnectedAnimation animation_textblock = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomTextBlockAnimation");
+            if (animation_textblock != null)
+            {
+                animation_textblock.TryStart(TextBlock_UserName);
+            }
+
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomButtonBackAnimation", Button_Logout);
+
+                // Use the recommended configuration for back animation.
+                //animation.Configuration = new DirectConnectedAnimationConfiguration();
+            }
         }
 
         private void CommunicationService_Packet0005Received(object sender, Events.Packet0005ReceivedEventArgs e)
@@ -63,6 +104,12 @@ namespace GGTClient.Views
                 ViewModel.MessageSend?.Execute(null);
                 ViewModel.Message = String.Empty;
             }
+        }
+
+        private void Button_Logout_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+            //Frame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
         }
     }
 }

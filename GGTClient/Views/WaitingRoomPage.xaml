@@ -28,8 +28,8 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Image Grid.Column="0" Grid.Row="0" Source="/Assets/LockScreenLogo.scale-200.png"/>
-            <TextBlock Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Text="아이디 표시 위치"/>
-            <Button Grid.Column="4" Grid.Row="0" Content="로그아웃" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" x:Name="TextBlock_UserName" HorizontalTextAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Text="{x:Bind ViewModel.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="4" Grid.Row="0" x:Name="Button_Logout" Content="로그아웃" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Logout_Click"/>
         </Grid>
 
         <TextBlock Grid.Column="0" Grid.Row="1" Text="이곳에 대기방 목록이 표시될 예정입니다" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}"/>

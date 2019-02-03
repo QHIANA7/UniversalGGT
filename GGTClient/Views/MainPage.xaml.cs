@@ -1,5 +1,6 @@
 ﻿using GGTClient.Events;
 using GGTClient.Helpers;
+using GGTClient.Models;
 using GGTClient.Services;
 using GGTClient.ViewModels;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -37,7 +38,7 @@ namespace GGTClient.Views
             Singleton<CommunicationService>.Instance.HubConnectionConnected += CommunicationService_HubConnectionConnected;
             Singleton<CommunicationService>.Instance.HubConnectionConnecting += CommunicationService_HubConnectionConnecting;
             Singleton<CommunicationService>.Instance.HubConnectionDisconnected += CommunicationService_HubConnectionDisconnected;
-            Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received; ;
+            Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received;
         }
 
         private async void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
@@ -45,13 +46,15 @@ namespace GGTClient.Views
             if(e.IsLoginSuccess)
             {
                 ProgressRing_Information.IsActive = false;
-                OnDisconnectedStoryboard.Begin();
                 TextBlock_Message.Text = "로그인에 성공하였습니다";
                 NotificationStoryboard.RepeatBehavior = new RepeatBehavior(1);
                 NotificationStoryboard.Begin();
+                LoginSuccessStoryboard.Begin();
 
-                await Task.Delay(5000);
-                Frame.Navigate(typeof(WaitingRoomPage), null, new SuppressNavigationTransitionInfo());
+                await Task.Delay(2000);
+
+                UserInfo info = new UserInfo(ViewModel.UserId, ViewModel.UserPassword, ViewModel.UserName);
+                Frame.Navigate(typeof(WaitingRoomPage), info, new DrillInNavigationTransitionInfo());
             }
             else
             {
@@ -62,6 +65,8 @@ namespace GGTClient.Views
                     CloseButtonText = "닫기",
                     DefaultButton = ContentDialogButton.Close
                 };
+                dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
+                dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
                 await dialog.ShowAsync();
             }
         }
@@ -140,7 +145,19 @@ namespace GGTClient.Views
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            //ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("forwardAnimation", SourceImage);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomButtonAnimation", Button_Login);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomTextBlockAnimation", TextBlock_UserName);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomButtonBackAnimation");
+            if (animation != null)
+            {
+                animation.TryStart(Button_Login);
+            }
         }
     }
 }

@@ -28,16 +28,6 @@
             </DoubleAnimation>
         </Storyboard>
         <Storyboard x:Name="OnConnectedStoryboard">
-            <!--<DoubleAnimation
-                 BeginTime="0:0:0"
-        Storyboard.TargetName="Button_Connect"
-        Storyboard.TargetProperty="Width"
-        To="0" Duration="0:0:0.5"
-                EnableDependentAnimation="True">
-                <DoubleAnimation.EasingFunction>
-                    <ExponentialEase EasingMode="EaseIn" Exponent="8"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>-->
             <DoubleAnimation
                  BeginTime="0:0:0"
         Storyboard.TargetName="Grid_Login"
@@ -113,6 +103,17 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <Storyboard x:Name="LoginSuccessStoryboard">
+            <DoubleAnimation
+        Storyboard.TargetName="TextBlock_UserName"
+        Storyboard.TargetProperty="Opacity"
+        From="0" To="1" Duration="0:0:2"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </Page.Resources>
     <Page.Transitions>
         <TransitionCollection>
@@ -134,7 +135,7 @@
         <Viewbox Grid.Column="0" Grid.Row="1" Width="200" Margin="0,50">
             <ProgressRing x:Name="ProgressRing_Information"/>
         </Viewbox>
-        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Bind ViewModel.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Opacity="0"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" x:Name="TextBlock_UserName" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Bind ViewModel.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Opacity="0"/>
         <Grid Grid.Column="0" Grid.Row="2" x:Name="Grid_Login" Width="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
