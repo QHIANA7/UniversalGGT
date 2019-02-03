@@ -38,4 +38,20 @@ namespace GGTClient.Events
             Response = res;
         }
     }
+
+    public class Packet0005ReceivedEventArgs : EventArgs
+    {
+        public Req0005 Request { get; private set; }
+        public Res0005 Response { get; private set; }
+        public String Message { get => Response.Message; }
+        public String SendFrom { get => Request.UserName; }
+        public DateTime RequestTime { get => Request.RequestTime; }
+        public DateTime ResponseTime { get => Response.ResponseTime; }
+
+        internal Packet0005ReceivedEventArgs(Req0005 req, Res0005 res)
+        {
+            Request = req;
+            Response = res;
+        }
+    }
 }

@@ -25,4 +25,15 @@ namespace GGTClient.Models
         public String UserName { get; set; }
         public DateTime RequestTime { get; set; } = DateTime.Now;
     }
+
+    /// <summary>
+    /// 메시지 전송에 대한 요청
+    /// </summary>
+    public class Req0005
+    {
+        public String UserID { get; set; }
+        public String UserName { get; set; }
+        public String Message { get; set; }
+        public DateTime RequestTime { get; set; } = DateTime.Now;
+    }
 }

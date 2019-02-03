@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Windows.UI.Xaml.Media.Animation;
 
 // 빈 페이지 항목 템플릿에 대한 설명은 https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x412에 나와 있습니다.
 
@@ -118,6 +119,19 @@ namespace GGTClient.Views
                 dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
                 await dialog.ShowAsync();
             }
+        }
+
+        private void Button_Login_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                Frame.Navigate(typeof(WaitingRoomPage), null, new SuppressNavigationTransitionInfo());
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            //ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("forwardAnimation", SourceImage);
         }
     }
 }

@@ -44,8 +44,6 @@ namespace SignalRGGT.Hubs
             }
         }
 
-
-
         public void ConnectionCheck(String data)
         {
             Console.WriteLine($"연결 체크");
@@ -70,6 +68,11 @@ namespace SignalRGGT.Hubs
             return res;
         }
 
+        public void RequestSendMessage(Req0005 req)
+        {
+            Res0005 res = new Res0005() { Request = req };
+            Clients.All.ResponseSendMessage(req, res);
+        }
 
         public override Task OnConnected()
         {

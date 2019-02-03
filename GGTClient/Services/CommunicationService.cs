@@ -129,6 +129,7 @@ namespace GGTClient.Services
         public event EventHandler<HubConnectionDisconnectedEventArgs> HubConnectionDisconnected = null;
         public event EventHandler<Packet0001ReceivedEventArgs> Packet0001Received = null;
         public event EventHandler<Packet0002ReceivedEventArgs> Packet0002Received = null;
+        public event EventHandler<Packet0005ReceivedEventArgs> Packet0005Received = null;
 
         public void StartClient()
         {
@@ -138,6 +139,7 @@ namespace GGTClient.Services
             Connection.Error += Connection_Error;
             Connection.StateChanged += Connection_StateChanged;
             GGTHubProxy.On<String>("ResponseLogin", ResponseLogin);
+            GGTHubProxy.On<Req0005, Res0005>("ResponseSendMessage", ResponseSendMessage);
             Connection.Start();
         }
 
@@ -188,12 +190,26 @@ namespace GGTClient.Services
             Packet0002Received?.Invoke(this, new Packet0002ReceivedEventArgs(req, res));
         }
 
+        public async void RequestSendMessage(String id, String name, String msg)
+        {
+            Req0005 req = new Req0005() { UserID = id, UserName = name, Message = msg };
+           await GGTHubProxy.Invoke("RequestSendMessage", req);
+        }
+
         private async void ResponseLogin(String username)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 MainViewModel_Instance.UserName = username;
             });
+        }
+
+        private async void ResponseSendMessage(Req0005 req,Res0005 res)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Packet0005Received?.Invoke(this, new Packet0005ReceivedEventArgs(req, res));
+            });            
         }
 
         #endregion

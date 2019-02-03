@@ -27,4 +27,15 @@ namespace SignalRGGT.Models
         public Boolean IsRegisterd { get; set; }
         public String Message { get; set; }
     }
+
+    /// <summary>
+    /// 메시지 전송에 대한 응답
+    /// </summary>
+    public class Res0005
+    {
+        public Req0005 Request { get; set; }
+        public DateTime ResponseTime { get; set; } = DateTime.Now;
+        public String SendFrom { get => Request.UserName; }
+        public String Message { get => $"[{Request.RequestTime.ToShortTimeString()}] [{SendFrom}] {Request.Message}"; }
+    }
 }
