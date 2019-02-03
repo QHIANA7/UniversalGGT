@@ -146,6 +146,7 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ViewModels\AccountRegisterViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\WaitingRoomViewModel.cs" />
     <Compile Include="Views\AccountRegisterContentDialog.xaml.cs">
       <DependentUpon>AccountRegisterContentDialog.xaml</DependentUpon>
     </Compile>
