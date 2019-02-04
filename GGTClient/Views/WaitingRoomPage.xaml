@@ -46,7 +46,12 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" x:Name="ListView_Message" Background="LightBlue" ItemsSource="{x:Bind ViewModel.MessageList}">
+            <ListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" x:Name="ListView_Message" Background="LightBlue" ItemsSource="{x:Bind ViewModel.MessageList}" IsHitTestVisible="False">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel VerticalAlignment="Bottom" ItemsUpdatingScrollMode="KeepLastItemInView"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
                 <ListView.ItemContainerTransitions>
                     <TransitionCollection>
                         <AddDeleteThemeTransition/>

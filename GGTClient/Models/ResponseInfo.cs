@@ -50,4 +50,8 @@ namespace GGTClient.Models
         public String SendFrom { get => Request.UserName; }
         public String Message { get => $"[{Request.RequestTime.ToString("HH:mm:ss")}] [{SendFrom}] {Request.Message}"; }
     }
+
+
+
+
 }

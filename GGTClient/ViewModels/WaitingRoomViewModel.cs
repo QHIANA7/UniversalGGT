@@ -53,7 +53,8 @@ namespace GGTClient.ViewModels
                     _message_send = new RelayCommand(
                         () =>
                         {
-                            Singleton<CommunicationService>.Instance.RequestSendMessage(UserId, UserName, Message);
+                            if(!String.IsNullOrWhiteSpace(Message))
+                                Singleton<CommunicationService>.Instance.RequestSendMessage(UserId, UserName, Message);
                         });
                 }
 
