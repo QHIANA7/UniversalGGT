@@ -178,7 +178,7 @@ namespace SignalRGGT.Services
             Int32 EffectedRowCount = 0;
             try
             {
-                String query = String.Format($"UPDATE TB_USERINFO SET CONNECTION_ID = @ConnectionID WHERE USER_ID = @UserID)");
+                String query = String.Format($"UPDATE TB_USERINFO SET CONNECTION_ID = @ConnectionID WHERE USER_ID = @UserID");
                 OpenAsync();
                 using (SqlCommand command = new SqlCommand(query, Connection))
                 {
