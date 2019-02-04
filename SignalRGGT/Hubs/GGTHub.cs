@@ -49,7 +49,7 @@ namespace SignalRGGT.Hubs
                     if (UpdateResult)
                         res = new Res0003() { Request = req, IsLoginSuccess = true, UserName = LoginUserName, Message = "로그인 성공" };
                     else
-                        res = new Res0003() { Request = req, IsLoginSuccess = false, UserName = LoginUserName, Message = "로그인에 성공했으나 연결ID 갱신 문제 발생" };
+                        res = new Res0003() { Request = req, IsLoginSuccess = false, UserName = LoginUserName, Message = "로그인에 성공했으나 연결ID 갱신 문제 발생 " + this.Context.ConnectionId };
                 }
                 else
                 {
