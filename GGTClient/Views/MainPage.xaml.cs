@@ -49,15 +49,16 @@ namespace GGTClient.Views
                 TextBlock_Message.Text = "로그인에 성공하였습니다";
                 NotificationStoryboard.RepeatBehavior = new RepeatBehavior(1);
                 NotificationStoryboard.Begin();
-                LoginSuccessStoryboard.Begin();
+                OnLoginSuccessStoryboard.Begin();
 
-                await Task.Delay(2000);
+                //await Task.Delay(2000);
 
-                UserInfo info = new UserInfo(ViewModel.UserId, ViewModel.UserPassword, ViewModel.UserName);
-                Frame.Navigate(typeof(WaitingRoomPage), info, new DrillInNavigationTransitionInfo());
+                //UserInfo info = new UserInfo(ViewModel.UserId, ViewModel.UserPassword, ViewModel.UserName);
+               // Frame.Navigate(typeof(WaitingRoomPage), info, new DrillInNavigationTransitionInfo());
             }
             else
             {
+                OnLoginFailedStoryboard.Begin();
                 ContentDialog dialog = new ContentDialog()
                 {
                     Title = "로그인 실패",
@@ -157,6 +158,14 @@ namespace GGTClient.Views
             if (animation != null)
             {
                 animation.TryStart(Button_Login);
+            }
+        }
+
+        private void Button_Login_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                OnLoginTryingStoryboard.Begin();
             }
         }
     }

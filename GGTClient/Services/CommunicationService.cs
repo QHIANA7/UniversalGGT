@@ -131,6 +131,8 @@ namespace GGTClient.Services
         public event EventHandler<Packet0002ReceivedEventArgs> Packet0002Received = null;
         public event EventHandler<Packet0003ReceivedEventArgs> Packet0003Received = null;
         public event EventHandler<Packet0005ReceivedEventArgs> Packet0005Received = null;
+        public event EventHandler<Packet0006ReceivedEventArgs> Packet0006Received = null;
+        public event EventHandler<Packet0007ReceivedEventArgs> Packet0007Received = null;
 
         public void StartClient()
         {
@@ -189,7 +191,7 @@ namespace GGTClient.Services
 
         public async void RequestLogin(String id, String pw)
         {
-            Req0003 req = new Req0003() { UserID = id, Password = pw};
+            Req0003 req = new Req0003() { UserID = id, Password = pw };
             Res0003 res = await GGTHubProxy.Invoke<Res0003>("RequestLogin", req);
 
             Packet0003Received?.Invoke(this, new Packet0003ReceivedEventArgs(req, res));
@@ -198,7 +200,13 @@ namespace GGTClient.Services
         public async void RequestSendMessage(String id, String name, String msg)
         {
             Req0005 req = new Req0005() { UserID = id, UserName = name, Message = msg };
-           await GGTHubProxy.Invoke("RequestSendMessage", req);
+            await GGTHubProxy.Invoke("RequestSendMessage", req);
+        }
+
+        public async void RequestJoinGroup(String id, String group_name)
+        {
+            Req0006 req = new Req0006() { UserID = id, GroupName = group_name};
+            await GGTHubProxy.Invoke("RequestJoinGroup", req);
         }
 
         private async void ResponseLogin(String username)
@@ -209,12 +217,12 @@ namespace GGTClient.Services
             });
         }
 
-        private async void ResponseSendMessage(Req0005 req,Res0005 res)
+        private async void ResponseSendMessage(Req0005 req, Res0005 res)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 Packet0005Received?.Invoke(this, new Packet0005ReceivedEventArgs(req, res));
-            });            
+            });
         }
 
         #endregion

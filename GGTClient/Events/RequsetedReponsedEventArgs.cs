@@ -60,12 +60,42 @@ namespace GGTClient.Events
     {
         public Req0005 Request { get; private set; }
         public Res0005 Response { get; private set; }
-        public String Message { get => Response.Message; }
+        public String Message { get => Response.UserMessage; }
         public String SendFrom { get => Request.UserName; }
         public DateTime RequestTime { get => Request.RequestTime; }
         public DateTime ResponseTime { get => Response.ResponseTime; }
 
         internal Packet0005ReceivedEventArgs(Req0005 req, Res0005 res)
+        {
+            Request = req;
+            Response = res;
+        }
+    }
+
+    public class Packet0006ReceivedEventArgs : EventArgs
+    {
+        public Req0006 Request { get; private set; }
+        public Res0006 Response { get; private set; }
+        public String Message { get => Response.Message; }
+        public DateTime RequestTime { get => Request.RequestTime; }
+        public DateTime ResponseTime { get => Response.ResponseTime; }
+
+        internal Packet0006ReceivedEventArgs(Req0006 req, Res0006 res)
+        {
+            Request = req;
+            Response = res;
+        }
+    }
+
+    public class Packet0007ReceivedEventArgs : EventArgs
+    {
+        public Req0007 Request { get; private set; }
+        public Res0007 Response { get; private set; }
+        public String Message { get => Response.Message; }
+        public DateTime RequestTime { get => Request.RequestTime; }
+        public DateTime ResponseTime { get => Response.ResponseTime; }
+
+        internal Packet0007ReceivedEventArgs(Req0007 req, Res0007 res)
         {
             Request = req;
             Response = res;
