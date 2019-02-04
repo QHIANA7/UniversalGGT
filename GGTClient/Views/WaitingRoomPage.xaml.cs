@@ -35,7 +35,6 @@ namespace GGTClient.Views
         public WaitingRoomPage()
         {
             this.InitializeComponent();
-            Singleton<CommunicationService>.Instance.Packet0005Received += CommunicationService_Packet0005Received;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -76,27 +75,6 @@ namespace GGTClient.Views
                 //animation.Configuration = new DirectConnectedAnimationConfiguration();
             }
         }
-
-        private void CommunicationService_Packet0005Received(object sender, Events.Packet0005ReceivedEventArgs e)
-        {
-            //RichEditBox_Message.Document.SetText(Windows.UI.Text.TextSetOptions.None, e.Response.Message + Environment.NewLine);
-            //RichEditBox_Message.Document.SetText(Windows.UI.Text.TextSetOptions.None, e.Response.Message + Environment.NewLine);
-            String Message = e.Response.Message;
-            Paragraph paragraph = new Paragraph();
-            Inline inline = null;
-            if (e.Response.SendFrom.Equals(ViewModel.UserName))
-            {                 
-                inline = new Run() { Text = Message, FontSize = 10, Foreground = new SolidColorBrush(Colors.Blue) };
-            }
-            else
-            {
-                inline = new Run() { Text = Message, FontSize = 10 };
-            }
-            paragraph.Inlines.Add(inline);
-            //RichEditBox_Message.Document
-            RichTextBlock_Message.Blocks.Add(paragraph);
-        }
-
         private void TextBox_Message_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)

@@ -1,7 +1,9 @@
 ﻿using GGTClient.Helpers;
+using GGTClient.Models;
 using GGTClient.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,8 @@ namespace GGTClient.ViewModels
 {
     public class WaitingRoomViewModel : Observable
     {
+        public ObservableCollection<MessageInfo> MessageList = new ObservableCollection<MessageInfo>();
+
         private String _user_id = String.Empty;
         public String UserId
         {
@@ -59,8 +63,17 @@ namespace GGTClient.ViewModels
 
         public WaitingRoomViewModel()
         {
-            
+            Singleton<CommunicationService>.Instance.Packet0005Received += CommunicationService_Packet0005Received;
         }
+
+        private void CommunicationService_Packet0005Received(object sender, Events.Packet0005ReceivedEventArgs e)
+        {
+            if (e.SendFrom.Equals(UserName))
+                MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Response.Message, true));
+            else
+                MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Response.Message, false));
+        }
+
 
     }
 }
