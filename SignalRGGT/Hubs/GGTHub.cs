@@ -27,7 +27,7 @@ namespace SignalRGGT.Hubs
 
         public Res0002 RequestRegister(Req0002 req)
         {
-            Boolean result = Singleton<DatabaseService>.Instance.InsertCarRegistrationInfo(req.UserID, req.Password,req.UserName);
+            Boolean result = Singleton<DatabaseService>.Instance.InsertUserInfo(req.UserID, req.Password,req.UserName);
 
             Res0002 res = new Res0002() { Request = req, IsRegisterd = result, Message = "회원가입 성공" };
 
@@ -45,18 +45,19 @@ namespace SignalRGGT.Hubs
             {
                 if (UserStatus == "O")
                 {
-                    //Console.WriteLine($"로그인 성공 {UserName}");
-                    res = new Res0003() { Request = req, IsLoginSuccess = true, UserName = LoginUserName, Message = "로그인 성공" };
+                    Boolean UpdateResult = Singleton<DatabaseService>.Instance.UpdateConnectionID(req.UserID, this.Context.ConnectionId);
+                    if (UpdateResult)
+                        res = new Res0003() { Request = req, IsLoginSuccess = true, UserName = LoginUserName, Message = "로그인 성공" };
+                    else
+                        res = new Res0003() { Request = req, IsLoginSuccess = false, UserName = LoginUserName, Message = "로그인에 성공했으나 연결ID 갱신 문제 발생" };
                 }
                 else
                 {
-                    //Console.WriteLine($"로그인 실패 : {UserName}");
                     res = new Res0003() { Request = req, IsLoginSuccess = false, UserName = LoginUserName, Message = "이미 로그인 상태입니다" };
                 }
             }
             else
             {
-                //Console.WriteLine($"로그인 실패 : {id} - {pw}");
                 res = new Res0003() { Request = req, IsLoginSuccess = false, Message = "ID 또는 Password가 일치하지 않음" };
             }            
 

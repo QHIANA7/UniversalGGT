@@ -81,4 +81,12 @@ namespace GGTClient.Models
         /// </summary>
         PlayingRoom
     }
+
+    /// <summary>
+    /// 사용자 상태에 대한 열거형
+    /// </summary>
+    public enum UserState
+    {
+
+    }
 }

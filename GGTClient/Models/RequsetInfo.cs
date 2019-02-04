@@ -54,6 +54,7 @@ namespace GGTClient.Models
     public class Req0006 : RequestPacket
     {
         public String UserID { get; set; }
+        public String GroupName { get; set; }
     }
 
     /// <summary>
@@ -62,5 +63,6 @@ namespace GGTClient.Models
     public class Req0007 : RequestPacket
     {
         public String UserID { get; set; }
+        public String GroupName { get; set; }
     }
 }

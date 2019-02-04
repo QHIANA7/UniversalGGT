@@ -95,7 +95,6 @@ namespace SignalRGGT.Services
             }
         }
 
-
         // 로그인 여부 확인
         public String GetUserStatus(String id, String pw)
         {
@@ -136,7 +135,7 @@ namespace SignalRGGT.Services
         /// <param name="owner">등록차량의 소유자</param>
         /// <param name="carType">등록차량의 차종</param>
         /// <returns>Insert문의 결과로 1개의 레코드가 영향을 받았을경우 true, 그렇지 않으면 false 입니다.</returns>
-        public Boolean InsertCarRegistrationInfo(String id, String pw, String name)
+        public Boolean InsertUserInfo(String id, String pw, String name)
         {
             Int32 EffectedRowCount = 0;
             try
@@ -168,6 +167,43 @@ namespace SignalRGGT.Services
             }
         }
 
+        /// <summary>
+        /// 사용자의 연결ID를 갱신합니다.
+        /// </summary>
+        /// <param name="id">사용자의 ID</param>
+        /// <param name="ConnectionID">사용자의 연결ID</param>
+        /// <returns></returns>
+        public Boolean UpdateConnectionID(String id, String connection_id)
+        {
+            Int32 EffectedRowCount = 0;
+            try
+            {
+                String query = String.Format($"UPDATE TB_USERINFO SET CONNECTION_ID = @ConnectionID WHERE USER_ID = @UserID)");
+                OpenAsync();
+                using (SqlCommand command = new SqlCommand(query, Connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    command.Parameters.Add(new SqlParameter("@ConnectionID", connection_id));
+
+                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                }
+                Close();
+
+                if (EffectedRowCount == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        
         #endregion
     }
 }
