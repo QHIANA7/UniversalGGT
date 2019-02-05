@@ -96,17 +96,17 @@ namespace SignalRGGT.Services
         }
 
         // 로그인 여부 확인
-        public String GetUserStatus(String id, String pw)
+        public String GetUserStatus(String id)
         {
             String result = String.Empty;
             try
             {
-                String query = String.Format($"SELECT USER_STATUS FROM TB_USERINFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
+                String query = String.Format($"SELECT USER_STATUS FROM TB_USERINFO WHERE USER_ID = @UserID");
                 OpenAsync();
                 using (SqlCommand command = new SqlCommand(query, Connection))
                 {
                     command.Parameters.Add(new SqlParameter("@UserID", id));
-                    command.Parameters.Add(new SqlParameter("@UserPassword", pw));
+                    //command.Parameters.Add(new SqlParameter("@UserPassword", pw));
                     using (SqlDataReader dataReader = command.ExecuteReader())
                     {
                         while (dataReader.Read())
@@ -203,7 +203,75 @@ namespace SignalRGGT.Services
                 return false;
             }
         }
-        
+
+        /// <summary>
+        /// 사용자를 로그인 상태로 갱신합니다.
+        /// </summary>
+        /// <param name="id">사용자의 ID</param>
+        /// <returns></returns>
+        public Boolean UpdateUserLogin(String id)
+        {
+            Int32 EffectedRowCount = 0;
+            try
+            {
+                String query = String.Format($"UPDATE TB_USERINFO SET USER_STATUS = 'X' WHERE USER_ID = @UserID");
+                OpenAsync();
+                using (SqlCommand command = new SqlCommand(query, Connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                }
+                Close();
+
+                if (EffectedRowCount == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 사용자를 로그아웃 상태로 갱신합니다.
+        /// </summary>
+        /// <param name="id">사용자의 ID</param>
+        /// <returns></returns>
+        public Boolean UpdateUserLogout(String id)
+        {
+            Int32 EffectedRowCount = 0;
+            try
+            {
+                String query = String.Format($"UPDATE TB_USERINFO SET USER_STATUS = 'O' WHERE USER_ID = @UserID");
+                OpenAsync();
+                using (SqlCommand command = new SqlCommand(query, Connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                }
+                Close();
+
+                if (EffectedRowCount == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         #endregion
     }
 }

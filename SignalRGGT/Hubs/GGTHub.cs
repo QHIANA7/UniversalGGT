@@ -38,18 +38,27 @@ namespace SignalRGGT.Hubs
         {
 
             String LoginUserName = Singleton<DatabaseService>.Instance.GetUserName(req.UserID, req.Password);
-            String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID, req.Password);
             String Message = String.Empty;
             Res0003 res = null;
             if (!String.IsNullOrWhiteSpace(LoginUserName))
             {
+                String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID);
                 if (UserStatus == "O")
                 {
-                    Boolean UpdateResult = Singleton<DatabaseService>.Instance.UpdateConnectionID(req.UserID, this.Context.ConnectionId);
-                    if (UpdateResult)
-                        res = new Res0003() { Request = req, IsLoginSuccess = true, UserName = LoginUserName, Message = "로그인 성공" };
+                    Boolean ConnectionIDUpdateResult = Singleton<DatabaseService>.Instance.UpdateConnectionID(req.UserID, this.Context.ConnectionId);
+                    Boolean UserLoginUpdateResult = Singleton<DatabaseService>.Instance.UpdateUserLogin(req.UserID);
+                    if(ConnectionIDUpdateResult & UserLoginUpdateResult)
+                    {
+                        UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID);
+                        if (UserStatus.Equals("X"))
+                            res = new Res0003() { Request = req, IsLoginSuccess = true, UserName = LoginUserName, Message = "로그인 성공" };
+                        else
+                            res = new Res0003() { Request = req, IsLoginSuccess = false, UserName = LoginUserName, Message = "로그인에 성공했으나 연결ID 갱신 문제 발생" };
+                    }
                     else
-                        res = new Res0003() { Request = req, IsLoginSuccess = false, UserName = LoginUserName, Message = "로그인에 성공했으나 연결ID 갱신 문제 발생"};
+                    {
+                        res = new Res0003() { Request = req, IsLoginSuccess = false, UserName = LoginUserName, Message = "로그인에 성공했으나 DB 갱신 문제 발생" };
+                    }
                 }
                 else
                 {
@@ -66,7 +75,29 @@ namespace SignalRGGT.Hubs
 
         public Res0004 RequestLogout(Req0004 req)
         {
-
+            Res0004 res = null;
+            String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID);
+            if (UserStatus.Equals("O"))
+            {
+                res = new Res0004() { Request = req, IsLogoutSuccess = false, Message = "로그인 상태가 아닙니다" };
+            }
+            else
+            {
+                Boolean UserLoginUpdateResult = Singleton<DatabaseService>.Instance.UpdateUserLogout(req.UserID);
+                if (UserLoginUpdateResult)
+                {
+                    UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID);
+                    if (UserStatus.Equals("O"))
+                        res = new Res0004() { Request = req, IsLogoutSuccess = true, Message = "로그아웃 성공" };
+                    else
+                        res = new Res0004() { Request = req, IsLogoutSuccess = false, Message = "로그아웃에 성공했으나 DB 갱신 문제 발생" };
+                }
+                else
+                {
+                    res = new Res0004() { Request = req, IsLogoutSuccess = false, Message = "로그아웃에 성공했으나 DB 갱신 문제 발생" };
+                }
+            }
+            return res;
         }
 
         public void RequestSendMessage(Req0005 req)
