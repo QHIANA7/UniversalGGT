@@ -147,7 +147,40 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <Storyboard x:Name="OnLogoutFailedStoryboard">
+            <DoubleAnimation
+                 BeginTime="0:0:0"
+        Storyboard.TargetName="Grid_Entrance"
+        Storyboard.TargetProperty="Width"
+        To="500" Duration="0:0:1"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
 
+        <Storyboard x:Name="OnLogoutSuccessStoryboard">
+            <DoubleAnimation
+        Storyboard.TargetName="TextBlock_UserName"
+        Storyboard.TargetProperty="Opacity"
+        To="0" Duration="0:0:2"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation
+                 BeginTime="0:0:2"
+        Storyboard.TargetName="Grid_Login"
+        Storyboard.TargetProperty="Width"
+        To="500" Duration="0:0:1"
+                EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </Page.Resources>
     <Page.Transitions>
         <TransitionCollection>
@@ -178,14 +211,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button Grid.Column="0" Grid.Row="0" Background="LimeGreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Entrance}">
+            <Button Grid.Column="0" Grid.Row="0" Background="LimeGreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Entrance}" IsEnabled="{x:Bind ViewModel.LogoutEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Button.Content>
-                    <TextBlock Text="입장" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                    <TextBlock Text="입장" Margin="-25,0" Style="{StaticResource SubheaderTextBlockStyle}"/>
                 </Button.Content>
             </Button>
-            <Button Grid.Column="1" Grid.Row="0" Background="LightPink" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Logout}" Click="Button_Logout_Click">
+            <Button Grid.Column="1" Grid.Row="0" Background="LightPink" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Logout}" IsEnabled="{x:Bind ViewModel.LogoutEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="Button_Logout_Click">
                 <Button.Content>
-                    <TextBlock Text="로그아웃" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                    <TextBlock Text="로그아웃" Margin="-50,0" Style="{StaticResource SubheaderTextBlockStyle}"/>
                 </Button.Content>
             </Button>
         </Grid>

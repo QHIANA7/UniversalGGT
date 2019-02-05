@@ -39,6 +39,7 @@ namespace GGTClient.Views
             Singleton<CommunicationService>.Instance.HubConnectionConnecting += CommunicationService_HubConnectionConnecting;
             Singleton<CommunicationService>.Instance.HubConnectionDisconnected += CommunicationService_HubConnectionDisconnected;
             Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received;
+            Singleton<CommunicationService>.Instance.Packet0004Received += CommunicationService_Packet0004Received;
         }
 
         private async void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
@@ -50,11 +51,6 @@ namespace GGTClient.Views
                 NotificationStoryboard.RepeatBehavior = new RepeatBehavior(1);
                 NotificationStoryboard.Begin();
                 OnLoginSuccessStoryboard.Begin();
-
-                //await Task.Delay(2000);
-
-                //UserInfo info = new UserInfo(ViewModel.UserId, ViewModel.UserPassword, ViewModel.UserName);
-               // Frame.Navigate(typeof(WaitingRoomPage), info, new DrillInNavigationTransitionInfo());
             }
             else
             {
@@ -62,6 +58,32 @@ namespace GGTClient.Views
                 ContentDialog dialog = new ContentDialog()
                 {
                     Title = "로그인 실패",
+                    Content = $"{e.Message}",
+                    CloseButtonText = "닫기",
+                    DefaultButton = ContentDialogButton.Close
+                };
+                dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
+                dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
+                await dialog.ShowAsync();
+            }
+        }
+
+        private async void CommunicationService_Packet0004Received(object sender, Packet0004ReceivedEventArgs e)
+        {
+            if (e.IsLogoutSuccess)
+            {
+                ProgressRing_Information.IsActive = false;
+                TextBlock_Message.Text = "로그아웃에 성공하였습니다";
+                NotificationStoryboard.RepeatBehavior = new RepeatBehavior(1);
+                NotificationStoryboard.Begin();
+                OnLogoutSuccessStoryboard.Begin();
+            }
+            else
+            {
+                OnLogoutFailedStoryboard.Begin();
+                ContentDialog dialog = new ContentDialog()
+                {
+                    Title = "로그아웃 실패",
                     Content = $"{e.Message}",
                     CloseButtonText = "닫기",
                     DefaultButton = ContentDialogButton.Close

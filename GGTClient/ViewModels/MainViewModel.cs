@@ -48,6 +48,13 @@ namespace GGTClient.ViewModels
             set { Set(ref _login_enable, value); }
         }
 
+        private Boolean _logout_enable = true;
+        public Boolean LogoutEnable
+        {
+            get { return _logout_enable; }
+            set { Set(ref _logout_enable, value); }
+        }
+
         private ICommand _login;
         public ICommand Login
         {
@@ -78,9 +85,9 @@ namespace GGTClient.ViewModels
                         () =>
                         {
                             Singleton<CommunicationService>.Instance.RequestLogout(UserId);
+                            LogoutEnable = false;
                         });
                 }
-
                 return _logout;
             }
         }
@@ -128,6 +135,7 @@ namespace GGTClient.ViewModels
         public MainViewModel()
         {
             Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received;
+            Singleton<CommunicationService>.Instance.Packet0004Received += CommunicationService_Packet0004Received;
         }
 
         private void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
@@ -136,10 +144,27 @@ namespace GGTClient.ViewModels
             if(e.IsLoginSuccess)
             {
                 LoginEnable = false;
+                LogoutEnable = true;
             }
             else
             {
                 LoginEnable = true;
+            }
+        }
+
+        private void CommunicationService_Packet0004Received(object sender, Packet0004ReceivedEventArgs e)
+        {
+            //UserName = String.Empty;
+            if (e.IsLogoutSuccess)
+            {
+                LogoutEnable = false;
+                LoginEnable = true;
+                UserId = String.Empty;
+                UserPassword = String.Empty;
+            }
+            else
+            {
+                LogoutEnable = true;
             }
         }
     }
