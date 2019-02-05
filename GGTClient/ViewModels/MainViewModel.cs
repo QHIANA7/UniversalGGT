@@ -77,11 +77,29 @@ namespace GGTClient.ViewModels
                     _logout = new RelayCommand(
                         () =>
                         {
-                            Singleton<CommunicationService>.Instance.RequestLogin(UserId, UserPassword);
+                            Singleton<CommunicationService>.Instance.RequestLogout(UserId);
                         });
                 }
 
                 return _logout;
+            }
+        }
+
+        private ICommand _entrance;
+        public ICommand Entrance
+        {
+            get
+            {
+                if (_entrance == null)
+                {
+                    _entrance = new RelayCommand(
+                        () =>
+                        {
+
+                        });
+                }
+
+                return _entrance;
             }
         }
 

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace GGTClient.Models
+namespace SignalRGGT.Models
 {
     /// <summary>
     /// ID중복검사에 대한 응답코드

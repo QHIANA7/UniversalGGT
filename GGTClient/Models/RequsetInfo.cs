@@ -39,6 +39,14 @@ namespace GGTClient.Models
     }
 
     /// <summary>
+    /// 로그아웃에 대한 요청
+    /// </summary>
+    public class Req0004 : RequestPacket
+    {
+        public String UserID { get; set; }
+    }
+
+    /// <summary>
     /// 메시지 전송에 대한 요청
     /// </summary>
     public class Req0005 : RequestPacket

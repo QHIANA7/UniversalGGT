@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
 
 namespace GGTClient.Services
 {
@@ -130,11 +131,12 @@ namespace GGTClient.Services
         public event EventHandler<Packet0001ReceivedEventArgs> Packet0001Received = null;
         public event EventHandler<Packet0002ReceivedEventArgs> Packet0002Received = null;
         public event EventHandler<Packet0003ReceivedEventArgs> Packet0003Received = null;
+        public event EventHandler<Packet0004ReceivedEventArgs> Packet0004Received = null;
         public event EventHandler<Packet0005ReceivedEventArgs> Packet0005Received = null;
         public event EventHandler<Packet0006ReceivedEventArgs> Packet0006Received = null;
         public event EventHandler<Packet0007ReceivedEventArgs> Packet0007Received = null;
 
-        public void StartClient()
+        public CommunicationService()
         {
             //Connection = new HubConnection("http://ggtsvr.azurewebsites.net/");
             Connection = new HubConnection("http://222.236.27.169:63000/");
@@ -144,7 +146,50 @@ namespace GGTClient.Services
             Connection.StateChanged += Connection_StateChanged;
             GGTHubProxy.On<String>("ResponseLogin", ResponseLogin);
             GGTHubProxy.On<Req0005, Res0005>("ResponseSendMessage", ResponseSendMessage);
-            Connection.Start();
+        }
+
+        public async void StartClient()
+        {
+            try
+            {
+                if (Connection.State != ConnectionState.Connected && Connection.State != ConnectionState.Connecting)
+                    await Connection.Start();
+                else
+                {
+                    ContentDialog dialog = new ContentDialog()
+                    {
+                        Title = "GGT서버 접속 시도 실패",
+                        Content = $"이미 접속중이거나 접속 시도중입니다.",
+                        CloseButtonText = "닫기",
+                        DefaultButton = ContentDialogButton.Close
+                    };
+                    await dialog.ShowAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                ContentDialog dialog = new ContentDialog()
+                {
+                    Title = "GGT서버 접속 시도 실패",
+                    Content = $"{ex.Message}",
+                    CloseButtonText = "닫기",
+                    DefaultButton = ContentDialogButton.Close
+                };
+                await dialog.ShowAsync();
+                StopClient();
+            }
+        }
+
+        public void StopClient()
+        {
+            try
+            {
+                Connection.Stop();
+            }
+            catch (Exception ex)
+            {
+                Connection.Stop(ex);
+            }
         }
 
         private void Connection_StateChanged(StateChange obj)
@@ -173,6 +218,10 @@ namespace GGTClient.Services
             HubConnectionErrorFired?.Invoke(this, new HubConnectionErrorFiredEventArgs(DateTime.Now, ex, Connection));
         }
 
+        /// <summary>
+        /// [0001] ID 중복검사 요청
+        /// </summary>
+        /// <param name="id"></param>
         public async void RequestIdCheck(String id)
         {
             Req0001 req = new Req0001() { UserID = id };
@@ -197,6 +246,14 @@ namespace GGTClient.Services
             Packet0003Received?.Invoke(this, new Packet0003ReceivedEventArgs(req, res));
         }
 
+        public async void RequestLogout(String id)
+        {
+            Req0004 req = new Req0004() { UserID = id};
+            Res0004 res = await GGTHubProxy.Invoke<Res0004>("RequestLogout", req);
+
+            Packet0004Received?.Invoke(this, new Packet0004ReceivedEventArgs(req, res));
+        }
+
         public async void RequestSendMessage(String id, String name, String msg)
         {
             Req0005 req = new Req0005() { UserID = id, UserName = name, Message = msg };
@@ -207,6 +264,12 @@ namespace GGTClient.Services
         {
             Req0006 req = new Req0006() { UserID = id, GroupName = group_name};
             await GGTHubProxy.Invoke("RequestJoinGroup", req);
+        }
+
+        public async void RequestLeaveGroup(String id, String group_name)
+        {
+            Req0007 req = new Req0007() { UserID = id, GroupName = group_name };
+            await GGTHubProxy.Invoke("RequestLeaveGroup", req);
         }
 
         private async void ResponseLogin(String username)

@@ -41,6 +41,15 @@ namespace GGTClient.Models
     }
 
     /// <summary>
+    /// 로그아웃에 대한 응답
+    /// </summary>
+    public class Res0004 : ResponsePacket
+    {
+        public Req0004 Request { get; set; }
+        public Boolean IsLogoutSuccess { get; set; }
+    }
+
+    /// <summary>
     /// 메시지 전송에 대한 응답
     /// </summary>
     public class Res0005 : ResponsePacket

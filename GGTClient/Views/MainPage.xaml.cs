@@ -168,5 +168,13 @@ namespace GGTClient.Views
                 OnLoginTryingStoryboard.Begin();
             }
         }
+
+        private void Button_Logout_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                OnLogoutTryingStoryboard.Begin();
+            }
+        }
     }
 }

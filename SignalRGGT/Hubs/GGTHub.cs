@@ -64,6 +64,11 @@ namespace SignalRGGT.Hubs
             return res;
         }
 
+        public Res0004 RequestLogout(Req0004 req)
+        {
+
+        }
+
         public void RequestSendMessage(Req0005 req)
         {
             Res0005 res = new Res0005() { Request = req };

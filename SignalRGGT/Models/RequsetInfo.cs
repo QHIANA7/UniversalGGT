@@ -6,44 +6,71 @@ using System.Threading.Tasks;
 
 namespace SignalRGGT.Models
 {
+    public class RequestPacket
+    {
+        public DateTime RequestTime { get; set; } = DateTime.Now;
+    }
+
     /// <summary>
     /// ID중복검사에 대한 요청
     /// </summary>
-    public class Req0001
+    public class Req0001 : RequestPacket
     {
         public String UserID { get; set; }
-        public DateTime RequestTime { get; set; } = DateTime.Now;
     }
 
     /// <summary>
     /// 회원가입에 대한 요청
     /// </summary>
-    public class Req0002
+    public class Req0002 : RequestPacket
     {
         public String UserID { get; set; }
         public String Password { get; set; }
         public String UserName { get; set; }
-        public DateTime RequestTime { get; set; } = DateTime.Now;
     }
 
     /// <summary>
     /// 로그인에 대한 요청
     /// </summary>
-    public class Req0003
+    public class Req0003 : RequestPacket
     {
         public String UserID { get; set; }
         public String Password { get; set; }
-        public DateTime RequestTime { get; set; } = DateTime.Now;
+    }
+
+    /// <summary>
+    /// 로그아웃에 대한 요청
+    /// </summary>
+    public class Req0004 : RequestPacket
+    {
+        public String UserID { get; set; }
     }
 
     /// <summary>
     /// 메시지 전송에 대한 요청
     /// </summary>
-    public class Req0005
+    public class Req0005 : RequestPacket
     {
         public String UserID { get; set; }
         public String UserName { get; set; }
         public String Message { get; set; }
-        public DateTime RequestTime { get; set; } = DateTime.Now;
+    }
+
+    /// <summary>
+    /// 그룹 가입에 대한 요청
+    /// </summary>
+    public class Req0006 : RequestPacket
+    {
+        public String UserID { get; set; }
+        public String GroupName { get; set; }
+    }
+
+    /// <summary>
+    /// 그룹 탈퇴에 대한 요청
+    /// </summary>
+    public class Req0007 : RequestPacket
+    {
+        public String UserID { get; set; }
+        public String GroupName { get; set; }
     }
 }
