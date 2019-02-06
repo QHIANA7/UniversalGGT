@@ -125,16 +125,16 @@ namespace GGTClient.ViewModels
                 if(!e.SendFrom.Equals(UserName))
                 {
                     UserInfo target_user = UserList.FirstOrDefault<UserInfo>(x => x.UserName.Equals(e.SendFrom));
+                    CurrentLocation location = (CurrentLocation)Enum.Parse(typeof(CurrentLocation), e.NewGroupName);
                     if (target_user == null)
-                    {
-                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = CurrentLocation.WaitingRoom });
+                    {                        
+                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = location });
                     }
                     else
                     {
                         UserList.Remove(target_user);
-                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = CurrentLocation.WaitingRoom });
+                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = location });
                     }
-
                 }
             }
         }
