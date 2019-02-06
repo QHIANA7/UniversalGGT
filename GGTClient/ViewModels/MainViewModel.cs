@@ -160,7 +160,6 @@ namespace GGTClient.ViewModels
 
         private void CommunicationService_Packet0004Received(object sender, Packet0004ReceivedEventArgs e)
         {
-            //UserName = String.Empty;
             if (e.IsLogoutSuccess)
             {
                 LogoutEnable = false;

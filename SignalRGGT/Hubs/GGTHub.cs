@@ -107,7 +107,7 @@ namespace SignalRGGT.Hubs
             String CurrentLocation = Singleton<DatabaseService>.Instance.GetUserCurrentLocation(req.UserID, out Boolean ex);
             if (ex)
             {
-                res = new Res0005() { Request = req, Message = "DB조회에 오류가 있습니다"};
+                res = new Res0005() { Request = req, Message = "DB조회에 오류가 있습니다" };
                 Clients.Caller.ResponseMoveGroup(req, res);
             }
             else
@@ -130,7 +130,7 @@ namespace SignalRGGT.Hubs
             }
             else
             {
-                if(CurrentLocation.Equals(req.ExpectedOldGroupName))
+                if (CurrentLocation.Equals(req.ExpectedOldGroupName))
                 {
 
                     Boolean Result = Singleton<DatabaseService>.Instance.UpdateUserCurrentLocation(req.UserID, req.NewGroupName);
@@ -140,10 +140,14 @@ namespace SignalRGGT.Hubs
                         Groups.Add(this.Context.ConnectionId, req.NewGroupName);
                         res = new Res0006() { Request = req, SendFrom = SendUser, NewGroupName = req.NewGroupName, OldGroupName = req.ExpectedOldGroupName, IsMoved = true, Message = $"{req.ExpectedOldGroupName} => {req.NewGroupName} 이동 성공" };
                         Clients.Caller.ResponseMoveGroup(req, res);
-                        if(!String.IsNullOrWhiteSpace(req.ExpectedOldGroupName))
-                            Clients.OthersInGroup(req.ExpectedOldGroupName).ResponseMoveGroup(req, res);
+                        if (!String.IsNullOrWhiteSpace(req.ExpectedOldGroupName))
+                        {
+                            //Clients.OthersInGroup(req.ExpectedOldGroupName).ResponseMoveGroup(req, res);
+                            Clients.Others.ResponseMoveGroup(req, res);
+                        }
                         //Clients.OthersInGroup(req.NewGroupName).ResponseMoveGroup(req, res); //20190206 그룹내 전송
                         Clients.Others.ResponseMoveGroup(req, res); //나 이외에 전송
+
                     }
                     else
                     {
@@ -153,7 +157,14 @@ namespace SignalRGGT.Hubs
                 }
                 else
                 {
-                    res = new Res0006() { Request = req, SendFrom = SendUser, NewGroupName = "Exception", OldGroupName = "Exception", Message = "요청한 현재 그룹이 서버와 일치하지않습니다" };
+                    //개발용 로직
+                    if (req.NewGroupName.Equals(Models.CurrentLocation.Init.ToString()) & req.ExpectedOldGroupName.Equals(Models.CurrentLocation.None.ToString()))
+                    {
+                        res = new Res0006() { Request = req, SendFrom = SendUser, NewGroupName = req.NewGroupName, OldGroupName = req.ExpectedOldGroupName, IsMoved = true, Message = "초기로그인 입니다" };
+                        Clients.Others.ResponseMoveGroup(req, res); //나 이외에 전송
+                    }
+                    else
+                        res = new Res0006() { Request = req, SendFrom = SendUser, NewGroupName = "Exception", OldGroupName = "Exception", Message = "요청한 현재 그룹이 서버와 일치하지않습니다" };
                     Clients.Caller.ResponseMoveGroup(req, res);
                 }
             }

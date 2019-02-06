@@ -164,6 +164,7 @@
     <None Include="GGTClient_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\LoginSuccessNotification.wav" />
     <Content Include="Assets\Windows Device Connection Removed.wav" />
     <Content Include="Assets\Windows Proximity Connection.wav" />
     <Content Include="Assets\Windows Proximity Notification.wav" />

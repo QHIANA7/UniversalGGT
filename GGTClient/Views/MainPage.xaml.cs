@@ -45,6 +45,11 @@ namespace GGTClient.Views
         {
             if (e.IsLoginSuccess)
             {
+                Player.Pause();
+                Player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/LoginSuccessNotification.wav"));
+                Player.IsLoopingEnabled = false;
+                Player.Play();
+
                 ProgressRing_Information.IsActive = false;
                 TextBlock_Message.Text = "로그인에 성공하였습니다";
                 NotificationStoryboard.RepeatBehavior = new RepeatBehavior(1);
