@@ -52,6 +52,13 @@ namespace GGTClient.ViewModels
             set { Set(ref _message_box, value); }
         }
 
+        private Boolean _toinit_enable = true;
+        public Boolean ToInitEnable
+        {
+            get { return _toinit_enable; }
+            set { Set(ref _toinit_enable, value); }
+        }
+
         private ICommand _message_send;
         public ICommand MessageSend
         {
@@ -81,6 +88,7 @@ namespace GGTClient.ViewModels
                     _to_Init = new RelayCommand(
                         () =>
                         {
+                            ToInitEnable = false;
                             Singleton<CommunicationService>.Instance.RequestSendMessage(UserID, UserName, $"{UserName}님이 떠났습니다", true);
                             Singleton<CommunicationService>.Instance.RequestMoveGroup(UserID, CurrentLocation.Init.ToString(), LocationName);
                         });

@@ -14,20 +14,6 @@ namespace SignalRGGT.Services
 
         public String ConnectionString { get => Connection?.ConnectionString; set => Connection = new SqlConnection(value); }
 
-        public Boolean IsOpen { get => Connection?.State == ConnectionState.Open; }
-
-        public async void OpenAsync()
-        {
-            if (Connection.State == ConnectionState.Closed)
-                await Connection.OpenAsync();
-        }
-
-        public void Close()
-        {
-            if (Connection.State != ConnectionState.Closed)
-                Connection.Close();
-        }
-
         #region TB_USERINFO에 대한 테이블 쿼리
 
         /// <summary>
@@ -42,20 +28,22 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"SELECT USER_NAME FROM TB_USERINFO WHERE USER_ID = @UserID AND USER_PASSWORD = @UserPassword");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    command.Parameters.Add(new SqlParameter("@UserPassword", pw));
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
                     {
-                        while (dataReader.Read())
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        command.Parameters.Add(new SqlParameter("@UserPassword", pw));
+                        using (SqlDataReader dataReader = command.ExecuteReader())
                         {
-                            result = dataReader["USER_NAME"].ToString();
+                            while (dataReader.Read())
+                            {
+                                result = dataReader["USER_NAME"].ToString();
+                            }
                         }
                     }
                 }
-                Close();
                 return result;
             }
             catch (InvalidOperationException ex)
@@ -79,19 +67,21 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"SELECT USER_NAME FROM TB_USERINFO WHERE USER_ID = @UserID");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
                     {
-                        while (dataReader.Read())
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        using (SqlDataReader dataReader = command.ExecuteReader())
                         {
-                            result = dataReader["USER_NAME"].ToString();
+                            while (dataReader.Read())
+                            {
+                                result = dataReader["USER_NAME"].ToString();
+                            }
                         }
                     }
                 }
-                Close();
                 return result;
             }
             catch (InvalidOperationException ex)
@@ -115,13 +105,15 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"SELECT COUNT(*) FROM TB_USERINFO WHERE USER_ID = @UserID");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    EffectedRowCount = (Int32)command.ExecuteScalar();
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        EffectedRowCount = (Int32)command.ExecuteScalar();
+                    }
                 }
-                Close();
                 return EffectedRowCount == 0;
             }
             catch (InvalidOperationException)
@@ -141,20 +133,22 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"SELECT USER_STATUS FROM TB_USERINFO WHERE USER_ID = @UserID");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    //command.Parameters.Add(new SqlParameter("@UserPassword", pw));
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
                     {
-                        while (dataReader.Read())
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        //command.Parameters.Add(new SqlParameter("@UserPassword", pw));
+                        using (SqlDataReader dataReader = command.ExecuteReader())
                         {
-                            result = dataReader["USER_STATUS"].ToString();
+                            while (dataReader.Read())
+                            {
+                                result = dataReader["USER_STATUS"].ToString();
+                            }
                         }
                     }
                 }
-                Close();
                 return result;
             }
             catch (InvalidOperationException ex)
@@ -173,19 +167,21 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"SELECT CURRENT_LOCATION FROM TB_USERINFO WHERE USER_ID = @UserID");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
                     {
-                        while (dataReader.Read())
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        using (SqlDataReader dataReader = command.ExecuteReader())
                         {
-                            result = dataReader["CURRENT_LOCATION"].ToString();
+                            while (dataReader.Read())
+                            {
+                                result = dataReader["CURRENT_LOCATION"].ToString();
+                            }
                         }
                     }
                 }
-                Close();
                 is_exception = false;
                 return result;
             }
@@ -206,20 +202,22 @@ namespace SignalRGGT.Services
             List<UserInfo> list = new List<UserInfo>();
             try
             {
-                String query = String.Format($"SELECT USER_NAME, CURRENT_LOCATION FROM TB_USERINFO WHERE USER_STATUS = 'X'");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                String query = String.Format($"SELECT USER_NAME, CURRENT_LOCATION FROM TB_USERINFO");
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
                     {
-                        while (dataReader.Read())
+                        using (SqlDataReader dataReader = command.ExecuteReader())
                         {
-                            CurrentLocation location = (CurrentLocation)Enum.Parse(typeof(CurrentLocation), dataReader["CURRENT_LOCATION"].ToString());
-                            list.Add(new UserInfo() { UserName = dataReader["USER_NAME"].ToString(), Location = location });
+                            while (dataReader.Read())
+                            {
+                                CurrentLocation location = (CurrentLocation)Enum.Parse(typeof(CurrentLocation), dataReader["CURRENT_LOCATION"].ToString());
+                                list.Add(new UserInfo() { UserName = dataReader["USER_NAME"].ToString(), Location = location });
+                            }
                         }
                     }
                 }
-                Close();
                 is_exception = false;
                 return list;
             }
@@ -248,16 +246,18 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"INSERT INTO TB_USERINFO VALUES (@UserID, @UserPassword, @UserName, 'O', 'None', null)");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    command.Parameters.Add(new SqlParameter("@UserPassword", pw));
-                    command.Parameters.Add(new SqlParameter("@UserName", name));
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        command.Parameters.Add(new SqlParameter("@UserPassword", pw));
+                        command.Parameters.Add(new SqlParameter("@UserName", name));
 
-                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                        EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    }
                 }
-                Close();
 
                 if (EffectedRowCount == 1)
                     return true;
@@ -286,15 +286,17 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"UPDATE TB_USERINFO SET CONNECTION_ID = @ConnectionID WHERE USER_ID = @UserID");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    command.Parameters.Add(new SqlParameter("@ConnectionID", connection_id));
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        command.Parameters.Add(new SqlParameter("@ConnectionID", connection_id));
 
-                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                        EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    }
                 }
-                Close();
 
                 if (EffectedRowCount == 1)
                     return true;
@@ -322,13 +324,15 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"UPDATE TB_USERINFO SET USER_STATUS = 'X' WHERE USER_ID = @UserID");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    }
                 }
-                Close();
 
                 if (EffectedRowCount == 1)
                     return true;
@@ -356,13 +360,15 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"UPDATE TB_USERINFO SET USER_STATUS = 'O' WHERE USER_ID = @UserID");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    }
                 }
-                Close();
 
                 if (EffectedRowCount == 1)
                     return true;
@@ -390,14 +396,16 @@ namespace SignalRGGT.Services
             try
             {
                 String query = String.Format($"UPDATE TB_USERINFO SET CURRENT_LOCATION = @CurrentLocation WHERE USER_ID = @UserID");
-                OpenAsync();
-                using (SqlCommand command = new SqlCommand(query, Connection))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@UserID", id));
-                    command.Parameters.Add(new SqlParameter("@CurrentLocation", group_name));
-                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("@UserID", id));
+                        command.Parameters.Add(new SqlParameter("@CurrentLocation", group_name));
+                        EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    }
                 }
-                Close();
 
                 if (EffectedRowCount == 1)
                     return true;

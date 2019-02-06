@@ -41,7 +41,7 @@ namespace GGTClient.Views
         }
 
 
-        private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
+        private async void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
             if (e.IsMoved)
             {
@@ -51,13 +51,26 @@ namespace GGTClient.Views
                         if (this.Frame.CanGoBack)
                         {
                             Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
-                            this.Frame.GoBack();                            
+                            this.Frame.GoBack();
                         }
                 }
             }
             else
             {
+                if (e.SendFrom.Equals(ViewModel.UserName))
+                {
 
+                    ContentDialog dialog = new ContentDialog()
+                    {
+                        Title = "입장 실패",
+                        Content = $"{e.Message}",
+                        CloseButtonText = "닫기",
+                        DefaultButton = ContentDialogButton.Close
+                    };
+                    dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
+                    dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
+                    await dialog.ShowAsync();
+                }
             }
         }
 

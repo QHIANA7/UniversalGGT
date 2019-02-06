@@ -183,7 +183,7 @@ namespace GGTClient.ViewModels
                 {
                     if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
                     {
-                        Singleton<CommunicationService>.Instance.RequestSendMessage(UserID, UserName, $"{UserName}님 께서 접속하였습니다", true);
+                        Singleton<CommunicationService>.Instance.RequestSendMessage(UserID, UserName, $"{UserName}님이 접속하였습니다", true);
                         LogoutEnable = false;
                     }
                 }

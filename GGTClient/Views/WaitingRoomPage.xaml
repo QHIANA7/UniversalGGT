@@ -30,7 +30,7 @@
             </Grid.RowDefinitions>
             <Image Grid.Column="0" Grid.Row="0" Source="/Assets/LockScreenLogo.scale-200.png"/>
             <TextBlock Grid.Column="1" Grid.Row="0" x:Name="TextBlock_UserName" HorizontalTextAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Text="{x:Bind ViewModel.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="4" Grid.Row="0" x:Name="Button_ToInit" Content="초기화면" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.ToInit}"/>
+            <Button Grid.Column="4" Grid.Row="0" x:Name="Button_ToInit" Content="초기화면" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.ToInit}"  IsEnabled="{x:Bind ViewModel.ToInitEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <TextBlock Grid.Column="0" Grid.Row="1" Text="이곳에 대기방 목록이 표시될 예정입니다" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}"/>
