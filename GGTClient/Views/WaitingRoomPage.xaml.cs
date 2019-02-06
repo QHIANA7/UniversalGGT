@@ -108,9 +108,6 @@ namespace GGTClient.Views
             if (e.NavigationMode == NavigationMode.Back)
             {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomTextBlockBackAnimation", TextBlock_UserName);
-
-                // Use the recommended configuration for back animation.
-                //animation.Configuration = new DirectConnectedAnimationConfiguration();
             }
         }
         private void TextBox_Message_KeyDown(object sender, KeyRoutedEventArgs e)

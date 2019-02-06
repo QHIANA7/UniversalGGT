@@ -142,7 +142,8 @@ namespace SignalRGGT.Hubs
                         Clients.Caller.ResponseMoveGroup(req, res);
                         if(!String.IsNullOrWhiteSpace(req.ExpectedOldGroupName))
                             Clients.OthersInGroup(req.ExpectedOldGroupName).ResponseMoveGroup(req, res);
-                        Clients.OthersInGroup(req.NewGroupName).ResponseMoveGroup(req, res);                        
+                        //Clients.OthersInGroup(req.NewGroupName).ResponseMoveGroup(req, res); //20190206 그룹내 전송
+                        Clients.Others.ResponseMoveGroup(req, res); //나 이외에 전송
                     }
                     else
                     {
