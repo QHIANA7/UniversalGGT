@@ -43,9 +43,10 @@ namespace GGTClient.Views
 
         private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-            if (e.SendFrom.Equals(ViewModel.UserName))
+
+            if (e.IsMoved)
             {
-                if (e.IsMoved)
+                if (e.SendFrom.Equals(ViewModel.UserName))
                 {
                     if (e.NewGroupName.Equals(CurrentLocation.Init.ToString()))
                         if (this.Frame.CanGoBack)
@@ -54,10 +55,10 @@ namespace GGTClient.Views
                             Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
                         }
                 }
-                else
-                {
+            }
+            else
+            {
 
-                }
             }
         }
 
@@ -66,21 +67,21 @@ namespace GGTClient.Views
         {
             if (e.Parameter is UserInfo info)
             {
-                ViewModel.UserId = info.UserId;
+                ViewModel.UserID = info.UserId;
                 ViewModel.UserName = info.UserName;
             }
             else
             {
-                ViewModel.UserId = "ERROR";
+                ViewModel.UserID = "ERROR";
                 ViewModel.UserName = "ERROR";
             }
 
             base.OnNavigatedTo(e);
 
-            ConnectedAnimation animation_button =ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomButtonAnimation");
+            ConnectedAnimation animation_button = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomButtonAnimation");
             if (animation_button != null)
             {
-                animation_button.TryStart(Button_Logout);
+                animation_button.TryStart(Button_ToInit);
             }
             ConnectedAnimation animation_textblock = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomTextBlockAnimation");
             if (animation_textblock != null)
@@ -95,7 +96,6 @@ namespace GGTClient.Views
             if (e.NavigationMode == NavigationMode.Back)
             {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomTextBlockBackAnimation", TextBlock_UserName);
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomButtonBackAnimation", Button_Logout);
 
                 // Use the recommended configuration for back animation.
                 //animation.Configuration = new DirectConnectedAnimationConfiguration();
@@ -108,11 +108,6 @@ namespace GGTClient.Views
                 ViewModel.MessageSend?.Execute(null);
                 ViewModel.Message = String.Empty;
             }
-        }
-
-        private void Button_Logout_Click(object sender, RoutedEventArgs e)
-        {
-           
         }
     }
 }

@@ -254,9 +254,9 @@ namespace GGTClient.Services
             Packet0004Received?.Invoke(this, new Packet0004ReceivedEventArgs(req, res));
         }
 
-        public async void RequestSendMessage(String id, String name, String msg)
+        public async void RequestSendMessage(String id, String name, String msg, Boolean is_sys_msg = false)
         {
-            Req0005 req = new Req0005() { UserID = id, UserName = name, Message = msg };
+            Req0005 req = new Req0005() { UserID = id, UserName = name, Message = msg, IsSystemMessage = is_sys_msg};
             await GGTHubProxy.Invoke("RequestSendMessage", req);
         }
 

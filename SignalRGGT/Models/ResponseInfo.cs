@@ -55,8 +55,9 @@ namespace SignalRGGT.Models
     public class Res0005 : ResponsePacket
     {
         public Req0005 Request { get; set; }
+        public Boolean IsSystemMessage { get => Request.IsSystemMessage; }
         public String SendFrom { get => Request.UserName; }
-        public String UserMessage { get => $"[{Request.RequestTime.ToString("HH:mm:ss")}] [{SendFrom}] {Request.Message}"; }
+        public String UserMessage { get => Request.Message; }
     }
 
     /// <summary>

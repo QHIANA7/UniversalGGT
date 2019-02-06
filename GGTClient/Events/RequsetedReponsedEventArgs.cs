@@ -76,6 +76,7 @@ namespace GGTClient.Events
     {
         public Req0005 Request { get; private set; }
         public Res0005 Response { get; private set; }
+        public Boolean IsSystemMessage { get => Response.IsSystemMessage; }
         public String Message { get => Response.UserMessage; }
         public String SendFrom { get => Request.UserName; }
         public DateTime RequestTime { get => Request.RequestTime; }

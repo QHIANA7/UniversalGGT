@@ -17,7 +17,7 @@ namespace GGTClient.ViewModels
         public ObservableCollection<MessageInfo> MessageList = new ObservableCollection<MessageInfo>();
 
         private String _user_id = String.Empty;
-        public String UserId
+        public String UserID
         {
             get { return _user_id; }
             set { Set(ref _user_id, value); }
@@ -61,8 +61,8 @@ namespace GGTClient.ViewModels
                     _message_send = new RelayCommand(
                         () =>
                         {
-                            if(!String.IsNullOrWhiteSpace(Message))
-                                Singleton<CommunicationService>.Instance.RequestSendMessage(UserId, UserName, Message);
+                            if (!String.IsNullOrWhiteSpace(Message))
+                                Singleton<CommunicationService>.Instance.RequestSendMessage(UserID, UserName, Message);
                         });
                 }
 
@@ -80,7 +80,7 @@ namespace GGTClient.ViewModels
                     _to_Init = new RelayCommand(
                         () =>
                         {
-                            Singleton<CommunicationService>.Instance.RequestMoveGroup(UserId, CurrentLocation.Init.ToString(), LocationName);
+                            Singleton<CommunicationService>.Instance.RequestMoveGroup(UserID, CurrentLocation.Init.ToString(), LocationName);
                         });
                 }
 
@@ -96,18 +96,16 @@ namespace GGTClient.ViewModels
 
         private void CommunicationService_Packet0005Received(object sender, Packet0005ReceivedEventArgs e)
         {
-            if (e.SendFrom.Equals(UserName))
-                MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Message, true));
-            else
-                MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Message, false));
+            MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Message, e.SendFrom.Equals(UserName), e.IsSystemMessage));
         }
 
         private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-            if (e.SendFrom.Equals(UserName))
+            if (e.IsMoved)
             {
-                if (e.IsMoved)
+                if (e.NewGroupName.Equals(CurrentLocation.Init.ToString()) & e.SendFrom.Equals(UserName))
                 {
+                    Singleton<CommunicationService>.Instance.RequestSendMessage(UserID, UserName, $"{UserName}님이 떠났습니다", true);
                     Singleton<CommunicationService>.Instance.Packet0005Received -= CommunicationService_Packet0005Received;
                     Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
                 }

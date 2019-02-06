@@ -25,8 +25,6 @@ namespace GGTClient.Views
     {
         public MainViewModel ViewModel { get; } = new MainViewModel();
 
-        public static MainPage Current { get; set; }
-
         public MediaPlayer Player { get; set; } = new MediaPlayer();
 
         public MainPage()
@@ -34,7 +32,6 @@ namespace GGTClient.Views
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
-            Current = this;
             Singleton<CommunicationService>.Instance.HubConnectionErrorFired += CommunicationService_HubConnectionErrorFired;
             Singleton<CommunicationService>.Instance.HubConnectionConnected += CommunicationService_HubConnectionConnected;
             Singleton<CommunicationService>.Instance.HubConnectionConnecting += CommunicationService_HubConnectionConnecting;
@@ -98,26 +95,40 @@ namespace GGTClient.Views
 
         private async void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-            if (e.Request.UserID.Equals(ViewModel.UserId))
+
+            if (e.IsMoved)
             {
-                if (e.IsMoved)
+                if (e.Request.UserID.Equals(ViewModel.UserID))
                 {
                     if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
-                        Frame.Navigate(typeof(WaitingRoomPage), new UserInfo(ViewModel.UserId, ViewModel.UserPassword, ViewModel.UserName), new EntranceNavigationTransitionInfo());
-                }
-                else
-                {
-                    OnLogoutFailedStoryboard.Begin();
-                    ContentDialog dialog = new ContentDialog()
                     {
-                        Title = "입장 실패",
-                        Content = $"{e.Message}",
-                        CloseButtonText = "닫기",
-                        DefaultButton = ContentDialogButton.Close
-                    };
-                    dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
-                    dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
-                    await dialog.ShowAsync();
+                        
+                        Frame.Navigate(typeof(WaitingRoomPage), new UserInfo(ViewModel.UserID, ViewModel.UserPassword, ViewModel.UserName), new EntranceNavigationTransitionInfo());
+                    }
+                }
+            }
+            else
+            {
+                if (e.Request.UserID.Equals(ViewModel.UserID))
+                {
+                    if (e.Request.NewGroupName.Equals(CurrentLocation.Init.ToString()) & e.Request.ExpectedOldGroupName.Equals(CurrentLocation.None.ToString()))
+                    {
+
+                    }
+                    else
+                    {
+                        OnLogoutFailedStoryboard.Begin();
+                        ContentDialog dialog = new ContentDialog()
+                        {
+                            Title = "입장 실패",
+                            Content = $"{e.Message}",
+                            CloseButtonText = "닫기",
+                            DefaultButton = ContentDialogButton.Close
+                        };
+                        dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
+                        dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
+                        await dialog.ShowAsync();
+                    }
                 }
             }
         }
@@ -196,7 +207,6 @@ namespace GGTClient.Views
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomButtonAnimation", Button_Login);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomTextBlockAnimation", TextBlock_UserName);
         }
 
@@ -204,10 +214,10 @@ namespace GGTClient.Views
         {
             base.OnNavigatedTo(e);
 
-            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomButtonBackAnimation");
+            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomTextBlockBackAnimation");
             if (animation != null)
             {
-                animation.TryStart(Button_Login);
+                animation.TryStart(TextBlock_UserName);
             }
             if (e.NavigationMode == NavigationMode.Back)
             {

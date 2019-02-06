@@ -18,22 +18,30 @@ namespace GGTClient.Models
 
         public Boolean IsMine { get; set; }
 
-        public MessageInfo(DateTime time, String name, String msg, Boolean is_mine)
+        public Boolean IsSystemMessage { get; set; }
+
+        public MessageInfo(DateTime time, String name, String msg, Boolean is_mine, Boolean is_sys_msg = false)
         {
             MessageTime = time;
             UserName = name;
             Message = msg;
             IsMine = is_mine;
+            IsSystemMessage = is_sys_msg;
         }
 
         public override String ToString()
-        {        
-            return $"[{MessageTime.ToString("HH:mm:ss")}] [{UserName}] {Message}";
+        {
+            if (IsSystemMessage)
+                return $"[{MessageTime.ToString("HH:mm:ss")}] [SYSTEM] {Message}";
+            else
+                return $"[{MessageTime.ToString("HH:mm:ss")}] [{UserName}] {Message}";
         }
 
         public SolidColorBrush TextColor()
         {
-            if(IsMine)
+            if (IsSystemMessage)
+                return new SolidColorBrush(Colors.Green);
+            else if (IsMine)
                 return new SolidColorBrush(Colors.Blue);
             else
                 return new SolidColorBrush(Colors.Black);

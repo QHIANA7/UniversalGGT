@@ -14,7 +14,7 @@ namespace GGTClient.ViewModels
     public class MainViewModel : Observable
     {
         private String _user_id = String.Empty;
-        public String UserId
+        public String UserID
         {
             get { return _user_id; }
             set { Set(ref _user_id, value); }
@@ -72,7 +72,7 @@ namespace GGTClient.ViewModels
                     _login = new RelayCommand(
                         () =>
                         {
-                            Singleton<CommunicationService>.Instance.RequestLogin(UserId, UserPassword);
+                            Singleton<CommunicationService>.Instance.RequestLogin(UserID, UserPassword);
                             LoginEnable = false;
                         });
                 }
@@ -91,7 +91,7 @@ namespace GGTClient.ViewModels
                     _logout = new RelayCommand(
                         () =>
                         {
-                            Singleton<CommunicationService>.Instance.RequestLogout(UserId);
+                            Singleton<CommunicationService>.Instance.RequestLogout(UserID);
                             LogoutEnable = false;
                         });
                 }
@@ -109,7 +109,7 @@ namespace GGTClient.ViewModels
                     _entrance = new RelayCommand(
                         () =>
                         {
-                            Singleton<CommunicationService>.Instance.RequestMoveGroup(UserId, CurrentLocation.WaitingRoom.ToString(), LocationName);
+                            Singleton<CommunicationService>.Instance.RequestMoveGroup(UserID, CurrentLocation.WaitingRoom.ToString(), LocationName);
                             LogoutEnable = false;
                         });
                 }
@@ -128,11 +128,7 @@ namespace GGTClient.ViewModels
                     _connect = new RelayCommand(
                         () =>
                         {
-                            //user = new UserInfo(UserId, UserPassword);
-
-                            Singleton<CommunicationService>.Instance.MainViewModel_Instance = this;
                             Singleton<CommunicationService>.Instance.StartClient();
-                            //UserPassword = Singleton<CommunicationService>.Instance.Result;
                         });
                 }
 
@@ -154,7 +150,7 @@ namespace GGTClient.ViewModels
             {
                 LoginEnable = false;
                 LogoutEnable = true;
-                Singleton<CommunicationService>.Instance.RequestMoveGroup(UserId, CurrentLocation.Init.ToString(), CurrentLocation.None.ToString());
+                Singleton<CommunicationService>.Instance.RequestMoveGroup(UserID, CurrentLocation.Init.ToString(), CurrentLocation.None.ToString());
             }
             else
             {
@@ -169,7 +165,7 @@ namespace GGTClient.ViewModels
             {
                 LogoutEnable = false;
                 LoginEnable = true;
-                UserId = String.Empty;
+                UserID = String.Empty;
                 UserPassword = String.Empty;
             }
             else
@@ -180,19 +176,21 @@ namespace GGTClient.ViewModels
 
         private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-            if(e.Request.UserID.Equals(UserId))
+
+            if (e.IsMoved)
             {
-                if (e.IsMoved)
+                if (e.Request.UserID.Equals(UserID))
                 {
                     if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
                     {
+                        Singleton<CommunicationService>.Instance.RequestSendMessage(UserID, UserName, $"{UserName}님 께서 접속하였습니다", true);
                         LogoutEnable = false;
                     }
                 }
-                else
-                {
-                    LogoutEnable = true;
-                }
+            }
+            else
+            {
+                LogoutEnable = true;
             }
         }
     }

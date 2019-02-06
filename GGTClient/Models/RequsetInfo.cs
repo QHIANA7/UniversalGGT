@@ -53,6 +53,7 @@ namespace GGTClient.Models
     {
         public String UserID { get; set; }
         public String UserName { get; set; }
+        public Boolean IsSystemMessage { get; set; }
         public String Message { get; set; }
     }
 

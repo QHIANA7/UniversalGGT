@@ -102,8 +102,19 @@ namespace SignalRGGT.Hubs
 
         public void RequestSendMessage(Req0005 req)
         {
-            Res0005 res = new Res0005() { Request = req };
-            Clients.All.ResponseSendMessage(req, res);
+            Res0005 res = null;
+
+            String CurrentLocation = Singleton<DatabaseService>.Instance.GetUserCurrentLocation(req.UserID, out Boolean ex);
+            if (ex)
+            {
+                res = new Res0005() { Request = req, Message = "DB조회에 오류가 있습니다"};
+                Clients.Caller.ResponseMoveGroup(req, res);
+            }
+            else
+            {
+                res = new Res0005() { Request = req, Message = "정상" };
+                Clients.Group(CurrentLocation).ResponseSendMessage(req, res);
+            }
         }
 
         public void RequestMoveGroup(Req0006 req)
