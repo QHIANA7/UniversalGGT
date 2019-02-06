@@ -97,9 +97,9 @@ namespace GGTClient.ViewModels
         private void CommunicationService_Packet0005Received(object sender, Packet0005ReceivedEventArgs e)
         {
             if (e.SendFrom.Equals(UserName))
-                MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Response.Message, true));
+                MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Message, true));
             else
-                MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Response.Message, false));
+                MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Message, false));
         }
 
         private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
