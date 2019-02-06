@@ -32,6 +32,7 @@ namespace GGTClient.Views
         public MainPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
             Current = this;
             Singleton<CommunicationService>.Instance.HubConnectionErrorFired += CommunicationService_HubConnectionErrorFired;
@@ -41,7 +42,6 @@ namespace GGTClient.Views
             Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received;
             Singleton<CommunicationService>.Instance.Packet0004Received += CommunicationService_Packet0004Received;
             Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
-            Singleton<CommunicationService>.Instance.Packet0007Received += CommunicationService_Packet0007Received;
         }
 
         private async void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
@@ -96,14 +96,27 @@ namespace GGTClient.Views
             }
         }
 
-        private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
+        private async void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-
-        }
-
-        private void CommunicationService_Packet0007Received(object sender, Packet0007ReceivedEventArgs e)
-        {
-
+            if (e.IsMoved)
+            {
+                if(e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
+                    Frame.Navigate(typeof(WaitingRoomPage), new UserInfo(ViewModel.UserId, ViewModel.UserPassword, ViewModel.UserName) , new EntranceNavigationTransitionInfo());
+            }
+            else
+            {
+                OnLogoutFailedStoryboard.Begin();
+                ContentDialog dialog = new ContentDialog()
+                {
+                    Title = "입장 실패",
+                    Content = $"{e.Message}",
+                    CloseButtonText = "닫기",
+                    DefaultButton = ContentDialogButton.Close
+                };
+                dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
+                dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
+                await dialog.ShowAsync();
+            }
         }
 
         private async void CommunicationService_HubConnectionConnected(object sender, HubConnectionConnectedEventArgs e)
@@ -192,6 +205,11 @@ namespace GGTClient.Views
             if (animation != null)
             {
                 animation.TryStart(Button_Login);
+            }
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                OnLogoutFailedStoryboard.Begin();
+                ViewModel.LogoutEnable = true;
             }
         }
 

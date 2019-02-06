@@ -41,11 +41,11 @@ namespace GGTClient.ViewModels
             set { Set(ref _message, value); }
         }
 
-        private String _group_name = String.Empty;
-        public String GroupName
+        private String _location_name = CurrentLocation.Init.ToString();
+        public String LocationName
         {
-            get { return _group_name; }
-            set { Set(ref _group_name, value); }
+            get { return _location_name; }
+            set { Set(ref _location_name, value); }
         }
 
         private Boolean _login_enable = true;
@@ -76,7 +76,7 @@ namespace GGTClient.ViewModels
                             LoginEnable = false;
                         });
                 }
-            
+
                 return _login;
             }
         }
@@ -109,9 +109,7 @@ namespace GGTClient.ViewModels
                     _entrance = new RelayCommand(
                         () =>
                         {
-                            Singleton<CommunicationService>.Instance.RequestLeaveGroup(UserId, GroupName);
-                            Task.Delay(1000);
-                            Singleton<CommunicationService>.Instance.RequestJoinGroup(UserId, CurrentLocation.WaitingRoom.ToString());
+                            Singleton<CommunicationService>.Instance.RequestMoveGroup(UserId, CurrentLocation.WaitingRoom.ToString(), LocationName);
                             LogoutEnable = false;
                         });
                 }
@@ -146,15 +144,17 @@ namespace GGTClient.ViewModels
         {
             Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received;
             Singleton<CommunicationService>.Instance.Packet0004Received += CommunicationService_Packet0004Received;
+            Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
         }
 
         private void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
         {
             UserName = e.UserName;
-            if(e.IsLoginSuccess)
+            if (e.IsLoginSuccess)
             {
                 LoginEnable = false;
                 LogoutEnable = true;
+                Singleton<CommunicationService>.Instance.RequestMoveGroup(UserId, CurrentLocation.Init.ToString(), CurrentLocation.None.ToString());
             }
             else
             {
@@ -171,6 +171,21 @@ namespace GGTClient.ViewModels
                 LoginEnable = true;
                 UserId = String.Empty;
                 UserPassword = String.Empty;
+            }
+            else
+            {
+                LogoutEnable = true;
+            }
+        }
+
+        private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
+        {
+            if (e.IsMoved)
+            {
+                if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
+                {
+                    LogoutEnable = false;
+                }
             }
             else
             {

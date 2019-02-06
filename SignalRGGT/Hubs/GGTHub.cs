@@ -106,73 +106,42 @@ namespace SignalRGGT.Hubs
             Clients.All.ResponseSendMessage(req, res);
         }
 
-        public void RequestJoinGroup(Req0006 req)
+        public void RequestMoveGroup(Req0006 req)
         {
             Res0006 res = null;
 
             String CurrentLocation = Singleton<DatabaseService>.Instance.GetUserCurrentLocation(req.UserID, out Boolean ex);
             if (ex)
             {
-                res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsJoined = false, Message = "DB조회에 오류가 있습니다" };
-                Clients.Caller.ResponseJoinGroup(req, res);
-
+                res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", Message = "DB조회에 오류가 있습니다" };
+                Clients.Caller.ResponseMoveGroup(req, res);
             }
             else
             {
-                if (String.IsNullOrWhiteSpace(CurrentLocation))
+                if(CurrentLocation.Equals(req.ExpectedOldGroupName))
                 {
-                    Boolean Result = Singleton<DatabaseService>.Instance.UpdateUserCurrentLocation(req.UserID, req.GroupName);
+
+                    Boolean Result = Singleton<DatabaseService>.Instance.UpdateUserCurrentLocation(req.UserID, req.NewGroupName);
                     if (Result)
                     {
-                        Groups.Add(this.Context.ConnectionId, req.GroupName);
-                        res = new Res0006() { Request = req, NewGroupName = req.GroupName, OldGroupName = String.Empty, IsJoined = true, Message = $"{req.GroupName}에 가입하였습니다" };
-                        Clients.Group(req.GroupName).ResponseJoinGroup(req, res);
+                        Groups.Remove(this.Context.ConnectionId, req.ExpectedOldGroupName);
+                        Groups.Add(this.Context.ConnectionId, req.NewGroupName);
+                        res = new Res0006() { Request = req, NewGroupName = req.NewGroupName, OldGroupName = req.ExpectedOldGroupName, IsMoved = true, Message = $"{req.ExpectedOldGroupName} => {req.NewGroupName} 이동 성공" };
+                        Clients.Caller.ResponseMoveGroup(req, res);
+                        if(!String.IsNullOrWhiteSpace(req.ExpectedOldGroupName))
+                            Clients.OthersInGroup(req.ExpectedOldGroupName).ResponseMoveGroup(req, res);
+                        Clients.OthersInGroup(req.NewGroupName).ResponseMoveGroup(req, res);                        
                     }
                     else
                     {
-                        res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsJoined = false, Message = "DB갱신에 오류가 있습니다" };
-                        Clients.Caller.ResponseJoinGroup(req, res);
+                        res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", Message = "DB갱신에 오류가 있습니다" };
+                        Clients.Caller.ResponseMoveGroup(req, res);
                     }
                 }
                 else
                 {
-                    res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsJoined = false, Message = "이미 가입된 그룹이 있습니다" };
-                    Clients.Caller.ResponseJoinGroup(req, res);
-                }
-            }
-        }
-
-        public void RequestLeaveGroup(Req0007 req)
-        {
-            Res0007 res = null;
-
-            String CurrentLocation = Singleton<DatabaseService>.Instance.GetUserCurrentLocation(req.UserID, out Boolean ex);
-            if (ex)
-            {
-                res = new Res0007() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsLeaved = false, Message = "DB조회에 오류가 있습니다" };
-                Clients.Caller.ResponseLeaveGroup(req, res);
-            }
-            else
-            {
-                if (String.IsNullOrWhiteSpace(CurrentLocation))
-                {
-                    res = new Res0007() { Request = req, NewGroupName = "Exception", OldGroupName = CurrentLocation, IsLeaved = false, Message = "가입된 그룹이 없습니다" };
-                    Clients.Caller.ResponseLeaveGroup(req, res);
-                }
-                else
-                {
-                    Groups.Remove(this.Context.ConnectionId, req.GroupName);
-                    Boolean Result = Singleton<DatabaseService>.Instance.UpdateUserCurrentLocation(req.UserID, String.Empty);
-                    if (Result)
-                    {
-                        res = new Res0007() { Request = req, NewGroupName = req.GroupName, OldGroupName = String.Empty, IsLeaved = true, Message = $"{req.GroupName}에서 탈퇴하였습니다" };
-                        Clients.Group(req.GroupName).ResponseLeaveGroup(req, res);
-                    }
-                    else
-                    {
-                        res = new Res0007() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsLeaved = false, Message = "DB갱신에 오류가 있습니다" };
-                        Clients.Caller.ResponseLeaveGroup(req, res);
-                    }
+                    res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", Message = "요청한 현재 그룹이 서버와 일치하지않습니다" };
+                    Clients.Caller.ResponseMoveGroup(req, res);
                 }
             }
         }
@@ -180,33 +149,19 @@ namespace SignalRGGT.Hubs
         public override Task OnConnected()
         {
             Console.WriteLine("OnConnected");
-            _PrintContext();
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
             Console.WriteLine("OnDisconnected");
-            _PrintContext();
             return base.OnDisconnected(stopCalled);
         }
 
         public override Task OnReconnected()
         {
             Console.WriteLine("OnReconnected");
-            _PrintContext();
             return base.OnReconnected();
-        }
-
-        /// <summary>
-        /// print context object
-        /// we can know about additional information (like account, auth, ...) in this.Context.
-        /// </summary>
-        private void _PrintContext()
-        {
-            Console.WriteLine($"this.Context.ConnectionId : {this.Context.ConnectionId}");
-            Console.WriteLine($"this.Context.Request.Url : {this.Context.Request.Url}");
-            Console.WriteLine($"this.Context.Headers : {JsonConvert.SerializeObject(this.Context.Headers)}");
         }
     }
 }

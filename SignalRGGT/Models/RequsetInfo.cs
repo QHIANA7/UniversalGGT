@@ -57,20 +57,12 @@ namespace SignalRGGT.Models
     }
 
     /// <summary>
-    /// 그룹 가입에 대한 요청
+    /// 그룹 이동에 대한 요청
     /// </summary>
     public class Req0006 : RequestPacket
     {
         public String UserID { get; set; }
-        public String GroupName { get; set; }
-    }
-
-    /// <summary>
-    /// 그룹 탈퇴에 대한 요청
-    /// </summary>
-    public class Req0007 : RequestPacket
-    {
-        public String UserID { get; set; }
-        public String GroupName { get; set; }
+        public String NewGroupName { get; set; }
+        public String ExpectedOldGroupName { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace GGTClient.Models
     public class Res0001 : ResponsePacket
     {
         public Req0001 Request { get; set; }
-        public Boolean IsRegisterableID { get; set; }
+        public Boolean IsRegisterableID { get; set; } = false;
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ namespace GGTClient.Models
     public class Res0002 : ResponsePacket
     {
         public Req0002 Request { get; set; }
-        public Boolean IsRegisterd { get; set; }
+        public Boolean IsRegisterd { get; set; } = false;
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ namespace GGTClient.Models
     {
         public Req0003 Request { get; set; }
         public String UserName { get; set; }
-        public Boolean IsLoginSuccess { get; set; }
+        public Boolean IsLoginSuccess { get; set; } = false;
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ namespace GGTClient.Models
     public class Res0004 : ResponsePacket
     {
         public Req0004 Request { get; set; }
-        public Boolean IsLogoutSuccess { get; set; }
+        public Boolean IsLogoutSuccess { get; set; } = false;
     }
 
     /// <summary>
@@ -60,26 +60,13 @@ namespace GGTClient.Models
     }
 
     /// <summary>
-    /// 그룹 가입에 대한 응답
+    /// 그룹 이동에 대한 응답
     /// </summary>
     public class Res0006 : ResponsePacket
     {
         public Req0006 Request { get; set; }
         public String OldGroupName { get; set; }
         public String NewGroupName { get; set; }
-        public Boolean IsJoined { get; set; }
+        public Boolean IsMoved { get; set; } = false;
     }
-
-    /// <summary>
-    /// 그룹 탈퇴에 대한 응답
-    /// </summary>
-    public class Res0007 : ResponsePacket
-    {
-        public Req0007 Request { get; set; }
-        public String OldGroupName { get; set; }
-        public String NewGroupName { get; set; }
-        public Boolean IsLeaved { get; set; }
-    }
-
-
 }

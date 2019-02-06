@@ -1,7 +1,9 @@
-﻿using GGTClient.Helpers;
+﻿using GGTClient.Events;
+using GGTClient.Helpers;
 using GGTClient.Models;
 using GGTClient.Services;
 using GGTClient.ViewModels;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +37,27 @@ namespace GGTClient.Views
         public WaitingRoomPage()
         {
             this.InitializeComponent();
+            Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
         }
+
+
+        private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
+        {
+            if (e.IsMoved)
+            {
+                if (e.NewGroupName.Equals(CurrentLocation.Init.ToString()))
+                    if (this.Frame.CanGoBack)
+                    {
+                        this.Frame.GoBack();
+                        Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
+                    }
+            }
+            else
+            {
+
+            }
+        }
+
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -69,6 +91,7 @@ namespace GGTClient.Views
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomTextBlockBackAnimation", TextBlock_UserName);
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomButtonBackAnimation", Button_Logout);
 
                 // Use the recommended configuration for back animation.
@@ -86,8 +109,7 @@ namespace GGTClient.Views
 
         private void Button_Logout_Click(object sender, RoutedEventArgs e)
         {
-            Frame.GoBack();
-            //Frame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+           
         }
     }
 }

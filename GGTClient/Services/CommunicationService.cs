@@ -134,7 +134,6 @@ namespace GGTClient.Services
         public event EventHandler<Packet0004ReceivedEventArgs> Packet0004Received = null;
         public event EventHandler<Packet0005ReceivedEventArgs> Packet0005Received = null;
         public event EventHandler<Packet0006ReceivedEventArgs> Packet0006Received = null;
-        public event EventHandler<Packet0007ReceivedEventArgs> Packet0007Received = null;
 
         public CommunicationService()
         {
@@ -146,8 +145,7 @@ namespace GGTClient.Services
             Connection.StateChanged += Connection_StateChanged;
             GGTHubProxy.On<String>("ResponseLogin", ResponseLogin);
             GGTHubProxy.On<Req0005, Res0005>("ResponseSendMessage", ResponseSendMessage);
-            GGTHubProxy.On<Req0006, Res0006>("ResponseJoinGroup", ResponseJoinGroup);
-            GGTHubProxy.On<Req0007, Res0007>("ResponseLeaveGroup", ResponseLeaveGroup);
+            GGTHubProxy.On<Req0006, Res0006>("ResponseMoveGroup", ResponseMoveGroup);
         }
 
         public async void StartClient()
@@ -262,16 +260,10 @@ namespace GGTClient.Services
             await GGTHubProxy.Invoke("RequestSendMessage", req);
         }
 
-        public async void RequestJoinGroup(String id, String group_name)
+        public async void RequestMoveGroup(String id, String new_group, String old_group)
         {
-            Req0006 req = new Req0006() { UserID = id, GroupName = group_name };
-            await GGTHubProxy.Invoke("RequestJoinGroup", req);
-        }
-
-        public async void RequestLeaveGroup(String id, String group_name)
-        {
-            Req0007 req = new Req0007() { UserID = id, GroupName = group_name };
-            await GGTHubProxy.Invoke("RequestLeaveGroup", req);
+            Req0006 req = new Req0006() { UserID = id, NewGroupName = new_group, ExpectedOldGroupName = old_group };
+            await GGTHubProxy.Invoke("RequestMoveGroup", req);
         }
 
         private async void ResponseLogin(String username)
@@ -290,19 +282,11 @@ namespace GGTClient.Services
             });
         }
 
-        private async void ResponseJoinGroup(Req0006 req, Res0006 res)
+        private async void ResponseMoveGroup(Req0006 req, Res0006 res)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 Packet0006Received?.Invoke(this, new Packet0006ReceivedEventArgs(req, res));
-            });
-        }
-
-        private async void ResponseLeaveGroup(Req0007 req, Res0007 res)
-        {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                Packet0007Received?.Invoke(this, new Packet0007ReceivedEventArgs(req, res));
             });
         }
 
