@@ -140,12 +140,14 @@ namespace GGTClient.Services
         {
             //Connection = new HubConnection("http://ggtsvr.azurewebsites.net/");
             Connection = new HubConnection("http://222.236.27.169:63000/");
-            //Connection = new HubConnection("http://localhost:8080/");
+            //Connection = new HubConnection("http://localhost:1357/");
             GGTHubProxy = Connection.CreateHubProxy("GGTHub");
             Connection.Error += Connection_Error;
             Connection.StateChanged += Connection_StateChanged;
             GGTHubProxy.On<String>("ResponseLogin", ResponseLogin);
             GGTHubProxy.On<Req0005, Res0005>("ResponseSendMessage", ResponseSendMessage);
+            GGTHubProxy.On<Req0006, Res0006>("ResponseJoinGroup", ResponseJoinGroup);
+            GGTHubProxy.On<Req0007, Res0007>("ResponseLeaveGroup", ResponseLeaveGroup);
         }
 
         public async void StartClient()
@@ -248,7 +250,7 @@ namespace GGTClient.Services
 
         public async void RequestLogout(String id)
         {
-            Req0004 req = new Req0004() { UserID = id};
+            Req0004 req = new Req0004() { UserID = id };
             Res0004 res = await GGTHubProxy.Invoke<Res0004>("RequestLogout", req);
 
             Packet0004Received?.Invoke(this, new Packet0004ReceivedEventArgs(req, res));
@@ -262,7 +264,7 @@ namespace GGTClient.Services
 
         public async void RequestJoinGroup(String id, String group_name)
         {
-            Req0006 req = new Req0006() { UserID = id, GroupName = group_name};
+            Req0006 req = new Req0006() { UserID = id, GroupName = group_name };
             await GGTHubProxy.Invoke("RequestJoinGroup", req);
         }
 
@@ -285,6 +287,22 @@ namespace GGTClient.Services
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 Packet0005Received?.Invoke(this, new Packet0005ReceivedEventArgs(req, res));
+            });
+        }
+
+        private async void ResponseJoinGroup(Req0006 req, Res0006 res)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Packet0006Received?.Invoke(this, new Packet0006ReceivedEventArgs(req, res));
+            });
+        }
+
+        private async void ResponseLeaveGroup(Req0007 req, Res0007 res)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Packet0007Received?.Invoke(this, new Packet0007ReceivedEventArgs(req, res));
             });
         }
 

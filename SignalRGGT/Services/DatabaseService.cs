@@ -17,12 +17,14 @@ namespace SignalRGGT.Services
 
         public async void OpenAsync()
         {
-            await Connection.OpenAsync();
+            if (Connection.State == ConnectionState.Closed)
+                await Connection.OpenAsync();
         }
 
         public void Close()
         {
-            Connection.Close();
+            if (Connection.State != ConnectionState.Closed)
+                Connection.Close();
         }
 
         #region TB_USERINFO에 대한 테이블 쿼리
@@ -124,6 +126,40 @@ namespace SignalRGGT.Services
             }
             catch (Exception ex)
             {
+                return ex.Message;
+            }
+        }
+
+        public String GetUserCurrentLocation(String id, out Boolean is_exception)
+        {
+            String result = String.Empty;
+            try
+            {
+                String query = String.Format($"SELECT CURRENT_LOCATION FROM TB_USERINFO WHERE USER_ID = @UserID");
+                OpenAsync();
+                using (SqlCommand command = new SqlCommand(query, Connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            result = dataReader["CURRENT_LOCATION"].ToString();
+                        }
+                    }
+                }
+                Close();
+                is_exception = false;
+                return result;
+            }
+            catch (InvalidOperationException ex)
+            {
+                is_exception = true;
+                return ex.Message;
+            }
+            catch (Exception ex)
+            {
+                is_exception = true;
                 return ex.Message;
             }
         }
@@ -253,6 +289,41 @@ namespace SignalRGGT.Services
                 using (SqlCommand command = new SqlCommand(query, Connection))
                 {
                     command.Parameters.Add(new SqlParameter("@UserID", id));
+                    EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                }
+                Close();
+
+                if (EffectedRowCount == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 사용자의 현재 위치를 갱신합니다.
+        /// </summary>
+        /// <param name="id">사용자의 ID</param>
+        /// <returns></returns>
+        public Boolean UpdateUserCurrentLocation(String id, String group_name)
+        {
+            Int32 EffectedRowCount = 0;
+            try
+            {
+                String query = String.Format($"UPDATE TB_USERINFO SET CURRENT_LOCATION = @CurrentLocation WHERE USER_ID = @UserID");
+                OpenAsync();
+                using (SqlCommand command = new SqlCommand(query, Connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    command.Parameters.Add(new SqlParameter("@CurrentLocation", group_name));
                     EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
                 }
                 Close();

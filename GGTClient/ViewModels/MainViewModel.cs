@@ -41,6 +41,13 @@ namespace GGTClient.ViewModels
             set { Set(ref _message, value); }
         }
 
+        private String _group_name = String.Empty;
+        public String GroupName
+        {
+            get { return _group_name; }
+            set { Set(ref _group_name, value); }
+        }
+
         private Boolean _login_enable = true;
         public Boolean LoginEnable
         {
@@ -102,7 +109,10 @@ namespace GGTClient.ViewModels
                     _entrance = new RelayCommand(
                         () =>
                         {
-
+                            Singleton<CommunicationService>.Instance.RequestLeaveGroup(UserId, GroupName);
+                            Task.Delay(1000);
+                            Singleton<CommunicationService>.Instance.RequestJoinGroup(UserId, CurrentLocation.WaitingRoom.ToString());
+                            LogoutEnable = false;
                         });
                 }
 

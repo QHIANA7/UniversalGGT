@@ -23,7 +23,6 @@ namespace SignalRGGT
                 ConnectionString = "Data Source=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;User Id=admin2013@ggtsvr.database.windows.net;Password=P@ssw0rd;";
             }
             Singleton<DatabaseService>.Instance.ConnectionString = ConnectionString;
-
         }
     }
 }

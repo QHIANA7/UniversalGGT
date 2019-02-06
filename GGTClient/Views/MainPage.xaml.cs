@@ -40,6 +40,8 @@ namespace GGTClient.Views
             Singleton<CommunicationService>.Instance.HubConnectionDisconnected += CommunicationService_HubConnectionDisconnected;
             Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received;
             Singleton<CommunicationService>.Instance.Packet0004Received += CommunicationService_Packet0004Received;
+            Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
+            Singleton<CommunicationService>.Instance.Packet0007Received += CommunicationService_Packet0007Received;
         }
 
         private async void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
@@ -92,6 +94,16 @@ namespace GGTClient.Views
                 dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
                 await dialog.ShowAsync();
             }
+        }
+
+        private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
+        {
+
+        }
+
+        private void CommunicationService_Packet0007Received(object sender, Packet0007ReceivedEventArgs e)
+        {
+
         }
 
         private async void CommunicationService_HubConnectionConnected(object sender, HubConnectionConnectedEventArgs e)
@@ -192,6 +204,14 @@ namespace GGTClient.Views
         }
 
         private void Button_Logout_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                OnLogoutTryingStoryboard.Begin();
+            }
+        }
+
+        private void Button_Entrance_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
             {

@@ -84,6 +84,10 @@ namespace GGTClient.Models
     public enum CurrentLocation
     {
         /// <summary>
+        /// 지정되지 않음
+        /// </summary>
+        None,
+        /// <summary>
         /// 초기화면
         /// </summary>
         Init,

@@ -65,6 +65,8 @@ namespace SignalRGGT.Models
     public class Res0006 : ResponsePacket
     {
         public Req0006 Request { get; set; }
+        public String OldGroupName { get; set; }
+        public String NewGroupName { get; set; }
         public Boolean IsJoined { get; set; }
     }
 
@@ -74,6 +76,8 @@ namespace SignalRGGT.Models
     public class Res0007 : ResponsePacket
     {
         public Req0007 Request { get; set; }
-        public String IsLeaved { get; set; }
+        public String OldGroupName { get; set; }
+        public String NewGroupName { get; set; }
+        public Boolean IsLeaved { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace SignalRGGT.Hubs
 
         public Res0002 RequestRegister(Req0002 req)
         {
-            Boolean result = Singleton<DatabaseService>.Instance.InsertUserInfo(req.UserID, req.Password,req.UserName);
+            Boolean result = Singleton<DatabaseService>.Instance.InsertUserInfo(req.UserID, req.Password, req.UserName);
 
             Res0002 res = new Res0002() { Request = req, IsRegisterd = result, Message = "회원가입 성공" };
 
@@ -43,11 +43,11 @@ namespace SignalRGGT.Hubs
             if (!String.IsNullOrWhiteSpace(LoginUserName))
             {
                 String UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID);
-                if (UserStatus == "O")
+                if (UserStatus.Equals("O"))
                 {
                     Boolean ConnectionIDUpdateResult = Singleton<DatabaseService>.Instance.UpdateConnectionID(req.UserID, this.Context.ConnectionId);
                     Boolean UserLoginUpdateResult = Singleton<DatabaseService>.Instance.UpdateUserLogin(req.UserID);
-                    if(ConnectionIDUpdateResult & UserLoginUpdateResult)
+                    if (ConnectionIDUpdateResult & UserLoginUpdateResult)
                     {
                         UserStatus = Singleton<DatabaseService>.Instance.GetUserStatus(req.UserID);
                         if (UserStatus.Equals("X"))
@@ -68,7 +68,7 @@ namespace SignalRGGT.Hubs
             else
             {
                 res = new Res0003() { Request = req, IsLoginSuccess = false, Message = "ID 또는 Password가 일치하지 않음" };
-            }            
+            }
 
             return res;
         }
@@ -104,6 +104,77 @@ namespace SignalRGGT.Hubs
         {
             Res0005 res = new Res0005() { Request = req };
             Clients.All.ResponseSendMessage(req, res);
+        }
+
+        public void RequestJoinGroup(Req0006 req)
+        {
+            Res0006 res = null;
+
+            String CurrentLocation = Singleton<DatabaseService>.Instance.GetUserCurrentLocation(req.UserID, out Boolean ex);
+            if (ex)
+            {
+                res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsJoined = false, Message = "DB조회에 오류가 있습니다" };
+                Clients.Caller.ResponseJoinGroup(req, res);
+
+            }
+            else
+            {
+                if (String.IsNullOrWhiteSpace(CurrentLocation))
+                {
+                    Boolean Result = Singleton<DatabaseService>.Instance.UpdateUserCurrentLocation(req.UserID, req.GroupName);
+                    if (Result)
+                    {
+                        Groups.Add(this.Context.ConnectionId, req.GroupName);
+                        res = new Res0006() { Request = req, NewGroupName = req.GroupName, OldGroupName = String.Empty, IsJoined = true, Message = $"{req.GroupName}에 가입하였습니다" };
+                        Clients.Group(req.GroupName).ResponseJoinGroup(req, res);
+                    }
+                    else
+                    {
+                        res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsJoined = false, Message = "DB갱신에 오류가 있습니다" };
+                        Clients.Caller.ResponseJoinGroup(req, res);
+                    }
+                }
+                else
+                {
+                    res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsJoined = false, Message = "이미 가입된 그룹이 있습니다" };
+                    Clients.Caller.ResponseJoinGroup(req, res);
+                }
+            }
+        }
+
+        public void RequestLeaveGroup(Req0007 req)
+        {
+            Res0007 res = null;
+
+            String CurrentLocation = Singleton<DatabaseService>.Instance.GetUserCurrentLocation(req.UserID, out Boolean ex);
+            if (ex)
+            {
+                res = new Res0007() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsLeaved = false, Message = "DB조회에 오류가 있습니다" };
+                Clients.Caller.ResponseLeaveGroup(req, res);
+            }
+            else
+            {
+                if (String.IsNullOrWhiteSpace(CurrentLocation))
+                {
+                    res = new Res0007() { Request = req, NewGroupName = "Exception", OldGroupName = CurrentLocation, IsLeaved = false, Message = "가입된 그룹이 없습니다" };
+                    Clients.Caller.ResponseLeaveGroup(req, res);
+                }
+                else
+                {
+                    Groups.Remove(this.Context.ConnectionId, req.GroupName);
+                    Boolean Result = Singleton<DatabaseService>.Instance.UpdateUserCurrentLocation(req.UserID, String.Empty);
+                    if (Result)
+                    {
+                        res = new Res0007() { Request = req, NewGroupName = req.GroupName, OldGroupName = String.Empty, IsLeaved = true, Message = $"{req.GroupName}에서 탈퇴하였습니다" };
+                        Clients.Group(req.GroupName).ResponseLeaveGroup(req, res);
+                    }
+                    else
+                    {
+                        res = new Res0007() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", IsLeaved = false, Message = "DB갱신에 오류가 있습니다" };
+                        Clients.Caller.ResponseLeaveGroup(req, res);
+                    }
+                }
+            }
         }
 
         public override Task OnConnected()
