@@ -202,7 +202,7 @@ namespace SignalRGGT.Services
             List<UserInfo> list = new List<UserInfo>();
             try
             {
-                String query = String.Format($"SELECT USER_NAME, CURRENT_LOCATION FROM TB_USERINFO");
+                String query = String.Format($"SELECT USER_NAME, CURRENT_LOCATION FROM TB_USERINFO WHERE USER_STATUS = 'X'");
                 using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
                     conn.Open();
