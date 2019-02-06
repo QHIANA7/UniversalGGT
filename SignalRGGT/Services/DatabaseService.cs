@@ -68,6 +68,42 @@ namespace SignalRGGT.Services
         }
 
         /// <summary>
+        /// ID에 따른 사용자 이름을 조회
+        /// </summary>
+        /// <param name="id">사용자의 ID</param>
+        /// <returns></returns>
+        public String GetUserName(String id)
+        {
+            String result = String.Empty;
+            try
+            {
+                String query = String.Format($"SELECT USER_NAME FROM TB_USERINFO WHERE USER_ID = @UserID");
+                OpenAsync();
+                using (SqlCommand command = new SqlCommand(query, Connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@UserID", id));
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            result = dataReader["USER_NAME"].ToString();
+                        }
+                    }
+                }
+                Close();
+                return result;
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ex.Message;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        /// <summary>
         /// ID가 존재하는지 확인
         /// </summary>
         /// <param name="id">사용자의 ID</param>
@@ -176,7 +212,7 @@ namespace SignalRGGT.Services
             Int32 EffectedRowCount = 0;
             try
             {
-                String query = String.Format($"INSERT INTO TB_USERINFO VALUES (@UserID, @UserPassword, @UserName, 'X')");
+                String query = String.Format($"INSERT INTO TB_USERINFO VALUES (@UserID, @UserPassword, @UserName, 'O', 'None', null)");
                 OpenAsync();
                 using (SqlCommand command = new SqlCommand(query, Connection))
                 {

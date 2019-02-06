@@ -111,6 +111,7 @@ namespace SignalRGGT.Hubs
             Res0006 res = null;
 
             String CurrentLocation = Singleton<DatabaseService>.Instance.GetUserCurrentLocation(req.UserID, out Boolean ex);
+            String SendUser = Singleton<DatabaseService>.Instance.GetUserName(req.UserID);
             if (ex)
             {
                 res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", Message = "DB조회에 오류가 있습니다" };
@@ -126,7 +127,7 @@ namespace SignalRGGT.Hubs
                     {
                         Groups.Remove(this.Context.ConnectionId, req.ExpectedOldGroupName);
                         Groups.Add(this.Context.ConnectionId, req.NewGroupName);
-                        res = new Res0006() { Request = req, NewGroupName = req.NewGroupName, OldGroupName = req.ExpectedOldGroupName, IsMoved = true, Message = $"{req.ExpectedOldGroupName} => {req.NewGroupName} 이동 성공" };
+                        res = new Res0006() { Request = req, SendFrom = SendUser, NewGroupName = req.NewGroupName, OldGroupName = req.ExpectedOldGroupName, IsMoved = true, Message = $"{req.ExpectedOldGroupName} => {req.NewGroupName} 이동 성공" };
                         Clients.Caller.ResponseMoveGroup(req, res);
                         if(!String.IsNullOrWhiteSpace(req.ExpectedOldGroupName))
                             Clients.OthersInGroup(req.ExpectedOldGroupName).ResponseMoveGroup(req, res);

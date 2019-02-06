@@ -180,16 +180,19 @@ namespace GGTClient.ViewModels
 
         private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-            if (e.IsMoved)
+            if(e.Request.UserID.Equals(UserId))
             {
-                if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
+                if (e.IsMoved)
                 {
-                    LogoutEnable = false;
+                    if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
+                    {
+                        LogoutEnable = false;
+                    }
                 }
-            }
-            else
-            {
-                LogoutEnable = true;
+                else
+                {
+                    LogoutEnable = true;
+                }
             }
         }
     }

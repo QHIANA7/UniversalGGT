@@ -46,7 +46,7 @@ namespace GGTClient.Views
 
         private async void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
         {
-            if(e.IsLoginSuccess)
+            if (e.IsLoginSuccess)
             {
                 ProgressRing_Information.IsActive = false;
                 TextBlock_Message.Text = "로그인에 성공하였습니다";
@@ -98,24 +98,27 @@ namespace GGTClient.Views
 
         private async void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-            if (e.IsMoved)
+            if (e.Request.UserID.Equals(ViewModel.UserId))
             {
-                if(e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
-                    Frame.Navigate(typeof(WaitingRoomPage), new UserInfo(ViewModel.UserId, ViewModel.UserPassword, ViewModel.UserName) , new EntranceNavigationTransitionInfo());
-            }
-            else
-            {
-                OnLogoutFailedStoryboard.Begin();
-                ContentDialog dialog = new ContentDialog()
+                if (e.IsMoved)
                 {
-                    Title = "입장 실패",
-                    Content = $"{e.Message}",
-                    CloseButtonText = "닫기",
-                    DefaultButton = ContentDialogButton.Close
-                };
-                dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
-                dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
-                await dialog.ShowAsync();
+                    if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
+                        Frame.Navigate(typeof(WaitingRoomPage), new UserInfo(ViewModel.UserId, ViewModel.UserPassword, ViewModel.UserName), new EntranceNavigationTransitionInfo());
+                }
+                else
+                {
+                    OnLogoutFailedStoryboard.Begin();
+                    ContentDialog dialog = new ContentDialog()
+                    {
+                        Title = "입장 실패",
+                        Content = $"{e.Message}",
+                        CloseButtonText = "닫기",
+                        DefaultButton = ContentDialogButton.Close
+                    };
+                    dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
+                    dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
+                    await dialog.ShowAsync();
+                }
             }
         }
 

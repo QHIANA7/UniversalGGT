@@ -104,10 +104,13 @@ namespace GGTClient.ViewModels
 
         private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-            if(e.IsMoved)
+            if (e.SendFrom.Equals(UserName))
             {
-                Singleton<CommunicationService>.Instance.Packet0005Received -= CommunicationService_Packet0005Received;
-                Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
+                if (e.IsMoved)
+                {
+                    Singleton<CommunicationService>.Instance.Packet0005Received -= CommunicationService_Packet0005Received;
+                    Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
+                }
             }
         }
     }

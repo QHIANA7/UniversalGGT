@@ -92,6 +92,7 @@ namespace GGTClient.Events
     {
         public Req0006 Request { get; private set; }
         public Res0006 Response { get; private set; }
+        public String SendFrom { get => Response.SendFrom; }
         public String NewGroupName { get => Response.NewGroupName; }
         public String OldGroupName { get => Response.OldGroupName; }
         public Boolean IsMoved { get => Response.IsMoved; }

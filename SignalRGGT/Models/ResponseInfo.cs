@@ -65,6 +65,7 @@ namespace SignalRGGT.Models
     public class Res0006 : ResponsePacket
     {
         public Req0006 Request { get; set; }
+        public String SendFrom { get; set; }
         public String OldGroupName { get; set; }
         public String NewGroupName { get; set; }
         public Boolean IsMoved { get; set; } = false;
