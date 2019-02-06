@@ -134,6 +134,7 @@ namespace GGTClient.Services
         public event EventHandler<Packet0004ReceivedEventArgs> Packet0004Received = null;
         public event EventHandler<Packet0005ReceivedEventArgs> Packet0005Received = null;
         public event EventHandler<Packet0006ReceivedEventArgs> Packet0006Received = null;
+        public event EventHandler<Packet0007ReceivedEventArgs> Packet0007Received = null;
 
         public CommunicationService()
         {
@@ -258,6 +259,14 @@ namespace GGTClient.Services
         {
             Req0005 req = new Req0005() { UserID = id, UserName = name, Message = msg, IsSystemMessage = is_sys_msg};
             await GGTHubProxy.Invoke("RequestSendMessage", req);
+        }
+
+        public async void RequestGetUserList(String id)
+        {
+            Req0007 req = new Req0007() { UserID = id };
+            Res0007 res = await GGTHubProxy.Invoke<Res0007>("RequestGetUserList", req);
+
+            Packet0007Received?.Invoke(this, new Packet0007ReceivedEventArgs(req, res));
         }
 
         public async void RequestMoveGroup(String id, String new_group, String old_group)

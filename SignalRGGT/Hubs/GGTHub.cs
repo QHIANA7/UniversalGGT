@@ -125,7 +125,7 @@ namespace SignalRGGT.Hubs
             String SendUser = Singleton<DatabaseService>.Instance.GetUserName(req.UserID);
             if (ex)
             {
-                res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", Message = "DB조회에 오류가 있습니다" };
+                res = new Res0006() { Request = req, SendFrom = SendUser, NewGroupName = "Exception", OldGroupName = "Exception", Message = CurrentLocation };
                 Clients.Caller.ResponseMoveGroup(req, res);
             }
             else
@@ -146,16 +146,31 @@ namespace SignalRGGT.Hubs
                     }
                     else
                     {
-                        res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", Message = "DB갱신에 오류가 있습니다" };
+                        res = new Res0006() { Request = req, SendFrom = SendUser, NewGroupName = "Exception", OldGroupName = "Exception", Message = "DB갱신에 오류가 있습니다" };
                         Clients.Caller.ResponseMoveGroup(req, res);
                     }
                 }
                 else
                 {
-                    res = new Res0006() { Request = req, NewGroupName = "Exception", OldGroupName = "Exception", Message = "요청한 현재 그룹이 서버와 일치하지않습니다" };
+                    res = new Res0006() { Request = req, SendFrom = SendUser, NewGroupName = "Exception", OldGroupName = "Exception", Message = "요청한 현재 그룹이 서버와 일치하지않습니다" };
                     Clients.Caller.ResponseMoveGroup(req, res);
                 }
             }
+        }
+
+        public Res0007 RequestGetUserList(Req0007 req)
+        {
+            Res0007 res = null;
+            IEnumerable<UserInfo> UserList = Singleton<DatabaseService>.Instance.GetUsersCurrentLocation(out Boolean ex);
+            if (ex)
+            {
+                res = new Res0007() { Request = req, UserList = null, Message = "DB조회에 오류가 있습니다" };
+            }
+            else
+            {
+                res = new Res0007() { Request = req, UserList = UserList, Message = "조회 성공" };
+            }
+            return res;
         }
 
         public override Task OnConnected()

@@ -107,4 +107,20 @@ namespace GGTClient.Events
             Response = res;
         }
     }
+
+    public class Packet0007ReceivedEventArgs : EventArgs
+    {
+        public Req0007 Request { get; private set; }
+        public Res0007 Response { get; private set; }
+        public IEnumerable<UserInfo> UserList { get => Response.UserList; }
+        public String Message { get => Response.Message; }
+        public DateTime RequestTime { get => Request.RequestTime; }
+        public DateTime ResponseTime { get => Response.ResponseTime; }
+
+        internal Packet0007ReceivedEventArgs(Req0007 req, Res0007 res)
+        {
+            Request = req;
+            Response = res;
+        }
+    }
 }

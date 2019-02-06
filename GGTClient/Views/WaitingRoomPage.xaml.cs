@@ -43,7 +43,6 @@ namespace GGTClient.Views
 
         private void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-
             if (e.IsMoved)
             {
                 if (e.SendFrom.Equals(ViewModel.UserName))
@@ -51,8 +50,8 @@ namespace GGTClient.Views
                     if (e.NewGroupName.Equals(CurrentLocation.Init.ToString()))
                         if (this.Frame.CanGoBack)
                         {
-                            this.Frame.GoBack();
                             Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
+                            this.Frame.GoBack();                            
                         }
                 }
             }

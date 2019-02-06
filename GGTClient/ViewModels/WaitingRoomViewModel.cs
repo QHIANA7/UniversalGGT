@@ -15,6 +15,7 @@ namespace GGTClient.ViewModels
     public class WaitingRoomViewModel : Observable
     {
         public ObservableCollection<MessageInfo> MessageList = new ObservableCollection<MessageInfo>();
+        public ObservableCollection<UserInfo> UserList = new ObservableCollection<UserInfo>();
 
         private String _user_id = String.Empty;
         public String UserID
@@ -80,6 +81,7 @@ namespace GGTClient.ViewModels
                     _to_Init = new RelayCommand(
                         () =>
                         {
+                            Singleton<CommunicationService>.Instance.RequestSendMessage(UserID, UserName, $"{UserName}님이 떠났습니다", true);
                             Singleton<CommunicationService>.Instance.RequestMoveGroup(UserID, CurrentLocation.Init.ToString(), LocationName);
                         });
                 }
@@ -90,8 +92,10 @@ namespace GGTClient.ViewModels
 
         public WaitingRoomViewModel()
         {
+            Singleton<CommunicationService>.Instance.RequestGetUserList(UserID);
             Singleton<CommunicationService>.Instance.Packet0005Received += CommunicationService_Packet0005Received;
             Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
+            Singleton<CommunicationService>.Instance.Packet0007Received += CommunicationService_Packet0007Received;
         }
 
         private void CommunicationService_Packet0005Received(object sender, Packet0005ReceivedEventArgs e)
@@ -105,9 +109,37 @@ namespace GGTClient.ViewModels
             {
                 if (e.NewGroupName.Equals(CurrentLocation.Init.ToString()) & e.SendFrom.Equals(UserName))
                 {
-                    Singleton<CommunicationService>.Instance.RequestSendMessage(UserID, UserName, $"{UserName}님이 떠났습니다", true);
                     Singleton<CommunicationService>.Instance.Packet0005Received -= CommunicationService_Packet0005Received;
                     Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
+                    Singleton<CommunicationService>.Instance.Packet0007Received -= CommunicationService_Packet0007Received;
+                }
+
+                if(!e.SendFrom.Equals(UserName))
+                {
+                    UserInfo target_user = UserList.First<UserInfo>(x => x.UserName.Equals(e.SendFrom));
+                    if (target_user == null)
+                    {
+                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = CurrentLocation.WaitingRoom });
+                    }
+                    else
+                    {
+                        UserList.Remove(target_user);
+                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = CurrentLocation.WaitingRoom });
+                    }
+
+                }
+            }
+        }
+
+        private void CommunicationService_Packet0007Received(object sender, Packet0007ReceivedEventArgs e)
+        {
+            UserList.Clear();
+
+            if (e.UserList != null)
+            {
+                foreach (UserInfo user in e.UserList)
+                {
+                    UserList.Add(user);
                 }
             }
         }

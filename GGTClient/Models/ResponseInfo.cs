@@ -71,4 +71,13 @@ namespace GGTClient.Models
         public String NewGroupName { get; set; }
         public Boolean IsMoved { get; set; } = false;
     }
+
+    /// <summary>
+    /// 사용자 정보 조회에 대한 응답
+    /// </summary>
+    public class Res0007 : ResponsePacket
+    {
+        public Req0007 Request { get; set; }
+        public IEnumerable<UserInfo> UserList {get; set;}
+    }
 }

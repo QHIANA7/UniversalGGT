@@ -66,4 +66,12 @@ namespace GGTClient.Models
         public String NewGroupName { get; set; }
         public String ExpectedOldGroupName { get; set; }
     }
+
+    /// <summary>
+    /// 사용자 정보 조회에 대한 요청
+    /// </summary>
+    public class Req0007 : RequestPacket
+    {
+        public String UserID { get; set; }
+    }
 }

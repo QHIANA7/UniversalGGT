@@ -118,6 +118,7 @@
     <Compile Include="Models\PacketEnumeration.cs" />
     <Compile Include="Models\RequsetInfo.cs" />
     <Compile Include="Models\ResponseInfo.cs" />
+    <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Startup.cs" />

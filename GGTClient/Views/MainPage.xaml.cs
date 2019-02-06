@@ -98,18 +98,17 @@ namespace GGTClient.Views
 
             if (e.IsMoved)
             {
-                if (e.Request.UserID.Equals(ViewModel.UserID))
+                if (e.SendFrom.Equals(ViewModel.UserName))
                 {
                     if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
-                    {
-                        
-                        Frame.Navigate(typeof(WaitingRoomPage), new UserInfo(ViewModel.UserID, ViewModel.UserPassword, ViewModel.UserName), new EntranceNavigationTransitionInfo());
+                    {                        
+                        Frame.Navigate(typeof(WaitingRoomPage), new UserInfo() { UserId = ViewModel.UserID, UserPassword = ViewModel.UserPassword, UserName = ViewModel.UserName }, new EntranceNavigationTransitionInfo());
                     }
                 }
             }
             else
             {
-                if (e.Request.UserID.Equals(ViewModel.UserID))
+                if (e.SendFrom.Equals(ViewModel.UserName))
                 {
                     if (e.Request.NewGroupName.Equals(CurrentLocation.Init.ToString()) & e.Request.ExpectedOldGroupName.Equals(CurrentLocation.None.ToString()))
                     {
