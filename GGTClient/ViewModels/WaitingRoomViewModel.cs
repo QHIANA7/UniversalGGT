@@ -116,7 +116,7 @@ namespace GGTClient.ViewModels
 
                 if(!e.SendFrom.Equals(UserName))
                 {
-                    UserInfo target_user = UserList.First<UserInfo>(x => x.UserName.Equals(e.SendFrom));
+                    UserInfo target_user = UserList.FirstOrDefault<UserInfo>(x => x.UserName.Equals(e.SendFrom));
                     if (target_user == null)
                     {
                         UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = CurrentLocation.WaitingRoom });
