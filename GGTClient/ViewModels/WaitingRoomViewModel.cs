@@ -16,6 +16,7 @@ namespace GGTClient.ViewModels
     {
         public ObservableCollection<MessageInfo> MessageList = new ObservableCollection<MessageInfo>();
         public ObservableCollection<UserInfo> UserList = new ObservableCollection<UserInfo>();
+        public ObservableCollection<RoomInfo> RoomList = new ObservableCollection<RoomInfo>();
 
         private String _user_id = String.Empty;
         public String UserID
@@ -103,7 +104,7 @@ namespace GGTClient.ViewModels
             Singleton<CommunicationService>.Instance.RequestGetUserList(UserID);
             Singleton<CommunicationService>.Instance.Packet0005Received += CommunicationService_Packet0005Received;
             Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
-            Singleton<CommunicationService>.Instance.Packet0007Received += CommunicationService_Packet0007Received;
+            Singleton<CommunicationService>.Instance.Packet0007Received += CommunicationService_Packet0007Received;           
         }
 
         private void CommunicationService_Packet0005Received(object sender, Packet0005ReceivedEventArgs e)

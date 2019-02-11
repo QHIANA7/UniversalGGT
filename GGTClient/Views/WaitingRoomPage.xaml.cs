@@ -118,5 +118,34 @@ namespace GGTClient.Views
                 ViewModel.Message = String.Empty;
             }
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RoomList.Clear();
+            for (Int32 i = 0; i < 100; i++)
+            {
+                ViewModel.RoomList.Add(new RoomInfo() { RoomNumber = i, MaxEntrance = 10, CurrentEntrance = 1, RoomMaster = "정성용", RoomTitle = "방제목 표시" });
+            }
+        }
+
+        #region Interop Animation
+
+        private void RoomGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is Grid room)
+            {
+                room.Background = new SolidColorBrush(Colors.LightPink);
+            }
+        }
+
+        private void RoomGrid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is Grid room)
+            {
+                room.Background = new SolidColorBrush(Colors.LightBlue);
+            }
+        }
+
+        #endregion
     }
 }

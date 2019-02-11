@@ -191,15 +191,18 @@ namespace SignalRGGT.Hubs
             return base.OnConnected();
         }
 
-        public override Task OnDisconnected(bool stopCalled)
+        public override Task OnDisconnected(Boolean stopCalled)
         {
-            Console.WriteLine("OnDisconnected");
+            Console.WriteLine("OnDisconnected");                        
+                Singleton<DatabaseService>.Instance.UpdateUserDisconnectMessage(this.Context.ConnectionId, stopCalled ? "Client explicitly closed the connection" : "Timed out");
+
             return base.OnDisconnected(stopCalled);
         }
 
         public override Task OnReconnected()
         {
             Console.WriteLine("OnReconnected");
+            Singleton<DatabaseService>.Instance.UpdateUserDisconnectMessage(this.Context.ConnectionId, "Reconnected");
             return base.OnReconnected();
         }
     }

@@ -422,6 +422,39 @@ namespace SignalRGGT.Services
             }
         }
 
+        public Boolean UpdateUserDisconnectMessage(String connection_id, String discconect_msg)
+        {
+            Int32 EffectedRowCount = 0;
+            try
+            {
+                String query = String.Format($"UPDATE TB_USERINFO SET DISCONNECT_MESSAGE = @DisconnectMessage WHERE CONNECTION_ID = @ConnectionID");
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("@DisconnectMessage", discconect_msg));
+                        command.Parameters.Add(new SqlParameter("@ConnectionID", connection_id));
+
+                        EffectedRowCount = command.ExecuteNonQuery(); //이 메소드는 영향을 미친 레코드의 수를 반환한다.
+                    }
+                }
+
+                if (EffectedRowCount == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         #endregion
     }
 }
