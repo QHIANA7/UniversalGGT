@@ -80,4 +80,14 @@ namespace GGTClient.Models
         public Req0007 Request { get; set; }
         public IEnumerable<UserInfo> UserList {get; set;}
     }
+
+    /// <summary>
+    /// 방 생성에 대한 응답
+    /// </summary>
+    public class Res0008 : ResponsePacket
+    {
+        public Req0008 Request { get; set; }
+        public RoomInfo CreatedRoom { get; set; }
+        public Boolean IsCreated { get; set; } = false;
+    }
 }

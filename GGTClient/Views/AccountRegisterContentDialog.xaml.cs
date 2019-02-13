@@ -86,5 +86,10 @@ namespace GGTClient.Views
             args.Cancel = false;
         }
 
+        private void RegisterContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+        {
+            Singleton<CommunicationService>.Instance.Packet0001Received += CommunicationService_Packet0001Received;
+            Singleton<CommunicationService>.Instance.Packet0002Received += CommunicationService_Packet0002Received;
+        }
     }
 }

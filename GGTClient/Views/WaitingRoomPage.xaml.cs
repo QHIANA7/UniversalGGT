@@ -124,7 +124,7 @@ namespace GGTClient.Views
             ViewModel.RoomList.Clear();
             for (Int32 i = 0; i < 100; i++)
             {
-                ViewModel.RoomList.Add(new RoomInfo() { RoomNumber = i, MaxEntrance = 10, CurrentEntrance = 1, RoomMaster = "정성용", RoomTitle = "방제목 표시" });
+                ViewModel.RoomList.Add(new RoomInfo() { RoomNumber = i, MaxJoinCount = 10, CurrentJoinCount = 1, RoomMaster = "정성용", RoomTitle = "방제목 표시" });
             }
         }
 

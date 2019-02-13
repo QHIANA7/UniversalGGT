@@ -197,7 +197,48 @@ namespace SignalRGGT.Services
             }
         }
 
-        public IEnumerable<UserInfo> GetUsersCurrentLocation(out Boolean is_exception)
+        /// <summary>
+        /// 사용자리스트를 가져옵니다.
+        /// </summary>
+        /// <param name="is_exception">예외 발생여부</param>
+        /// <returns></returns>
+        public IEnumerable<UserInfo> GetUsersInfo(out Boolean is_exception)
+        {
+            List<UserInfo> list = new List<UserInfo>();
+            try
+            {
+                String query = String.Format($"SELECT USER_NAME, CURRENT_LOCATION FROM TB_USERINFO WHERE USER_STATUS = 'X'");
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                            while (dataReader.Read())
+                            {
+                                CurrentLocation location = (CurrentLocation)Enum.Parse(typeof(CurrentLocation), dataReader["CURRENT_LOCATION"].ToString());
+                                list.Add(new UserInfo() { UserName = dataReader["USER_NAME"].ToString(), Location = location });
+                            }
+                        }
+                    }
+                }
+                is_exception = false;
+                return list;
+            }
+            catch (InvalidOperationException ex)
+            {
+                is_exception = true;
+                return null;
+            }
+            catch (Exception ex)
+            {
+                is_exception = true;
+                return null;
+            }
+        }
+
+        public IEnumerable<UserInfo> GetRooms(out Boolean is_exception)
         {
             List<UserInfo> list = new List<UserInfo>();
             try

@@ -173,7 +173,7 @@ namespace SignalRGGT.Hubs
         public Res0007 RequestGetUserList(Req0007 req)
         {
             Res0007 res = null;
-            IEnumerable<UserInfo> UserList = Singleton<DatabaseService>.Instance.GetUsersCurrentLocation(out Boolean ex);
+            IEnumerable<UserInfo> UserList = Singleton<DatabaseService>.Instance.GetUsersInfo(out Boolean ex);
             if (ex)
             {
                 res = new Res0007() { Request = req, UserList = null, Message = "DB조회에 오류가 있습니다" };

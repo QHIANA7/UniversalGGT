@@ -60,6 +60,13 @@ namespace GGTClient.ViewModels
             set { Set(ref _toinit_enable, value); }
         }
 
+        private Boolean _make_room_enable = true;
+        public Boolean MakeRoomEnable
+        {
+            get { return _make_room_enable; }
+            set { Set(ref _make_room_enable, value); }
+        }
+
         private ICommand _message_send;
         public ICommand MessageSend
         {
@@ -96,6 +103,24 @@ namespace GGTClient.ViewModels
                 }
 
                 return _to_Init;
+            }
+        }
+
+        private ICommand _make_room;
+        public ICommand MakeRoom
+        {
+            get
+            {
+                if (_make_room == null)
+                {
+                    _make_room = new RelayCommand(
+                        () =>
+                        {
+                            ToInitEnable = false;
+                        });
+                }
+
+                return _make_room;
             }
         }
 

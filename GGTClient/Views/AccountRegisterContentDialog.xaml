@@ -13,7 +13,8 @@
     PrimaryButtonCommand="{x:Bind ViewModel.Register}"
     CloseButtonText="닫기"
     DefaultButton="Close"
-    Width="640" Height="320">
+    
+    Width="640" Height="320" Closing="RegisterContentDialog_Closing">
     <ContentDialog.Transitions>
         <TransitionCollection>
             <!-- This transition just uses the default behavior which is to

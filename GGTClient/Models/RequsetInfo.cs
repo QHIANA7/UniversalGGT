@@ -74,4 +74,13 @@ namespace GGTClient.Models
     {
         public String UserID { get; set; }
     }
+
+    /// <summary>
+    /// 방 생성에 대한 요청
+    /// </summary>
+    public class Req0008 : RequestPacket
+    {
+        public String UserID { get; set; }
+        public RoomInfo Room { get; set; }
+    }
 }
