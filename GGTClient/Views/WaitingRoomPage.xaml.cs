@@ -45,7 +45,7 @@ namespace GGTClient.Views
         {
             if (e.IsMoved)
             {
-                if (e.SendFrom.Equals(ViewModel.UserName))
+                if (e.SendFrom.Equals(Singleton<GGTService>.Instance.UserName))
                 {
                     if (e.NewGroupName.Equals(CurrentLocation.Init.ToString()))
                         if (this.Frame.CanGoBack)
@@ -57,7 +57,7 @@ namespace GGTClient.Views
             }
             else
             {
-                if (e.SendFrom.Equals(ViewModel.UserName))
+                if (e.SendFrom.Equals(Singleton<GGTService>.Instance.UserName))
                 {
 
                     ContentDialog dialog = new ContentDialog()
@@ -77,17 +77,6 @@ namespace GGTClient.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is UserInfo info)
-            {
-                ViewModel.UserID = info.UserId;
-                ViewModel.UserName = info.UserName;
-            }
-            else
-            {
-                ViewModel.UserID = "ERROR";
-                ViewModel.UserName = "ERROR";
-            }
-
             base.OnNavigatedTo(e);
 
             ConnectedAnimation animation_button = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomButtonAnimation");
@@ -110,6 +99,7 @@ namespace GGTClient.Views
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomTextBlockBackAnimation", TextBlock_UserName);
             }
         }
+
         private void TextBox_Message_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
@@ -121,11 +111,11 @@ namespace GGTClient.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewModel.RoomList.Clear();
-            for (Int32 i = 0; i < 100; i++)
-            {
-                ViewModel.RoomList.Add(new RoomInfo() { RoomNumber = i, MaxJoinCount = 10, CurrentJoinCount = 1, RoomMaster = "정성용", RoomTitle = "방제목 표시" });
-            }
+            //ViewModel.RoomList.Clear();
+            //for (Int32 i = 0; i < 100; i++)
+            //{
+            //    ViewModel.RoomList.Add(new RoomInfo() { RoomNumber = i, MaxJoinCount = 10, CurrentJoinCount = 1, RoomMaster = "정성용", RoomTitle = "방제목 표시" });
+            //}
         }
 
         #region Interop Animation
@@ -147,5 +137,16 @@ namespace GGTClient.Views
         }
 
         #endregion
+
+        private async void Button_MakeRoom_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                MakeRoomContentDialog dialog = new MakeRoomContentDialog();
+                dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
+                dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
+                await dialog.ShowAsync();
+            }
+        }
     }
 }

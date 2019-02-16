@@ -143,6 +143,7 @@
     <Compile Include="Models\RoomInfo.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Services\CommunicationService.cs" />
+    <Compile Include="Services\GGTService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ViewModels\AccountRegisterViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

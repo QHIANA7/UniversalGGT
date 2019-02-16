@@ -90,4 +90,13 @@ namespace GGTClient.Models
         public RoomInfo CreatedRoom { get; set; }
         public Boolean IsCreated { get; set; } = false;
     }
+
+    /// <summary>
+    /// 방 정보 조회에 대한 응답
+    /// </summary>
+    public class Res0009 : ResponsePacket
+    {
+        public Req0009 Request { get; set; }
+        public IEnumerable<RoomInfo> RoomList { get; set; }
+    }
 }

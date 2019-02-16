@@ -10,9 +10,33 @@
     PrimaryButtonText="생성"
     CloseButtonText="취소"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonCommand="{x:Bind ViewModel.MakeRoom}"
     CloseButtonClick="ContentDialog_CloseButtonClick"
     DefaultButton="Close">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Column="0" Grid.Row="0" Header="방 제목" PlaceholderText="{x:Bind ViewModel.RoomTitlePlaceHolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{x:Bind ViewModel.RoomTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <PasswordBox Grid.Column="0" Grid.Row="1" Header="비밀번호" PlaceholderText="입력 시 비공개방이 됩니다" Password="{x:Bind ViewModel.AccessPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Slider Grid.Column="0" Grid.Row="0" x:Name="Slider_MaxJoinCount" Header="인원 수" Minimum="2" Maximum="20"  Value="{x:Bind ViewModel.MaxJoinCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind Slider_MaxJoinCount.Value.ToString(), Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}"/>
+        </Grid>
+
     </Grid>
 </ContentDialog>

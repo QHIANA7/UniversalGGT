@@ -151,10 +151,14 @@ namespace GGTClient.ViewModels
                 LoginEnable = false;
                 LogoutEnable = true;
                 Singleton<CommunicationService>.Instance.RequestMoveGroup(UserID, CurrentLocation.Init.ToString(), CurrentLocation.None.ToString());
+                Singleton<GGTService>.Instance.UserId = e.Request.UserID;
+                Singleton<GGTService>.Instance.UserName = e.Response.UserName;
             }
             else
             {
                 LoginEnable = true;
+                Singleton<GGTService>.Instance.UserId = String.Empty;
+                Singleton<GGTService>.Instance.UserName = String.Empty;
             }
         }
 

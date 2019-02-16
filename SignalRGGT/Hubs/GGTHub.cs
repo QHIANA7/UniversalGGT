@@ -185,6 +185,42 @@ namespace SignalRGGT.Hubs
             return res;
         }
 
+        public Res0008 RequestMakeRoom(Req0008 req)
+        {
+            Res0008 res = null;
+
+            Int32 available_room_no = Singleton<DatabaseService>.Instance.GetRoomNumbers(out Boolean ex).Min();
+            available_room_no++;
+            String UserName = Singleton<DatabaseService>.Instance.GetUserName(req.UserID);
+            Boolean is_private = String.IsNullOrEmpty(req.AccessPassword);
+            Boolean Result = Singleton<DatabaseService>.Instance.InsertRoomInfo(available_room_no, req.RoomTitle, is_private, req.AccessPassword, UserName, req.MaxJoinCount, out ex);
+
+            if (ex)
+            {
+                res = new Res0008() { Request = req, Message = "DB조회에 오류가 있습니다" };
+            }
+            else
+            {
+                res = new Res0008() { Request = req, Message = "방 만들기 성공", IsCreated = Result, CreatedRoom = new RoomInfo() { RoomNumber = available_room_no, RoomTitle = req.RoomTitle, IsPrivateAccess = is_private, AccessPassword = req.AccessPassword, RoomMaster = UserName, MaxJoinCount = req.MaxJoinCount, CurrentJoinCount = req.CurrentJoinCount, IsPlaying = req.IsPlaying } };
+            }
+            return res;
+        }
+
+        public Res0009 RequestGetRoomList(Req0009 req)
+        {
+            Res0009 res = null;
+            IEnumerable<RoomInfo> RoomList = Singleton<DatabaseService>.Instance.GetRoomsInfo(out Boolean ex);
+            if (ex)
+            {
+                res = new Res0009() { Request = req, RoomList = null, Message = "DB조회에 오류가 있습니다" };
+            }
+            else
+            {
+                res = new Res0009() { Request = req, RoomList = RoomList, Message = "조회 성공" };
+            }
+            return res;
+        }
+
         public override Task OnConnected()
         {
             Console.WriteLine("OnConnected");

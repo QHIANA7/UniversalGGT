@@ -123,4 +123,38 @@ namespace GGTClient.Events
             Response = res;
         }
     }
+
+    public class Packet0008ReceivedEventArgs : EventArgs
+    {
+        public Req0008 Request { get; private set; }
+        public Res0008 Response { get; private set; }
+        public RoomInfo Room { get => Response.CreatedRoom; }
+        public Boolean IsCreated { get => Response.IsCreated; }
+        public String Message { get => Response.Message; }
+        public DateTime RequestTime { get => Request.RequestTime; }
+        public DateTime ResponseTime { get => Response.ResponseTime; }
+
+        internal Packet0008ReceivedEventArgs(Req0008 req, Res0008 res)
+        {
+            Request = req;
+            Response = res;
+        }
+    }
+
+    public class Packet0009ReceivedEventArgs : EventArgs
+    {
+        public Req0009 Request { get; private set; }
+        public Res0009 Response { get; private set; }
+        public IEnumerable<RoomInfo> RoomList { get => Response.RoomList; }
+        public String Message { get => Response.Message; }
+        public DateTime RequestTime { get => Request.RequestTime; }
+        public DateTime ResponseTime { get => Response.ResponseTime; }
+
+        internal Packet0009ReceivedEventArgs(Req0009 req, Res0009 res)
+        {
+            Request = req;
+            Response = res;
+        }
+    }
+
 }

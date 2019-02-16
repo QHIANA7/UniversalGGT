@@ -82,5 +82,19 @@ namespace GGTClient.Models
     {
         public String UserID { get; set; }
         public RoomInfo Room { get; set; }
+        public String RoomTitle { get => Room.RoomTitle; }
+        public Boolean IsPrivateAccess { get => Room.IsPrivateAccess; }
+        public String AccessPassword { get => Room.AccessPassword; }
+        public Int32 MaxJoinCount { get => Room.MaxJoinCount; }
+        public Int32 CurrentJoinCount { get => Room.CurrentJoinCount; }
+        public Boolean IsPlaying { get => Room.IsPlaying; }
+    }
+
+    /// <summary>
+    /// 방 정보 조회에 대한 요청
+    /// </summary>
+    public class Req0009 : RequestPacket
+    {
+        public String UserID { get; set; }
     }
 }

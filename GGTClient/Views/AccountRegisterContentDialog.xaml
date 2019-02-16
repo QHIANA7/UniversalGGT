@@ -15,16 +15,6 @@
     DefaultButton="Close"
     
     Width="640" Height="320" Closing="RegisterContentDialog_Closing">
-    <ContentDialog.Transitions>
-        <TransitionCollection>
-            <!-- This transition just uses the default behavior which is to
-                 have the button animate into view from the right. You can
-                 make it start from anywhere on the right by using the
-                 FromHorizontalOffset property. If you'd rather see a vertical
-                 animation, use the FromVerticalOffset property. -->
-        </TransitionCollection>
-    </ContentDialog.Transitions>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

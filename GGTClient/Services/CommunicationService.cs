@@ -135,6 +135,8 @@ namespace GGTClient.Services
         public event EventHandler<Packet0005ReceivedEventArgs> Packet0005Received = null;
         public event EventHandler<Packet0006ReceivedEventArgs> Packet0006Received = null;
         public event EventHandler<Packet0007ReceivedEventArgs> Packet0007Received = null;
+        public event EventHandler<Packet0008ReceivedEventArgs> Packet0008Received = null;
+        public event EventHandler<Packet0009ReceivedEventArgs> Packet0009Received = null;
 
         public CommunicationService()
         {
@@ -273,6 +275,22 @@ namespace GGTClient.Services
         {
             Req0006 req = new Req0006() { UserID = id, NewGroupName = new_group, ExpectedOldGroupName = old_group };
             await GGTHubProxy.Invoke("RequestMoveGroup", req);
+        }
+
+        public async void RequestMakeRoom(String id, String room_title, String access_pw, Double max_join_cnt)
+        {
+            Req0008 req = new Req0008() { UserID = id, Room = new RoomInfo() { RoomTitle = room_title, AccessPassword = access_pw, MaxJoinCount = System.Convert.ToInt32(max_join_cnt) } };
+            Res0008 res = await GGTHubProxy.Invoke<Res0008>("RequestMakeRoom", req);
+
+            Packet0008Received?.Invoke(this, new Packet0008ReceivedEventArgs(req, res));
+        }
+
+        public async void RequestGetRoomList(String id)
+        {
+            Req0009 req = new Req0009() { UserID = id };
+            Res0009 res = await GGTHubProxy.Invoke<Res0009>("RequestGetRoomList", req);
+
+            Packet0009Received?.Invoke(this, new Packet0009ReceivedEventArgs(req, res));
         }
 
         private async void ResponseLogin(String username)
