@@ -128,7 +128,7 @@ namespace GGTClient.Events
     {
         public Req0008 Request { get; private set; }
         public Res0008 Response { get; private set; }
-        public RoomInfo Room { get => Response.CreatedRoom; }
+        public RoomInfo CreatedRoom { get => Response.CreatedRoom; }
         public Boolean IsCreated { get => Response.IsCreated; }
         public String Message { get => Response.Message; }
         public DateTime RequestTime { get => Request.RequestTime; }

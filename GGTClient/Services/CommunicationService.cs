@@ -149,6 +149,7 @@ namespace GGTClient.Services
             GGTHubProxy.On<String>("ResponseLogin", ResponseLogin);
             GGTHubProxy.On<Req0005, Res0005>("ResponseSendMessage", ResponseSendMessage);
             GGTHubProxy.On<Req0006, Res0006>("ResponseMoveGroup", ResponseMoveGroup);
+            GGTHubProxy.On<Req0008, Res0008>("ResponseMakeRoom", ResponseMakeRoom);
         }
 
         public async void StartClient()
@@ -314,6 +315,14 @@ namespace GGTClient.Services
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 Packet0006Received?.Invoke(this, new Packet0006ReceivedEventArgs(req, res));
+            });
+        }
+
+        private async void ResponseMakeRoom(Req0008 req, Res0008 res)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Packet0008Received?.Invoke(this, new Packet0008ReceivedEventArgs(req, res));
             });
         }
 

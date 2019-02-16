@@ -202,6 +202,7 @@ namespace SignalRGGT.Hubs
             else
             {
                 res = new Res0008() { Request = req, Message = "방 만들기 성공", IsCreated = Result, CreatedRoom = new RoomInfo() { RoomNumber = available_room_no, RoomTitle = req.RoomTitle, IsPrivateAccess = is_private, AccessPassword = req.AccessPassword, RoomMaster = UserName, MaxJoinCount = req.MaxJoinCount, CurrentJoinCount = req.CurrentJoinCount, IsPlaying = req.IsPlaying } };
+                Clients.OthersInGroup(CurrentLocation.WaitingRoom.ToString()).ResponseMakeRoom(req, res);
             }
             return res;
         }

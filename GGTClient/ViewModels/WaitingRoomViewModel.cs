@@ -124,6 +124,7 @@ namespace GGTClient.ViewModels
             Singleton<CommunicationService>.Instance.Packet0005Received += CommunicationService_Packet0005Received;
             Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
             Singleton<CommunicationService>.Instance.Packet0007Received += CommunicationService_Packet0007Received;
+            Singleton<CommunicationService>.Instance.Packet0008Received += CommunicationService_Packet0008Received;
             Singleton<CommunicationService>.Instance.Packet0009Received += CommunicationService_Packet0009Received;
         }
 
@@ -171,6 +172,11 @@ namespace GGTClient.ViewModels
                     UserList.Add(user);
                 }
             }
+        }
+
+        private void CommunicationService_Packet0008Received(object sender, Packet0008ReceivedEventArgs e)
+        {
+            RoomList.Add(e.CreatedRoom);
         }
 
         private void CommunicationService_Packet0009Received(object sender, Packet0009ReceivedEventArgs e)
