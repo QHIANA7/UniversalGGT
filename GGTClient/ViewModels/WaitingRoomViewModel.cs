@@ -176,7 +176,8 @@ namespace GGTClient.ViewModels
 
         private void CommunicationService_Packet0008Received(object sender, Packet0008ReceivedEventArgs e)
         {
-            RoomList.Add(e.CreatedRoom);
+            if(!e.Request.UserID.Equals(Singleton<GGTService>.Instance.UserId))
+                RoomList.Add(e.CreatedRoom);
         }
 
         private void CommunicationService_Packet0009Received(object sender, Packet0009ReceivedEventArgs e)

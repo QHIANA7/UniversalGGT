@@ -159,6 +159,9 @@
     <Compile Include="Views\MakeRoomContentDialog.xaml.cs">
       <DependentUpon>MakeRoomContentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PlayingRoomPage.xaml.cs">
+      <DependentUpon>PlayingRoomPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WaitingRoomPage.xaml.cs">
       <DependentUpon>WaitingRoomPage.xaml</DependentUpon>
     </Compile>
@@ -197,6 +200,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MakeRoomContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlayingRoomPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
