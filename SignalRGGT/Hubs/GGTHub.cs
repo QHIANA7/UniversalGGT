@@ -190,6 +190,7 @@ namespace SignalRGGT.Hubs
             Res0008 res = null;
 
             Int32 available_room_no = Singleton<DatabaseService>.Instance.GetRoomNumbers(out Boolean ex).Max();
+            available_room_no++;
             String UserName = Singleton<DatabaseService>.Instance.GetUserName(req.UserID);
             Boolean is_private = String.IsNullOrEmpty(req.AccessPassword);
             Boolean Result = Singleton<DatabaseService>.Instance.InsertRoomInfo(available_room_no, req.RoomTitle, is_private, req.AccessPassword, UserName, req.MaxJoinCount, out ex);
