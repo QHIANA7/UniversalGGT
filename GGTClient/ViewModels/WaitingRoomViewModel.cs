@@ -109,11 +109,30 @@ namespace GGTClient.ViewModels
                     _make_room = new RelayCommand(
                         () =>
                         {
-                            
+
                         });
                 }
 
                 return _make_room;
+            }
+        }
+
+        private ICommand _to_room;
+        public ICommand ToRoom
+        {
+            get
+            {
+                if (_to_room == null)
+                {
+                    _to_room = new RelayCommand(
+                        () =>
+                        {
+
+                            Singleton<CommunicationService>.Instance.RequestMoveGroup(Singleton<GGTService>.Instance.UserId, CurrentLocation.PlayingRoom.ToString(), LocationName);
+                        });
+                }
+
+                return _to_room;
             }
         }
 
@@ -144,12 +163,12 @@ namespace GGTClient.ViewModels
                     Singleton<CommunicationService>.Instance.Packet0007Received -= CommunicationService_Packet0007Received;
                 }
 
-                if(!e.SendFrom.Equals(Singleton<GGTService>.Instance.UserName))
+                if (!e.SendFrom.Equals(Singleton<GGTService>.Instance.UserName))
                 {
                     UserInfo target_user = UserList.FirstOrDefault<UserInfo>(x => x.UserName.Equals(e.SendFrom));
                     CurrentLocation location = (CurrentLocation)Enum.Parse(typeof(CurrentLocation), e.NewGroupName);
                     if (target_user == null)
-                    {                        
+                    {
                         UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = location });
                     }
                     else
@@ -176,7 +195,7 @@ namespace GGTClient.ViewModels
 
         private void CommunicationService_Packet0008Received(object sender, Packet0008ReceivedEventArgs e)
         {
-            if(!e.Request.UserID.Equals(Singleton<GGTService>.Instance.UserId))
+            if (!e.Request.UserID.Equals(Singleton<GGTService>.Instance.UserId))
                 RoomList.Add(e.CreatedRoom);
         }
 

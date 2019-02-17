@@ -48,11 +48,17 @@ namespace GGTClient.Views
                 if (e.SendFrom.Equals(Singleton<GGTService>.Instance.UserName))
                 {
                     if (e.NewGroupName.Equals(CurrentLocation.Init.ToString()))
+                    {
                         if (this.Frame.CanGoBack)
                         {
                             Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
                             this.Frame.GoBack();
                         }
+                    }
+                    else if(e.NewGroupName.Equals(CurrentLocation.PlayingRoom.ToString()))
+                    {
+                        GridView_Rooms.IsEnabled = true;
+                    }
                 }
             }
             else
@@ -146,6 +152,15 @@ namespace GGTClient.Views
                 dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
                 dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
                 await dialog.ShowAsync();
+            }
+        }
+
+        private void GridView_Rooms_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if(e.ClickedItem is RoomInfo room)
+            {
+                Singleton<CommunicationService>.Instance.RequestMoveGroup(Singleton<GGTService>.Instance.UserId, CurrentLocation.PlayingRoom.ToString() + room.RoomNumber.ToString(), ViewModel.LocationName);
+                GridView_Rooms.IsEnabled = false;
             }
         }
     }

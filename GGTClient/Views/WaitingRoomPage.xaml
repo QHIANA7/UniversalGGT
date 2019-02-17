@@ -45,7 +45,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <GridView ItemsSource="{x:Bind ViewModel.RoomList}" animations:ReorderGridAnimation.Duration="300" Margin="10">
+            <GridView x:Name="GridView_Rooms" ItemsSource="{x:Bind ViewModel.RoomList}" animations:ReorderGridAnimation.Duration="300" Margin="10" IsItemClickEnabled="True" ItemClick="GridView_Rooms_ItemClick">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:RoomInfo">
                         <Grid x:Name="Grid_RoomInfo" Width="150" Height="200" CornerRadius="20" Background="LightBlue" PointerEntered="RoomGrid_PointerEntered" PointerExited="RoomGrid_PointerExited">
