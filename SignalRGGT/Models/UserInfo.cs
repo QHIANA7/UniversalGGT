@@ -15,6 +15,7 @@ namespace SignalRGGT.Models
 
         public CurrentLocation Location { get; set; } = CurrentLocation.None;
 
+        public String ExtraLocation { get; set; } = String.Empty;
 
         public override String ToString()
         {

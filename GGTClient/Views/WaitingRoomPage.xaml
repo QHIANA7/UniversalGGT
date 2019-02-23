@@ -6,6 +6,8 @@
     xmlns:models="using:GGTClient.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded">
@@ -45,7 +47,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <GridView x:Name="GridView_Rooms" ItemsSource="{x:Bind ViewModel.RoomList}" animations:ReorderGridAnimation.Duration="300" Margin="10" IsItemClickEnabled="True" ItemClick="GridView_Rooms_ItemClick">
+            <GridView x:Name="GridView_Rooms" ItemsSource="{x:Bind ViewModel.RoomList}" animations:ReorderGridAnimation.Duration="300" Margin="10" IsItemClickEnabled="True">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="SelectionChanged">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.ToRoom}" CommandParameter="{Binding ElementName=GridView_Rooms, Path=SelectedItem}"/>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:RoomInfo">
                         <Grid x:Name="Grid_RoomInfo" Width="150" Height="200" CornerRadius="20" Background="LightBlue" PointerEntered="RoomGrid_PointerEntered" PointerExited="RoomGrid_PointerExited">

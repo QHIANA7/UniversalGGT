@@ -124,11 +124,10 @@ namespace GGTClient.ViewModels
             {
                 if (_to_room == null)
                 {
-                    _to_room = new RelayCommand(
-                        () =>
+                    _to_room = new RelayCommand<RoomInfo>(
+                        (room) =>
                         {
-
-                            Singleton<CommunicationService>.Instance.RequestMoveGroup(Singleton<GGTService>.Instance.UserId, CurrentLocation.PlayingRoom.ToString(), LocationName);
+                            Singleton<CommunicationService>.Instance.RequestMoveGroup(Singleton<GGTService>.Instance.UserId, CurrentLocation.PlayingRoom.ToString() + room.RoomNumber.ToString(), LocationName);
                         });
                 }
 
@@ -167,14 +166,20 @@ namespace GGTClient.ViewModels
                 {
                     UserInfo target_user = UserList.FirstOrDefault<UserInfo>(x => x.UserName.Equals(e.SendFrom));
                     CurrentLocation location = (CurrentLocation)Enum.Parse(typeof(CurrentLocation), e.NewGroupName);
+                    String extra_location = String.Empty;
+                    if (e.NewGroupName.Contains(CurrentLocation.PlayingRoom.ToString()))
+                    {
+                        location = CurrentLocation.PlayingRoom;
+                        extra_location = e.NewGroupName.Replace(CurrentLocation.PlayingRoom.ToString(), String.Empty);
+                    }
                     if (target_user == null)
                     {
-                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = location });
+                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = location, ExtraLocation = extra_location });
                     }
                     else
                     {
                         UserList.Remove(target_user);
-                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = location });
+                        UserList.Add(new UserInfo() { UserName = e.SendFrom, Location = location, ExtraLocation = extra_location });
                     }
                 }
             }

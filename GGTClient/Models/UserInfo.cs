@@ -16,6 +16,8 @@ namespace GGTClient.Models
 
         public CurrentLocation Location { get; set; } = CurrentLocation.None;
 
+        public String ExtraLocation { get; set; } = String.Empty;
+
 
         public override String ToString()
         {
@@ -33,7 +35,7 @@ namespace GGTClient.Models
                 case CurrentLocation.WaitingRoom:
                     return $"{UserName}({"대기실"})";
                 case CurrentLocation.PlayingRoom:
-                    return $"{UserName}({"게임방"})";
+                    return $"{UserName}({"게임방"}{ExtraLocation})";
                 default:
                     return $"{UserName}({"지정되지 않음"})";
             }

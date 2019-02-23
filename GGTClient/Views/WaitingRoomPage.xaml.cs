@@ -13,6 +13,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -37,8 +38,18 @@ namespace GGTClient.Views
         public WaitingRoomPage()
         {
             this.InitializeComponent();
+        }
+
+        private void RegisterEvent()
+        {
             Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
         }
+
+        private void UnregisterEvent()
+        {
+            Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
+        }
+
 
 
         private async void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
@@ -51,13 +62,20 @@ namespace GGTClient.Views
                     {
                         if (this.Frame.CanGoBack)
                         {
-                            Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
+                            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingRoomToInitTextBlockConnectedAnimation", TextBlock_UserName);
+                            this.NavigationCacheMode = NavigationCacheMode.Disabled;
+                            UnregisterEvent();
                             this.Frame.GoBack();
                         }
                     }
-                    else if(e.NewGroupName.Equals(CurrentLocation.PlayingRoom.ToString()))
+                    else if (e.NewGroupName.Contains(CurrentLocation.PlayingRoom.ToString()))
                     {
                         GridView_Rooms.IsEnabled = true;
+                        String extra_location = e.NewGroupName.Replace(CurrentLocation.PlayingRoom.ToString(), String.Empty);
+                        ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingRoomToPlayingRoomTextBlockConnectedAnimation", TextBlock_UserName);
+                        this.NavigationCacheMode = NavigationCacheMode.Enabled;
+                        UnregisterEvent();
+                        this.Frame.Navigate(typeof(PlayingRoomPage), extra_location, new EntranceNavigationTransitionInfo());
                     }
                 }
             }
@@ -85,25 +103,20 @@ namespace GGTClient.Views
         {
             base.OnNavigatedTo(e);
 
-            ConnectedAnimation animation_button = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomButtonAnimation");
-            if (animation_button != null)
-            {
-                animation_button.TryStart(Button_ToInit);
-            }
-            ConnectedAnimation animation_textblock = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomTextBlockAnimation");
-            if (animation_textblock != null)
-            {
-                animation_textblock.TryStart(TextBlock_UserName);
-            }
+            ConnectedAnimationService service = ConnectedAnimationService.GetForCurrentView();
+            service.GetAnimation("InitToWaitingRoomTextBlockConnectedAnimation")?.TryStart(TextBlock_UserName);
+            service.GetAnimation("PlayingRoomToWaitingRoomTextBlockConnectedAnimation")?.TryStart(TextBlock_UserName);
 
+            RegisterEvent();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomTextBlockBackAnimation", TextBlock_UserName);
+
             }
+
         }
 
         private void TextBox_Message_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -152,15 +165,6 @@ namespace GGTClient.Views
                 dialog.Loading += async (send, args) => await this.Blur(value: 5, duration: 1000, delay: 0).StartAsync();
                 dialog.Closing += async (send, args) => await this.Blur(value: 0, duration: 500, delay: 0).StartAsync();
                 await dialog.ShowAsync();
-            }
-        }
-
-        private void GridView_Rooms_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if(e.ClickedItem is RoomInfo room)
-            {
-                Singleton<CommunicationService>.Instance.RequestMoveGroup(Singleton<GGTService>.Instance.UserId, CurrentLocation.PlayingRoom.ToString() + room.RoomNumber.ToString(), ViewModel.LocationName);
-                GridView_Rooms.IsEnabled = false;
             }
         }
     }

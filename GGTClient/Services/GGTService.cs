@@ -13,7 +13,5 @@ namespace GGTClient.Services
         public String UserId { get; set; }
 
         public String UserName { get; set; }
-
-
     }
 }

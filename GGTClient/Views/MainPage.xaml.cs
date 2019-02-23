@@ -31,7 +31,10 @@ namespace GGTClient.Views
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
+        }
 
+        private void RegisterEvent()
+        {
             Singleton<CommunicationService>.Instance.HubConnectionErrorFired += CommunicationService_HubConnectionErrorFired;
             Singleton<CommunicationService>.Instance.HubConnectionConnected += CommunicationService_HubConnectionConnected;
             Singleton<CommunicationService>.Instance.HubConnectionConnecting += CommunicationService_HubConnectionConnecting;
@@ -39,6 +42,17 @@ namespace GGTClient.Views
             Singleton<CommunicationService>.Instance.Packet0003Received += CommunicationService_Packet0003Received;
             Singleton<CommunicationService>.Instance.Packet0004Received += CommunicationService_Packet0004Received;
             Singleton<CommunicationService>.Instance.Packet0006Received += CommunicationService_Packet0006Received;
+        }
+
+        private void UnregisterEvent()
+        {
+            Singleton<CommunicationService>.Instance.HubConnectionErrorFired -= CommunicationService_HubConnectionErrorFired;
+            Singleton<CommunicationService>.Instance.HubConnectionConnected -= CommunicationService_HubConnectionConnected;
+            Singleton<CommunicationService>.Instance.HubConnectionConnecting -= CommunicationService_HubConnectionConnecting;
+            Singleton<CommunicationService>.Instance.HubConnectionDisconnected -= CommunicationService_HubConnectionDisconnected;
+            Singleton<CommunicationService>.Instance.Packet0003Received -= CommunicationService_Packet0003Received;
+            Singleton<CommunicationService>.Instance.Packet0004Received -= CommunicationService_Packet0004Received;
+            Singleton<CommunicationService>.Instance.Packet0006Received -= CommunicationService_Packet0006Received;
         }
 
         private async void CommunicationService_Packet0003Received(object sender, Packet0003ReceivedEventArgs e)
@@ -100,14 +114,14 @@ namespace GGTClient.Views
 
         private async void CommunicationService_Packet0006Received(object sender, Packet0006ReceivedEventArgs e)
         {
-
             if (e.IsMoved)
             {
                 if (e.SendFrom.Equals(ViewModel.UserName))
                 {
                     if (e.NewGroupName.Equals(CurrentLocation.WaitingRoom.ToString()))
-                    {                        
-                        Frame.Navigate(typeof(WaitingRoomPage), new UserInfo() { UserId = ViewModel.UserID, UserPassword = ViewModel.UserPassword, UserName = ViewModel.UserName }, new EntranceNavigationTransitionInfo());
+                    {
+                        UnregisterEvent();
+                        this.Frame.Navigate(typeof(WaitingRoomPage), new UserInfo() { UserId = ViewModel.UserID, UserPassword = ViewModel.UserPassword, UserName = ViewModel.UserName }, new EntranceNavigationTransitionInfo());
                     }
                 }
             }
@@ -211,14 +225,14 @@ namespace GGTClient.Views
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("WaitingroomTextBlockAnimation", TextBlock_UserName);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("InitToWaitingRoomTextBlockConnectedAnimation", TextBlock_UserName);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingroomTextBlockBackAnimation");
+            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("WaitingRoomToInitTextBlockConnectedAnimation");
             if (animation != null)
             {
                 animation.TryStart(TextBlock_UserName);
@@ -228,6 +242,7 @@ namespace GGTClient.Views
                 OnLogoutFailedStoryboard.Begin();
                 ViewModel.LogoutEnable = true;
             }
+            RegisterEvent();
         }
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)

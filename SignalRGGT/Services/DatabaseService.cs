@@ -217,8 +217,23 @@ namespace SignalRGGT.Services
                         {
                             while (dataReader.Read())
                             {
-                                CurrentLocation location = (CurrentLocation)Enum.Parse(typeof(CurrentLocation), dataReader["CURRENT_LOCATION"].ToString());
-                                list.Add(new UserInfo() { UserName = dataReader["USER_NAME"].ToString(), Location = location });
+                                String extra_location = String.Empty;
+                                CurrentLocation location = CurrentLocation.None;
+                                if (Enum.TryParse<CurrentLocation>(dataReader["CURRENT_LOCATION"].ToString(), out location))
+                                {
+
+
+
+                                }
+                                else
+                                {
+                                    if (dataReader["CURRENT_LOCATION"].ToString().Contains(CurrentLocation.PlayingRoom.ToString()))
+                                    {
+                                        location = CurrentLocation.PlayingRoom;
+                                        extra_location = dataReader["CURRENT_LOCATION"].ToString().Replace(CurrentLocation.PlayingRoom.ToString(), String.Empty);
+                                    }
+                                }
+                                list.Add(new UserInfo() { UserName = dataReader["USER_NAME"].ToString(), Location = location, ExtraLocation = extra_location });
                             }
                         }
                     }
@@ -258,7 +273,7 @@ namespace SignalRGGT.Services
                         {
                             while (dataReader.Read())
                             {
-                                list.Add(new RoomInfo() { RoomNumber = Convert.ToInt32(dataReader["ROOM_NO"].ToString()), RoomTitle = dataReader["ROOM_TITLE"].ToString(), IsPrivateAccess = Convert.ToBoolean(dataReader["PRIVATE_ACCESS_YN"].ToString()), AccessPassword = dataReader["ACCESS_PASSWORD"].ToString(), RoomMaster = dataReader["ROOM_MASTER"].ToString(), MaxJoinCount = Convert.ToInt32(dataReader["MAX_JOIN_CNT"].ToString()), CurrentJoinCount = Convert.ToInt32(dataReader["CURRENT_JOIN_CNT"].ToString()), IsPlaying = Convert.ToBoolean(dataReader["PLAYING_YN"].ToString())});
+                                list.Add(new RoomInfo() { RoomNumber = Convert.ToInt32(dataReader["ROOM_NO"].ToString()), RoomTitle = dataReader["ROOM_TITLE"].ToString(), IsPrivateAccess = Convert.ToBoolean(dataReader["PRIVATE_ACCESS_YN"].ToString()), AccessPassword = dataReader["ACCESS_PASSWORD"].ToString(), RoomMaster = dataReader["ROOM_MASTER"].ToString(), MaxJoinCount = Convert.ToInt32(dataReader["MAX_JOIN_CNT"].ToString()), CurrentJoinCount = Convert.ToInt32(dataReader["CURRENT_JOIN_CNT"].ToString()), IsPlaying = Convert.ToBoolean(dataReader["PLAYING_YN"].ToString()) });
                             }
                         }
                     }
@@ -285,8 +300,10 @@ namespace SignalRGGT.Services
         /// <returns></returns>
         public IEnumerable<Int32> GetRoomNumbers(out Boolean is_exception)
         {
-            List<Int32> list = new List<Int32>();
-            list.Add(0);
+            List<Int32> list = new List<Int32>
+            {
+                0
+            };
             try
             {
                 String query = String.Format($"SELECT ROOM_NO FROM TB_ROOMINFO");
@@ -370,7 +387,7 @@ namespace SignalRGGT.Services
         /// <param name="room_master">방장 이름</param>
         /// <param name="max_join_cnt">최대 입장 인원 수</param>
         /// <returns>Insert문의 결과로 1개의 레코드가 영향을 받았을경우 true, 그렇지 않으면 false 입니다.</returns>
-        public Boolean InsertRoomInfo(Int32 room_no, String room_title, Boolean is_private, String access_pw, String room_master, Int32 max_join_cnt , out Boolean is_exception)
+        public Boolean InsertRoomInfo(Int32 room_no, String room_title, Boolean is_private, String access_pw, String room_master, Int32 max_join_cnt, out Boolean is_exception)
         {
             Int32 EffectedRowCount = 0;
             is_exception = true;
