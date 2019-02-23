@@ -94,6 +94,12 @@ namespace GGTClient.ViewModels
             }
         }
 
+        public PlayingRoomViewModel()
+        {
+            //Singleton<CommunicationService>.Instance.RequestGetUserList(Singleton<GGTService>.Instance.UserId);
+            Singleton<CommunicationService>.Instance.Packet0005Received += CommunicationService_Packet0005Received;
+        }
+
         private void CommunicationService_Packet0005Received(object sender, Packet0005ReceivedEventArgs e)
         {
             MessageList.Add(new MessageInfo(e.RequestTime, e.SendFrom, e.Message, e.SendFrom.Equals(Singleton<GGTService>.Instance.UserName), e.IsSystemMessage));
