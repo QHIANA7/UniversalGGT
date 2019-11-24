@@ -140,9 +140,7 @@ namespace GGTClient.Services
 
         public CommunicationService()
         {
-            //Connection = new HubConnection("http://ggtsvr.azurewebsites.net/");
-            Connection = new HubConnection("http://222.236.27.169:63000/");
-            //Connection = new HubConnection("http://localhost:1357/");
+            Connection = new HubConnection("http://localhost:1357/");
             GGTHubProxy = Connection.CreateHubProxy("GGTHub");
             Connection.Error += Connection_Error;
             Connection.StateChanged += Connection_StateChanged;

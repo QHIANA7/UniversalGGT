@@ -20,7 +20,7 @@ namespace SignalRGGT
             String ConnectionString = ConfigurationManager.ConnectionStrings["defaultConnection"]?.ConnectionString;
             if(String.IsNullOrWhiteSpace(ConnectionString))
             {
-                ConnectionString = "Data Source=tcp:ggtsvr.database.windows.net,1433;Initial Catalog=GGTDB;User Id=admin2013@ggtsvr.database.windows.net;Password=P@ssw0rd;";
+                ConnectionString = "your Database ConnectionString";
             }
             Singleton<DatabaseService>.Instance.ConnectionString = ConnectionString;
         }

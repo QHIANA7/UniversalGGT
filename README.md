@@ -1,0 +1,70 @@
+﻿## UniversalGGT
+쿵쿵따 게임
+
+### 개요
+* 클라이언트(UWP)와 서버(ASP.NET) 사이에 SignalR 통신을 이용해 쿵쿵따 게임을 구현합니다.
+  
+### 개발 목적
+* 윈도우10용 클라이언트 앱인 UWP와 실시간 통신 라이브러리인 SignalR을 응용하며 사용법을 숙달합니다.
+
+### 개발 기간
+* 2019.01.23. ~ 
+
+### 주요 기술
+* 개발 언어 : C#(UWP, ASP.NET)
+* 개발 환경 : Windows 10 1809, Visul Studio 2019, IIS or Azure
+
+
+## DB 테이블 생성
+* TB_USERINFO (사용자 정보)
+```
+CREATE TABLE [dbo].[TB_USERINFO](
+	[USER_ID] [nvarchar](18) NOT NULL,
+	[USER_PASSWORD] [nvarchar](max) NOT NULL,
+	[USER_NAME] [nvarchar](20) NOT NULL,
+	[USER_STATUS] [nvarchar](1) NOT NULL,
+	[CURRENT_LOCATION] [nvarchar](50) NOT NULL,
+	[CONNECTION_ID] [nvarchar](50) NULL,
+	[DISCONNECT_MESSAGE] [nvarchar](50) NULL,
+ CONSTRAINT [PK_TB_USERINFO] PRIMARY KEY CLUSTERED 
+(
+	[USER_ID] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[TB_USERINFO] ADD  CONSTRAINT [DF__TB_USERIN__USER___5AEE82B9]  DEFAULT ('O') FOR [USER_STATUS]
+GO
+```
+
+* TB_ROOMINFO (방 정보)
+```
+CREATE TABLE [dbo].[TB_ROOMINFO](
+	[ROOM_NO] [int] NOT NULL,
+	[ROOM_TITLE] [nvarchar](50) NOT NULL,
+	[PRIVATE_ACCESS_YN] [bit] NOT NULL,
+	[ACCESS_PASSWORD] [nvarchar](50) NOT NULL,
+	[ROOM_MASTER] [nvarchar](18) NOT NULL,
+	[MAX_JOIN_CNT] [int] NOT NULL,
+	[CURRENT_JOIN_CNT] [int] NOT NULL,
+	[PLAYING_YN] [bit] NOT NULL,
+ CONSTRAINT [PK_TB_ROOMINFO] PRIMARY KEY CLUSTERED 
+(
+	[ROOM_NO] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+```
+
+* TB_LOCATION_INFO (위치 정보)
+```
+CREATE TABLE [dbo].[TB_LOCATION_INFO](
+	[LOCATION_CODE] [nvarchar](5) NOT NULL,
+	[LOCATION_NAME] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LOCATION_CODE] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+```
