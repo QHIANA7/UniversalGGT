@@ -1,4 +1,4 @@
-﻿## UniversalGGT
+# UniversalGGT
 쿵쿵따 게임
 
 ### 개요
