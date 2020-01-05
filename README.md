@@ -1,19 +1,22 @@
 # UniversalGGT
 쿵쿵따 게임
 
-### 개요
+## 개요
 * 클라이언트(UWP)와 서버(ASP.NET) 사이에 SignalR 통신을 이용해 쿵쿵따 게임을 구현합니다.
   
-### 개발 목적
+## 개발 목적
 * 윈도우10용 클라이언트 앱인 UWP와 실시간 통신 라이브러리인 SignalR을 응용하며 사용법을 숙달합니다.
 
-### 개발 기간
+## 개발 기간
 * 2019.01.23. ~ 
 
-### 주요 기술
-* 개발 언어 : C#(UWP, ASP.NET)
-* 개발 환경 : Windows 10 1809, Visul Studio 2019, IIS or Azure
+## 기술 스택
+* C#, UWP, ASP.NET, SignalR
 
+## 개발 환경
+* OS : Windows 10 1809
+* IDE : Visul Studio 2019
+* SERVER : IIS or Azure
 
 ## DB 테이블 생성
 * TB_USERINFO (사용자 정보)
